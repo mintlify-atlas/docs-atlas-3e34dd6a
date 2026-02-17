@@ -66,22 +66,31 @@ This guide will walk you through installing and configuring a complete developme
 ## Cloning the Configuration
 
 <Steps>
-  <Step title="Clone the dotfiles repository">
+  <Step title="Clone the configuration repository">
     Clone this repository to your preferred location:
     ```bash
-    git clone https://github.com/yangleyland/configs ~/dotfiles
+    # Replace with your repository URL
+    git clone <your-repo-url> ~/dotfiles
     cd ~/dotfiles
     ```
+    
+    <Note>
+      The source files are organized in separate directories: `nvim/`, `alacritty/`, `tmux/`, and `aerospace/`
+    </Note>
   </Step>
 
   <Step title="Backup existing configurations">
+    <Warning>
+      Before proceeding, back up any existing configurations to prevent data loss!
+    </Warning>
+    
     If you have existing configurations, back them up:
     ```bash
     # Backup existing configs
-    mv ~/.config/nvim ~/.config/nvim.backup 2>/dev/null || true
-    mv ~/.config/alacritty ~/.config/alacritty.backup 2>/dev/null || true
-    mv ~/.tmux.conf ~/.tmux.conf.backup 2>/dev/null || true
-    mv ~/.aerospace.toml ~/.aerospace.toml.backup 2>/dev/null || true
+    [ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.backup
+    [ -d ~/.config/alacritty ] && mv ~/.config/alacritty ~/.config/alacritty.backup
+    [ -f ~/.tmux.conf ] && mv ~/.tmux.conf ~/.tmux.conf.backup
+    [ -f ~/.aerospace.toml ] && mv ~/.aerospace.toml ~/.aerospace.toml.backup
     ```
   </Step>
 </Steps>
@@ -198,11 +207,13 @@ aerospace list-workspaces
 
 <Steps>
   <Step title="Customize Neovim colorscheme">
-    The default colorscheme is OneDark. To change it, edit:
+    The default colorscheme is OneDark with custom yellow visual selection highlighting. To change it, edit:
     ```
     ~/.config/nvim/lua/plugins/colorscheme.lua
     ```
-    Available themes: Kanagawa, Gruvbox, Rose Pine, Tokyo Dark, Everforest, OneDark
+    Available themes: OneDark (default), Kanagawa, Gruvbox, Rose Pine, Tokyo Dark, Everforest, PaperColor
+    
+    Update the `colorscheme` value in the LazyVim opts section at the bottom of the file.
   </Step>
 
   <Step title="Customize Alacritty theme">
@@ -210,7 +221,11 @@ aerospace list-workspaces
     ```
     ~/.config/alacritty/alacritty.toml
     ```
-    Browse available themes in `~/.config/alacritty/themes/themes/`
+    Change the import line to use a different theme. Browse 150+ available themes in:
+    ```
+    ~/.config/alacritty/themes/themes/
+    ```
+    Popular options include: tokyo_night.toml, rose_pine.toml, nord.toml, gruvbox.toml, catppuccin.toml
   </Step>
 
   <Step title="Adjust AeroSpace keybindings">
@@ -219,6 +234,14 @@ aerospace list-workspaces
     ~/.aerospace.toml
     ```
     Modify the `[mode.main.binding]` section
+  </Step>
+
+  <Step title="Configure Obsidian integration (optional)">
+    If you use Obsidian for note-taking, update the workspace path:
+    ```
+    ~/.config/nvim/lua/plugins/obsidian.lua
+    ```
+    Change the `path` value in the workspaces section to point to your Obsidian vault location.
   </Step>
 </Steps>
 

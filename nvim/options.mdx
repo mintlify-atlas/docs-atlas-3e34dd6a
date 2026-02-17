@@ -1,129 +1,13 @@
 ---
-title: "Options"
-description: "Neovim options and settings"
+title: Options
+description: Custom Vim options and LazyVim configuration
 ---
-
-## Overview
-
-This configuration keeps custom options minimal, relying primarily on LazyVim's sensible defaults. Custom options are defined in `lua/config/options.lua`.
 
 ## Custom Options
 
-### Root Directory Specification
+This configuration makes minimal changes to LazyVim's default options, following the principle of relying on sensible defaults. Custom options are defined in `lua/config/options.lua`:
 
-```lua
-vim.g.root_spec = { "cwd" }
-```
-
-**Purpose**: Controls how LazyVim determines the "root directory" for projects.
-
-**Default LazyVim Behavior**: Searches for common root markers like `.git`, `package.json`, `Makefile`, etc.
-
-**Custom Behavior**: Forces the root directory to always be the current working directory (`cwd`) where Neovim was launched.
-
-**Use Case**: This is useful when:
-- Working in monorepos where you want to stay in a specific subdirectory
-- You prefer explicit control over the working directory
-- Avoid automatic directory changes based on file markers
-
-### Visual Mode Highlighting
-
-While not in `options.lua`, there's a custom highlight defined in `autocmds.lua`:
-
-```lua
-vim.api.nvim_set_hl(0, "Visual", { bg = "#ffff00", fg = "#000000" })
-```
-
-**Purpose**: Sets visual selection highlighting to bright yellow background with black foreground.
-
-**Colors**:
-- Background: `#ffff00` (bright yellow)
-- Foreground: `#000000` (black)
-
-**Effect**: Makes visual selections highly visible with maximum contrast.
-
-## LazyVim Default Options
-
-LazyVim sets comprehensive defaults that this configuration inherits. Key defaults include:
-
-### Editor Behavior
-
-```lua
-vim.opt.autowrite = true              -- Auto write before commands
-vim.opt.clipboard = "unnamedplus"     -- Sync with system clipboard
-vim.opt.completeopt = "menu,menuone,noselect"
-vim.opt.conceallevel = 2              -- Hide markup syntax
-vim.opt.confirm = true                -- Confirm before quit
-vim.opt.cursorline = true             -- Highlight current line
-vim.opt.expandtab = true              -- Use spaces instead of tabs
-vim.opt.formatoptions = "jcroqlnt"    -- Format options
-vim.opt.grepformat = "%f:%l:%c:%m"    -- Grep output format
-vim.opt.grepprg = "rg --vimgrep"      -- Use ripgrep for grep
-vim.opt.ignorecase = true             -- Ignore case in search
-vim.opt.inccommand = "nosplit"        -- Preview substitutions
-vim.opt.laststatus = 3                -- Global statusline
-vim.opt.mouse = "a"                   -- Enable mouse support
-vim.opt.number = true                 -- Show line numbers
-vim.opt.pumblend = 10                 -- Popup blend
-vim.opt.pumheight = 10                -- Max popup items
-vim.opt.relativenumber = true         -- Relative line numbers
-vim.opt.scrolloff = 4                 -- Lines to keep above/below cursor
-vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
-vim.opt.shiftround = true             -- Round indent to shiftwidth
-vim.opt.shiftwidth = 2                -- Indent width
-vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
-vim.opt.showmode = false              -- Don't show mode (in statusline)
-vim.opt.sidescrolloff = 8             -- Columns to keep left/right of cursor
-vim.opt.signcolumn = "yes"            -- Always show sign column
-vim.opt.smartcase = true              -- Don't ignore case with capitals
-vim.opt.smartindent = true            -- Auto indent new lines
-vim.opt.spelllang = { "en" }          -- Spell check language
-vim.opt.splitbelow = true             -- Horizontal splits go below
-vim.opt.splitkeep = "screen"          -- Keep text on screen when splitting
-vim.opt.splitright = true             -- Vertical splits go right
-vim.opt.tabstop = 2                   -- Tab width
-vim.opt.termguicolors = true          -- True color support
-vim.opt.timeoutlen = 300              -- Key timeout
-vim.opt.undofile = true               -- Persistent undo
-vim.opt.undolevels = 10000            -- Undo limit
-vim.opt.updatetime = 200              -- CursorHold delay
-vim.opt.virtualedit = "block"         -- Allow cursor past end of line in visual block
-vim.opt.wildmode = "longest:full,full" -- Command completion mode
-vim.opt.winminwidth = 5               -- Minimum window width
-vim.opt.wrap = false                  -- Don't wrap lines
-```
-
-### UI Enhancements
-
-- **fillchars**: Custom characters for splits, folds, and diffs
-- **listchars**: Visible whitespace characters
-- **smoothscroll**: Smooth scrolling when available
-- **statuscolumn**: Custom status column with line numbers and fold indicators
-
-### Performance
-
-```lua
-vim.opt.lazyredraw = false
-vim.opt.synmaxcol = 300               -- Max column for syntax highlight
-```
-
-## Disabled Snacks Animation
-
-```lua
--- vim.g.snacks_animate = false
-```
-
-This line is commented out, meaning Snacks.nvim animations are **enabled** by default. To disable animations, uncomment this line.
-
-## Configuration File Location
-
-The full options configuration file:
-
-```
-lua/config/options.lua
-```
-
-```lua
+```lua title="lua/config/options.lua"
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
@@ -131,39 +15,199 @@ lua/config/options.lua
 vim.g.root_spec = { "cwd" }
 ```
 
+### Root Directory Detection
+
+```lua
+vim.g.root_spec = { "cwd" }
+```
+
+**Purpose:** Configures how LazyVim determines the project root directory.
+
+**Default behavior:** LazyVim normally detects the project root by looking for markers like `.git`, `package.json`, etc.
+
+**Custom behavior:** By setting `root_spec = { "cwd" }`, the current working directory (where you launched Neovim) is always used as the project root.
+
+**Impact:**
+- File searches and grep operations will be scoped to the directory where you opened Neovim
+- LSP servers will consider the CWD as the project root
+- More predictable behavior when working with multiple projects or monorepos
+- No automatic navigation to parent directories to find project markers
+
+**Use cases:**
+- Working in subdirectories of a large project
+- Monorepo workflows where you want to scope to a specific package
+- Preventing Neovim from traversing up to unexpected parent directories
+
+### Snacks Animation (Commented)
+
+```lua
+-- vim.g.snacks_animate = false
+```
+
+This option is commented out but available for quick toggling. If enabled, it would disable animations in snacks.nvim. Useful for:
+- Performance on slower machines
+- Preference for instant UI updates
+- Terminal multiplexers where animations may not render well
+
+## LazyVim Default Options
+
+LazyVim sets many sensible defaults. Here are some of the key options it configures:
+
+### Editor Behavior
+
+```lua
+vim.opt.clipboard = "unnamedplus"  -- Sync with system clipboard
+vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.conceallevel = 2           -- Hide markup in markdown
+vim.opt.confirm = true             -- Confirm before exiting with unsaved changes
+vim.opt.cursorline = true          -- Highlight current line
+vim.opt.expandtab = true           -- Use spaces instead of tabs
+vim.opt.formatoptions = "jcroqlnt" -- Auto-formatting options
+vim.opt.grepformat = "%f:%l:%c:%m" -- Grep output format
+vim.opt.grepprg = "rg --vimgrep"   -- Use ripgrep for :grep
+vim.opt.ignorecase = true          -- Ignore case in search
+vim.opt.inccommand = "nosplit"     -- Preview incremental substitutions
+vim.opt.laststatus = 3             -- Global statusline
+vim.opt.mouse = "a"                -- Enable mouse support
+vim.opt.number = true              -- Show line numbers
+vim.opt.pumblend = 10              -- Popup menu transparency
+vim.opt.pumheight = 10             -- Max items in popup menu
+vim.opt.relativenumber = true      -- Relative line numbers
+vim.opt.scrolloff = 4              -- Lines to keep above/below cursor
+vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+vim.opt.shiftround = true          -- Round indent to multiple of shiftwidth
+vim.opt.shiftwidth = 2             -- Indent size
+vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
+vim.opt.showmode = false           -- Don't show mode (in statusline instead)
+vim.opt.sidescrolloff = 8          -- Columns to keep left/right of cursor
+vim.opt.signcolumn = "yes"         -- Always show sign column
+vim.opt.smartcase = true           -- Case-sensitive if uppercase in search
+vim.opt.smartindent = true         -- Smart auto-indenting
+vim.opt.spelllang = { "en" }       -- Spell check language
+vim.opt.splitbelow = true          -- Horizontal splits go below
+vim.opt.splitkeep = "screen"       -- Keep text on screen when splitting
+vim.opt.splitright = true          -- Vertical splits go right
+vim.opt.tabstop = 2                -- Tab display width
+vim.opt.termguicolors = true       -- True color support
+vim.opt.timeoutlen = 300           -- Time to wait for mapped sequence
+vim.opt.undofile = true            -- Persistent undo
+vim.opt.undolevels = 10000         -- Maximum undo levels
+vim.opt.updatetime = 200           -- Faster CursorHold events
+vim.opt.virtualedit = "block"      -- Allow cursor beyond last char in visual block
+vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+vim.opt.winminwidth = 5            -- Minimum window width
+vim.opt.wrap = false               -- Don't wrap lines
+```
+
+### File Handling
+
+```lua
+vim.opt.autowrite = true           -- Auto-save before commands like :next
+vim.opt.backup = false             -- Don't create backup files
+vim.opt.swapfile = false           -- Don't create swap files
+vim.opt.writebackup = false        -- Don't create backup before writing
+```
+
+### UI Enhancements
+
+```lua
+vim.opt.list = true                -- Show invisible characters
+vim.opt.listchars = {              -- Which invisible characters to show
+  tab = "» ",
+  trail = "·",
+  nbsp = "␣",
+}
+vim.opt.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
+```
+
+## Leader Key
+
+LazyVim sets the leader key to Space:
+
+```lua
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+```
+
+## LSP Configuration
+
+LSP-related options are handled by LazyVim's LSP configuration:
+- Automatic LSP server installation via Mason
+- Inline diagnostics
+- Formatting on save (can be toggled per-buffer)
+- Automatic imports organization
+
 ## Adding Custom Options
 
-To add more custom options, edit `lua/config/options.lua`:
+To add your own options, edit `lua/config/options.lua`. Examples:
 
 ```lua
--- Example: Set tab width to 4 spaces
-vim.opt.tabstop = 4
+-- Disable animations
+vim.g.snacks_animate = false
+
+-- Change indent size
 vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 
--- Example: Enable line wrapping
-vim.opt.wrap = true
+-- Enable spell checking by default
+vim.opt.spell = true
 
--- Example: Set scroll offset to 8
+-- Change scrolloff
 vim.opt.scrolloff = 8
+
+-- Disable relative line numbers
+vim.opt.relativenumber = false
+
+-- Enable line wrapping
+vim.opt.wrap = true
+vim.opt.linebreak = true  -- Wrap at word boundaries
+
+-- Change leader key (not recommended after learning LazyVim defaults)
+vim.g.mapleader = ","
 ```
 
-<Note>
-  Custom options in this file will override LazyVim defaults. Add options here sparingly to maintain compatibility with LazyVim's opinionated setup.
-</Note>
+## Option Categories
 
-## Global Variables
+### Performance Options
 
-Global variables (set with `vim.g.*`) are often used by plugins:
+- `vim.opt.updatetime` - How quickly CursorHold events fire (affects things like LSP hover)
+- `vim.opt.timeoutlen` - How long to wait for key sequences
+- `vim.g.snacks_animate` - Enable/disable UI animations
 
-```lua
-vim.g.root_spec = { "cwd" }           -- LazyVim root detection
--- vim.g.snacks_animate = false       -- Snacks.nvim animations
-```
+### Editor Feel
 
-## LazyVim Options Resources
+- `vim.opt.scrolloff` / `vim.opt.sidescrolloff` - Cursor padding
+- `vim.opt.cursorline` - Highlight current line
+- `vim.opt.relativenumber` - Relative line numbers for easy motion counting
+- `vim.opt.wrap` - Line wrapping
 
-For the complete list of LazyVim default options:
+### Language-Specific
 
-- Online documentation: [LazyVim Options](https://lazyvim.org/configuration/general)
-- Source code: [lazyvim/config/options.lua](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua)
-- In Neovim: Use `:help option-list` to see all available options
+- `vim.opt.shiftwidth` / `vim.opt.tabstop` - Indentation
+- `vim.opt.expandtab` - Spaces vs tabs
+- `vim.opt.spell` - Spell checking
+- `vim.opt.spelllang` - Spell check language
+
+## Configuration Loading Order
+
+1. `init.lua` loads `config.lazy`
+2. `config.lazy` bootstraps lazy.nvim
+3. **`config.options` is loaded** (your custom options)
+4. Plugins are loaded
+5. `config.keymaps` is loaded
+6. Plugin configurations are applied
+
+This order means your options are set early and can be referenced by plugins.
+
+## Complete Reference
+
+For the complete list of LazyVim default options, see:
+- [LazyVim options.lua](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua)
+- [Neovim options documentation](https://neovim.io/doc/user/options.html)

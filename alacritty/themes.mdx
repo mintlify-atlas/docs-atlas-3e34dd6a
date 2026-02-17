@@ -1,257 +1,413 @@
 ---
-title: "Themes"
-description: "Alacritty color schemes"
+title: Alacritty Themes
+description: Customize your terminal appearance with 150+ themes
 ---
 
 ## Theme System
 
-Alacritty supports color scheme customization through theme files. This configuration uses the [alacritty-theme](https://github.com/alacritty/alacritty-theme) repository, which provides a curated collection of over 200 color schemes.
+Alacritty supports a powerful theme system that allows you to customize the color scheme of your terminal. Themes are stored as separate TOML files and imported into your main configuration.
 
-## Current Theme: Coolnight
+<Note>
+  This configuration includes **151 themes** from the official Alacritty themes repository, providing extensive options for customization.
+</Note>
 
-This configuration uses the **coolnight** theme, a dark color scheme with vibrant accents inspired by the Aura theme.
+## How to Switch Themes
 
-```toml alacritty.toml
+To switch themes, modify the `general.import` line in your `alacritty.toml`:
+
+```toml
 general.import = [
-    "~/.config/alacritty/themes/themes/coolnight.toml"
+    "~/.config/alacritty/themes/themes/THEME_NAME.toml"
 ]
 ```
 
-### Coolnight Color Palette
-
-Here's the complete coolnight theme configuration:
-
-```toml coolnight.toml
-# By Josean Martinez
-# Inspired by aura.toml
-
-# Default colors
-[colors.primary]
-background = '#011423'
-foreground = '#CBE0F0'
-
-# Colors the cursor will use if `custom_cursor_colors` is true
-[colors.cursor]
-text = "#011423"
-cursor = "#47FF9C"
-
-[colors.normal]
-black = "#214969"
-red = "#E52E2E"
-green = "#44FFB1"
-yellow = "#FFE073"
-blue = "#0FC5ED"
-magenta = "#a277ff"
-cyan = "#24EAF7"
-white = "#24EAF7"
-
-[colors.bright]
-black = "#214969"
-red = "#E52E2E"
-green = "#44FFB1"
-yellow = "#FFE073"
-blue = "#A277FF"
-magenta = "#a277ff"
-cyan = "#24EAF7"
-white = "#24EAF7"
-```
-
-#### Color Breakdown
-
-- **Background**: Deep blue-black (`#011423`) for reduced eye strain
-- **Foreground**: Light blue-white (`#CBE0F0`) for excellent readability
-- **Cursor**: Bright green (`#47FF9C`) for high visibility
-- **Accent colors**: Vibrant blues, purples, and greens for syntax highlighting
-
-## Installing Theme Repository
-
-To access the full collection of themes:
-
-<Steps>
-  <Step title="Clone the repository">
-    ```bash
-    mkdir -p ~/.config/alacritty/themes
-    git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
-    ```
-  </Step>
-  <Step title="Verify installation">
-    Check that themes are available:
-    ```bash
-    ls ~/.config/alacritty/themes/themes/
-    ```
-  </Step>
-  <Step title="Import a theme">
-    Add the import directive to your `alacritty.toml`:
-    ```toml
-    general.import = [
-        "~/.config/alacritty/themes/themes/{theme-name}.toml"
-    ]
-    ```
-  </Step>
-</Steps>
-
-## Changing Themes
-
-To switch to a different theme:
-
-<Steps>
-  <Step title="Browse available themes">
-    View all available themes in the repository:
-    ```bash
-    ls ~/.config/alacritty/themes/themes/
-    ```
-    
-    Or browse the [theme gallery](https://github.com/alacritty/alacritty-theme#color-schemes) with screenshots.
-  </Step>
-  <Step title="Update configuration">
-    Edit `~/.config/alacritty/alacritty.toml` and change the import path:
-    ```toml
-    general.import = [
-        "~/.config/alacritty/themes/themes/dracula.toml"
-    ]
-    ```
-  </Step>
-  <Step title="Verify changes">
-    Alacritty automatically reloads the configuration. The new theme should apply immediately.
-  </Step>
-</Steps>
-
-<Note>
-You can import multiple theme files or configuration files using the `general.import` array. Later imports override earlier ones.
-</Note>
+Replace `THEME_NAME` with any theme from the list below. Alacritty will automatically reload the configuration.
 
 ## Popular Theme Examples
 
-Here are some popular themes from the repository:
+<Tabs>
+  <Tab title="Dark Themes">
+    ```toml
+    # Tokyo Night
+    general.import = ["~/.config/alacritty/themes/themes/tokyo_night.toml"]
+    
+    # Dracula
+    general.import = ["~/.config/alacritty/themes/themes/dracula.toml"]
+    
+    # Nord
+    general.import = ["~/.config/alacritty/themes/themes/nord.toml"]
+    
+    # Catppuccin Mocha
+    general.import = ["~/.config/alacritty/themes/themes/catppuccin_mocha.toml"]
+    
+    # Gruvbox Dark
+    general.import = ["~/.config/alacritty/themes/themes/gruvbox_dark.toml"]
+    ```
+  </Tab>
+  
+  <Tab title="Light Themes">
+    ```toml
+    # Catppuccin Latte
+    general.import = ["~/.config/alacritty/themes/themes/catppuccin_latte.toml"]
+    
+    # GitHub Light
+    general.import = ["~/.config/alacritty/themes/themes/github_light_default.toml"]
+    
+    # Solarized Light
+    general.import = ["~/.config/alacritty/themes/themes/solarized_light.toml"]
+    
+    # Rose Pine Dawn
+    general.import = ["~/.config/alacritty/themes/themes/rose_pine_dawn.toml"]
+    
+    # Gruvbox Light
+    general.import = ["~/.config/alacritty/themes/themes/gruvbox_light.toml"]
+    ```
+  </Tab>
+  
+  <Tab title="Specialty">
+    ```toml
+    # Synthwave 84
+    general.import = ["~/.config/alacritty/themes/themes/synthwave_84.toml"]
+    
+    # Cyber Punk Neon
+    general.import = ["~/.config/alacritty/themes/themes/cyber_punk_neon.toml"]
+    
+    # Blood Moon
+    general.import = ["~/.config/alacritty/themes/themes/blood_moon.toml"]
+    
+    # Rainbow
+    general.import = ["~/.config/alacritty/themes/themes/rainbow.toml"]
+    ```
+  </Tab>
+</Tabs>
 
-### Dark Themes
+## Available Themes by Family
 
-<CodeGroup>
-```toml Tokyo Night
-general.import = [
-    "~/.config/alacritty/themes/themes/tokyo_night.toml"
-]
-```
+### Catppuccin Family
+- `catppuccin.toml` - Base Catppuccin theme
+- `catppuccin_frappe.toml` - Frappe variant
+- `catppuccin_latte.toml` - Light variant
+- `catppuccin_macchiato.toml` - Macchiato variant
+- `catppuccin_mocha.toml` - Mocha variant (darkest)
 
-```toml Dracula
-general.import = [
-    "~/.config/alacritty/themes/themes/dracula.toml"
-]
-```
+### Tokyo Night Family
+- `tokyo_night.toml` - Original Tokyo Night
+- `tokyo_night_enhanced.toml` - Enhanced variant
+- `tokyo_night_storm.toml` - Storm variant
 
-```toml Nord
-general.import = [
-    "~/.config/alacritty/themes/themes/nord.toml"
-]
-```
+### GitHub Family
+**Dark Variants:**
+- `github_dark.toml` - Classic dark
+- `github_dark_default.toml` - Default dark
+- `github_dark_dimmed.toml` - Dimmed variant
+- `github_dark_high_contrast.toml` - High contrast
+- `github_dark_colorblind.toml` - Colorblind friendly
+- `github_dark_tritanopia.toml` - Tritanopia variant
 
-```toml Catppuccin Mocha
-general.import = [
-    "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
-]
-```
-</CodeGroup>
+**Light Variants:**
+- `github_light.toml` - Classic light
+- `github_light_default.toml` - Default light
+- `github_light_high_contrast.toml` - High contrast
+- `github_light_colorblind.toml` - Colorblind friendly
+- `github_light_tritanopia.toml` - Tritanopia variant
 
-### Light Themes
+### Gruvbox Family
+- `gruvbox_dark.toml` - Classic dark
+- `gruvbox_light.toml` - Classic light
+- `gruvbox_material.toml` - Material variant
+- `gruvbox_material_hard_dark.toml` - Hard contrast dark
+- `gruvbox_material_hard_light.toml` - Hard contrast light
+- `gruvbox_material_medium_dark.toml` - Medium contrast dark
+- `gruvbox_material_medium_light.toml` - Medium contrast light
 
-<CodeGroup>
-```toml Solarized Light
-general.import = [
-    "~/.config/alacritty/themes/themes/solarized_light.toml"
-]
-```
+### Rose Pine Family
+- `rose_pine.toml` - Base variant
+- `rose_pine_dawn.toml` - Light variant
+- `rose_pine_moon.toml` - Moon variant
 
-```toml GitHub Light
-general.import = [
-    "~/.config/alacritty/themes/themes/github_light.toml"
-]
-```
+### Solarized Family
+- `solarized_dark.toml` - Dark variant
+- `solarized_light.toml` - Light variant
+- `solarized_osaka.toml` - Osaka variant
 
-```toml Papercolor Light
-general.import = [
-    "~/.config/alacritty/themes/themes/papercolor_light.toml"
-]
-```
-</CodeGroup>
+### Nord Family
+- `nord.toml` - Classic Nord
+- `nord_light.toml` - Light variant
+- `nordfox.toml` - Fox variant
+- `nordic.toml` - Nordic variant
+
+### Fox Family
+- `carbonfox.toml` - Carbon variant
+- `dawnfox.toml` - Dawn variant
+- `dayfox.toml` - Day variant
+- `duskfox.toml` - Dusk variant
+- `nightfox.toml` - Night variant
+- `nordfox.toml` - Nord variant
+- `terafox.toml` - Tera variant
+
+### Monokai Family
+- `monokai.toml` - Classic Monokai
+- `monokai_charcoal.toml` - Charcoal variant
+- `monokai_pro.toml` - Pro variant
+
+### Dracula Family
+- `dracula.toml` - Classic Dracula
+- `dracula_plus.toml` - Enhanced variant
+
+### Kanagawa Family
+- `kanagawa_dragon.toml` - Dragon variant
+- `kanagawa_wave.toml` - Wave variant
+
+### Night Owl Family
+- `night_owl.toml` - Dark variant
+- `night_owlish_light.toml` - Light variant
+
+### Ayu Family
+- `ayu_dark.toml` - Dark variant
+- `ayu_light.toml` - Light variant
+- `ayu_mirage.toml` - Mirage variant
+
+### One Family
+- `one_dark.toml` - Atom One Dark
+- `one_light.toml` - Atom One Light
+
+### Material Family
+- `material_theme.toml` - Standard Material
+- `material_theme_mod.toml` - Modified variant
+
+### Everforest Family
+- `everforest_dark.toml` - Dark variant
+- `everforest_light.toml` - Light variant
+
+### Paper Color Family
+- `papercolor_dark.toml` - Dark variant
+- `papercolor_light.toml` - Light variant
+
+### Selenized Family
+- `selenized_dark.toml` - Dark variant
+- `selenized_light.toml` - Light variant
+
+### Pencil Family
+- `pencil_dark.toml` - Dark variant
+- `pencil_light.toml` - Light variant
+
+### Kimbie Family
+- `kimbie_dark.toml` - Dark variant
+- `kimbie_light.toml` - Light variant
+
+### Enfocado Family
+- `enfocado_dark.toml` - Dark variant
+- `enfocado_light.toml` - Light variant
+
+### Ashes Family
+- `ashes_dark.toml` - Dark variant
+- `ashes_light.toml` - Light variant
+
+### Alabaster Family
+- `alabaster.toml` - Light variant
+- `alabaster_dark.toml` - Dark variant
+
+### Tomorrow Night Family
+- `tomorrow_night.toml` - Standard
+- `tomorrow_night_bright.toml` - Bright variant
+
+## Complete Theme List
+
+All 151 available themes:
+
+<AccordionGroup>
+  <Accordion title="A-D (40 themes)">
+    - Cobalt2
+    - Mariana
+    - acme
+    - afterglow
+    - alabaster
+    - alabaster_dark
+    - alacritty_0_12
+    - argonaut
+    - ashes_dark
+    - ashes_light
+    - aura
+    - autumn
+    - ayu_dark
+    - ayu_light
+    - ayu_mirage
+    - baitong
+    - base16_default_dark
+    - blood_moon
+    - bluish
+    - breeze
+    - campbell
+    - carbonfox
+    - catppuccin
+    - catppuccin_frappe
+    - catppuccin_latte
+    - catppuccin_macchiato
+    - catppuccin_mocha
+    - challenger_deep
+    - chicago95
+    - citylights
+    - coolnight
+    - cyber_punk_neon
+    - dark_pastels
+    - dark_plus
+    - dark_pride
+    - dawnfox
+    - dayfox
+    - deep_space
+    - doom_one
+    - dracula
+  </Accordion>
+  
+  <Accordion title="D-H (40 themes)">
+    - dracula_plus
+    - duskfox
+    - enfocado_dark
+    - enfocado_light
+    - everforest_dark
+    - everforest_light
+    - falcon
+    - flat_remix
+    - flexoki
+    - github_dark
+    - github_dark_colorblind
+    - github_dark_default
+    - github_dark_dimmed
+    - github_dark_high_contrast
+    - github_dark_tritanopia
+    - github_light
+    - github_light_colorblind
+    - github_light_default
+    - github_light_high_contrast
+    - github_light_tritanopia
+    - gnome_terminal
+    - google
+    - gotham
+    - gruber_darker
+    - gruvbox_dark
+    - gruvbox_light
+    - gruvbox_material
+    - gruvbox_material_hard_dark
+    - gruvbox_material_hard_light
+    - gruvbox_material_medium_dark
+    - gruvbox_material_medium_light
+    - hardhacker
+    - hatsunemiku
+    - high_contrast
+    - horizon_dark
+    - hyper
+  </Accordion>
+  
+  <Accordion title="I-P (40 themes)">
+    - inferno
+    - iris
+    - iterm
+    - kanagawa_dragon
+    - kanagawa_wave
+    - kimbie_dark
+    - kimbie_light
+    - konsole_linux
+    - low_contrast
+    - marine_dark
+    - material_theme
+    - material_theme_mod
+    - meliora
+    - miasma
+    - midnight_haze
+    - monokai
+    - monokai_charcoal
+    - monokai_pro
+    - moonfly
+    - moonlight_ii_vscode
+    - msx
+    - night_owl
+    - night_owlish_light
+    - nightfly
+    - nightfox
+    - noctis_lux
+    - nord
+    - nord_light
+    - nordfox
+    - nordic
+    - oceanic_next
+    - omni
+    - one_dark
+    - one_light
+    - oxocarbon
+    - palenight
+    - papercolor_dark
+    - papercolor_light
+    - papertheme
+    - pastel_dark
+  </Accordion>
+  
+  <Accordion title="P-Z (31 themes)">
+    - pencil_dark
+    - pencil_light
+    - rainbow
+    - remedy_dark
+    - rose_pine
+    - rose_pine_dawn
+    - rose_pine_moon
+    - seashells
+    - selenized_dark
+    - selenized_light
+    - smoooooth
+    - snazzy
+    - solarized_dark
+    - solarized_light
+    - solarized_osaka
+    - sonokai
+    - spacegray
+    - synthwave_84
+    - taerminal
+    - tango_dark
+    - tender
+    - terafox
+    - terminal_app
+    - thelovelace
+    - tokyo_night
+    - tokyo_night_enhanced
+    - tokyo_night_storm
+    - tomorrow_night
+    - tomorrow_night_bright
+    - ubuntu
+    - vesper
+    - vscode
+    - wombat
+    - xterm
+    - zenburn
+  </Accordion>
+</AccordionGroup>
 
 ## Creating Custom Themes
 
-To create your own theme:
+You can create your own theme by creating a new TOML file in the themes directory with color definitions:
 
-<Steps>
-  <Step title="Create theme file">
-    Create a new TOML file in `~/.config/alacritty/themes/` (or any location):
-    ```bash
-    touch ~/.config/alacritty/mytheme.toml
-    ```
-  </Step>
-  <Step title="Define colors">
-    Add color definitions using the structure:
-    ```toml
-    [colors.primary]
-    background = '#000000'
-    foreground = '#ffffff'
-    
-    [colors.cursor]
-    text = '#000000'
-    cursor = '#ffffff'
-    
-    [colors.normal]
-    black = '#000000'
-    red = '#ff0000'
-    green = '#00ff00'
-    yellow = '#ffff00'
-    blue = '#0000ff'
-    magenta = '#ff00ff'
-    cyan = '#00ffff'
-    white = '#ffffff'
-    
-    [colors.bright]
-    black = '#666666'
-    red = '#ff6666'
-    green = '#66ff66'
-    yellow = '#ffff66'
-    blue = '#6666ff'
-    magenta = '#ff66ff'
-    cyan = '#66ffff'
-    white = '#ffffff'
-    ```
-  </Step>
-  <Step title="Import custom theme">
-    Reference your theme in `alacritty.toml`:
-    ```toml
-    general.import = [
-        "~/.config/alacritty/mytheme.toml"
-    ]
-    ```
-  </Step>
-</Steps>
+```toml custom_theme.toml
+[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
 
-<Note>
-All colors should be specified in hexadecimal format (`#RRGGBB`). The `colors.primary`, `colors.cursor`, `colors.normal`, and `colors.bright` sections are required for a complete theme.
-</Note>
+[colors.normal]
+black   = "#15161e"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#a9b1d6"
 
-## Theme Repository Structure
-
-The alacritty-theme repository is organized as:
-
-```
-~/.config/alacritty/themes/
-├── themes/
-│   ├── coolnight.toml
-│   ├── dracula.toml
-│   ├── nord.toml
-│   └── ... (200+ themes)
-├── images/
-│   └── ... (theme screenshots)
-└── README.md
+[colors.bright]
+black   = "#414868"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#c0caf5"
 ```
 
-All theme files are located in the `themes/` subdirectory, which is why the import path includes `themes/themes/`.
-
-## Additional Resources
-
-- [Alacritty Theme Repository](https://github.com/alacritty/alacritty-theme)
-- [Theme Gallery with Screenshots](https://github.com/alacritty/alacritty-theme#color-schemes)
-- [Color Scheme Generator](https://terminal.sexy/)
-- [Contributing Your Theme](https://github.com/alacritty/alacritty-theme#contributing)
+Then import it the same way as any other theme.

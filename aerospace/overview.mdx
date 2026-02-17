@@ -1,68 +1,84 @@
 ---
-title: "AeroSpace Overview"
-description: "Tiling window manager for macOS"
+title: 'AeroSpace Overview'
+description: 'Introduction to AeroSpace tiling window manager configuration'
 ---
 
 ## What is AeroSpace?
 
-AeroSpace is a tiling window manager for macOS that automatically organizes your windows into efficient layouts. Unlike the traditional stacking window manager in macOS, AeroSpace tiles windows side-by-side, maximizing screen space and reducing the need for manual window management.
+AeroSpace is a tiling window manager for macOS that automatically organizes your windows into non-overlapping tiles. It provides keyboard-driven window management, allowing you to navigate, move, and resize windows efficiently without using a mouse.
 
-## Why Use a Tiling Window Manager?
+## Core Configuration
 
-Tiling window managers offer several advantages for power users:
+The AeroSpace configuration is defined in `~/.aerospace.toml`. Below are the key settings from the configuration:
 
-- **Efficient Screen Usage**: Windows automatically resize to fill available space
-- **Keyboard-Driven Workflow**: Navigate and manage windows without touching the mouse
-- **Multi-Monitor Support**: Seamlessly manage windows across multiple displays
-- **Workspace Organization**: Organize applications by project, context, or task
-- **Reduced Cognitive Load**: Consistent layouts mean less time arranging windows
-
-## Configuration Structure
-
-The AeroSpace configuration is stored in `~/.aerospace.toml` and uses TOML format. The configuration includes:
-
-- **Startup Settings**: Commands to run after login and startup
-- **Normalization Rules**: How windows are organized in containers
-- **Layout Settings**: Default layouts and orientation
-- **Gaps Configuration**: Spacing between windows and monitors
-- **Binding Modes**: Keybindings for main and service modes
-- **Workspace Assignments**: Custom workspace configurations
-
-## Key Features Enabled
-
-### Normalization
+### Startup Behavior
 
 ```toml
+# Start AeroSpace at login
+start-at-login = true
+
+# Commands to run after login (empty by default)
+after-login-command = []
+
+# Commands to run after AeroSpace startup
+after-startup-command = []
+```
+
+AeroSpace is configured to start automatically when you log into macOS.
+
+### Normalization Settings
+
+```toml
+# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 ```
 
-Normalization ensures consistent window layouts by automatically flattening nested containers and adjusting orientations for better space utilization.
+<Note>
+Normalization automatically optimizes the window tree structure by flattening unnecessary container nesting and adjusting orientations for better space utilization.
+</Note>
 
-### Layout System
+### Layout Configuration
 
 ```toml
-default-root-container-layout = 'tiles'
-default-root-container-orientation = 'auto'
+# The 'accordion-padding' specifies the size of accordion padding
 accordion-padding = 30
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+default-root-container-orientation = 'auto'
 ```
 
-AeroSpace supports two primary layouts:
-- **Tiles**: Traditional tiling layout where windows share space equally
-- **Accordion**: Stacked layout with padding between windows
+| Setting | Value | Description |
+|---------|-------|-------------|
+| **Default Layout** | `tiles` | Windows are arranged in a tiling layout |
+| **Default Orientation** | `auto` | Wide monitors use horizontal orientation, tall monitors use vertical |
+| **Accordion Padding** | `30` | Padding size for accordion layout mode |
 
-The `auto` orientation automatically chooses horizontal for wide monitors and vertical for tall monitors.
-
-### Mouse Follows Focus
+### Keyboard Mapping
 
 ```toml
+# Possible values: qwerty|dvorak
+key-mapping.preset = 'qwerty'
+```
+
+The configuration uses the QWERTY keyboard layout preset for keybindings.
+
+### Mouse Behavior
+
+```toml
+# Mouse follows focus when focused monitor changes
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = "move-mouse window-lazy-center"
 ```
 
-When you switch focus to a different window or monitor, the mouse cursor automatically follows, creating a seamless multi-monitor experience.
+<Tip>
+The mouse cursor automatically moves to the center of the focused window or monitor, making it easier to locate your focus point.
+</Tip>
 
-### Gaps
+### Gaps Configuration
 
 ```toml
 [gaps]
@@ -74,21 +90,19 @@ outer.top =        0
 outer.right =      0
 ```
 
-This configuration uses no gaps between windows for maximum screen space. You can customize these values to add spacing if desired.
+All gaps are set to `0`, meaning windows tile edge-to-edge with no spacing between them or the monitor edges. You can adjust these values to add visual separation between windows.
 
-## Learn More
+| Gap Type | Value | Description |
+|----------|-------|-------------|
+| **Inner Horizontal** | `0` | Space between windows horizontally |
+| **Inner Vertical** | `0` | Space between windows vertically |
+| **Outer Top/Bottom/Left/Right** | `0` | Space between windows and monitor edges |
 
-<CardGroup cols={2}>
-  <Card title="Keybindings" icon="keyboard" href="/aerospace/keybindings">
-    Explore all keyboard shortcuts for navigation, window management, and workspace switching
-  </Card>
-  <Card title="Workspaces" icon="grid" href="/aerospace/workspaces">
-    Learn about workspace organization and navigation strategies
-  </Card>
-</CardGroup>
+## Binding Modes
 
-## Additional Resources
+AeroSpace uses binding modes to organize keybindings:
 
-- [Official AeroSpace Documentation](https://nikitabobko.github.io/AeroSpace/)
-- [Commands Reference](https://nikitabobko.github.io/AeroSpace/commands)
-- [Configuration Guide](https://nikitabobko.github.io/AeroSpace/guide)
+- **Main Mode**: The default mode for everyday window management
+- **Service Mode**: A special mode for advanced operations like reloading config, toggling floating windows, and joining containers
+
+See the [Keybindings](/aerospace/keybindings) page for detailed keybinding documentation.

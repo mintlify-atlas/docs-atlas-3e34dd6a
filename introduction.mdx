@@ -10,16 +10,16 @@ This dotfiles repository provides a cohesive, keyboard-driven development enviro
 ## Core Components
 
 <CardGroup cols={2}>
-  <Card title="Neovim" icon="code" href="#neovim">
+  <Card title="Neovim" icon="code" href="/nvim/overview">
     LazyVim-based editor with extensive plugin support, LSP integration, and custom keybindings for modern development.
   </Card>
-  <Card title="Alacritty" icon="terminal" href="#alacritty">
-    GPU-accelerated terminal emulator with custom theming, 0xProto Nerd Font, and transparency effects.
+  <Card title="Alacritty" icon="terminal" href="/alacritty/overview">
+    GPU-accelerated terminal emulator with 150+ themes, 0xProto Nerd Font, and transparency effects.
   </Card>
-  <Card title="Tmux" icon="window-maximize" href="#tmux">
+  <Card title="Tmux" icon="window" href="/tmux/overview">
     Terminal multiplexer with vi-mode keybindings, Catppuccin theme, and Ctrl+Space prefix for seamless navigation.
   </Card>
-  <Card title="AeroSpace" icon="grid" href="#aerospace">
+  <Card title="AeroSpace" icon="grid" href="/aerospace/overview">
     Tiling window manager for macOS with i3-like keybindings, providing efficient workspace management.
   </Card>
 </CardGroup>
@@ -37,8 +37,9 @@ Consistent keyboard-driven navigation across all tools. Whether you're in Neovim
 
 ### Modern Development Setup
 - **LazyVim**: Pre-configured Neovim distribution with sensible defaults
-- **LSP Support**: Full language server protocol integration
-- **Plugin Ecosystem**: Obsidian integration, LeetCode support, and more
+- **LSP Support**: Full language server protocol integration via Mason
+- **Plugin Ecosystem**: Obsidian integration, LeetCode support, VimBeGood, and more
+- **150+ Alacritty Themes**: Extensive theme collection including Tokyo Night, Rose Pine, Nord, and many others
 - **GPU Acceleration**: Alacritty provides blazing-fast terminal rendering
 - **True Color Support**: 256-color and RGB support across all terminals
 
@@ -77,11 +78,13 @@ This configuration prioritizes:
 ## Configuration Highlights
 
 ### Neovim (LazyVim)
-- Multiple colorscheme options (Kanagawa, Gruvbox, Rose Pine, Tokyo Dark, Everforest)
-- Custom visual selection highlighting
-- Obsidian note-taking integration
-- LeetCode plugin for coding practice
+- Multiple colorscheme options (OneDark, Kanagawa, Gruvbox, Rose Pine, Tokyo Dark, Everforest, PaperColor)
+- Custom visual selection highlighting (yellow background via OneDark config)
+- Obsidian note-taking integration with nvim-cmp completion
+- LeetCode plugin for coding practice (Python3 configured)
+- VimBeGood for vim skill improvement
 - Mason for LSP/formatter/linter management
+- Snacks configuration for enhanced UI
 
 ### Alacritty
 - 80% opacity with blur effects
@@ -100,11 +103,48 @@ This configuration prioritizes:
 
 ### AeroSpace
 - Alt-based keybindings (Alt+hjkl for navigation)
-- Multiple workspace support (1-9 and A-Z)
+- Multiple workspace support (1-9 and A-Z workspaces)
 - Auto orientation based on monitor dimensions
-- Mouse follows focus
-- Service mode for advanced operations
-- Accordion and tiles layout modes
+- Mouse follows focus with lazy center positioning
+- Service mode for advanced operations (Alt+Shift+; to enter)
+- Accordion and tiles layout modes (Alt+/ and Alt+,)
+- Window resizing with Alt+Shift+- and Alt+Shift+=
+- Zero gaps configuration for maximum screen space
+
+## Configuration Examples
+
+Here are some key configuration highlights from the actual files:
+
+### Tmux Prefix Remapping
+```bash
+# Remap prefix from 'C-b' to 'C-Space'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+```
+
+### Alacritty Transparency
+```toml
+[window]
+padding.x = 10
+padding.y = 10
+decorations = "Buttonless"
+opacity = 0.8
+blur = true
+startup_mode = "Maximized"
+```
+
+### Neovim Visual Selection
+```lua
+{
+  "navarasu/onedark.nvim",
+  opts = {
+    highlights = {
+      Visual = { bg = "#ffff00" },  -- Yellow background for visual mode
+    },
+  },
+}
+```
 
 ## Next Steps
 

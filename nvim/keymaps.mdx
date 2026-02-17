@@ -1,199 +1,197 @@
 ---
-title: "Keymaps"
-description: "Custom keyboard shortcuts and bindings"
+title: Keymaps
+description: Custom keybindings and LazyVim default shortcuts
 ---
-
-## Overview
-
-This Neovim configuration relies primarily on LazyVim's comprehensive default keybindings. Custom keymaps are minimal to maintain compatibility with LazyVim's well-designed defaults.
 
 ## Custom Keymaps
 
-The `lua/config/keymaps.lua` file currently contains no custom keybindings:
+This configuration primarily relies on LazyVim's default keybindings. The `lua/config/keymaps.lua` file is present for custom keybindings but currently contains no custom mappings:
 
-```lua
+```lua title="lua/config/keymaps.lua"
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 ```
 
-This means the configuration uses 100% of LazyVim's default keybindings without modifications.
+## LazyVim Default Keymaps
 
-## LazyVim Default Keybindings
-
-LazyVim provides extensive, well-thought-out keybindings. Here are some of the most important ones:
+Since this configuration uses LazyVim, you have access to all of LazyVim's default keybindings. Here are some of the most commonly used shortcuts:
 
 ### General
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>` | n | Space (default leader key) |
+| `<leader>` | n | Leader key is Space by default |
+| `<leader>l` | n | Open Lazy (plugin manager) |
 | `<leader>qq` | n | Quit all |
-| `<leader>ui` | n | Inspect position |
-| `<leader>uI` | n | Inspect tree |
-| `<leader>L` | n | LazyVim changelog |
-| `<leader>l` | n | Lazy (plugin manager) |
+| `<leader>ui` | n | Toggle indent guides |
+| `<leader>ul` | n | Toggle line numbers |
+| `<leader>ur` | n | Toggle relative line numbers |
+| `<leader>uw` | n | Toggle word wrap |
 
 ### File Operations
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>ff` | n | Find files |
+| `<leader>ff` | n | Find files (Telescope) |
 | `<leader>fr` | n | Recent files |
-| `<leader>fg` | n | Grep files |
+| `<leader>fg` | n | Find files (git) |
+| `<leader><space>` | n | Find files |
 | `<leader>fn` | n | New file |
 | `<leader>fs` | n | Save file |
-| `<C-s>` | i, x, n, s | Save file |
 
-### Buffer Management
-
-| Key | Mode | Description |
-|-----|------|-------------|
-| `<leader>bb` | n | Switch buffer |
-| `<leader>bd` | n | Delete buffer |
-| `<leader>bD` | n | Delete buffer (force) |
-| `<S-h>` | n | Previous buffer |
-| `<S-l>` | n | Next buffer |
-| `[b` | n | Previous buffer |
-| `]b` | n | Next buffer |
-
-### Window Management
+### Search
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>w` | n | Windows (prefix) |
-| `<leader>wd` | n | Delete window |
-| `<leader>-` | n | Split below |
-| `<leader>\|` | n | Split right |
-| `<C-h>` | n | Go to left window |
-| `<C-j>` | n | Go to lower window |
-| `<C-k>` | n | Go to upper window |
-| `<C-l>` | n | Go to right window |
+| `<leader>sg` | n | Grep (search text) |
+| `<leader>sw` | n | Search word under cursor |
+| `<leader>sb` | n | Search in current buffer |
+| `<leader>sc` | n | Search command history |
+| `<leader>sh` | n | Search help |
+| `/` | n | Search in buffer |
 
-### LSP (Language Server)
+### LSP
 
 | Key | Mode | Description |
 |-----|------|-------------|
 | `gd` | n | Go to definition |
-| `gr` | n | References |
+| `gr` | n | Go to references |
 | `gI` | n | Go to implementation |
 | `gy` | n | Go to type definition |
-| `gD` | n | Go to declaration |
 | `K` | n | Hover documentation |
 | `gK` | n | Signature help |
-| `<leader>ca` | n, v | Code action |
-| `<leader>cr` | n | Rename |
-| `<leader>cf` | n, v | Format |
-
-### Diagnostics
-
-| Key | Mode | Description |
-|-----|------|-------------|
-| `<leader>cd` | n | Line diagnostics |
-| `]d` | n | Next diagnostic |
+| `<leader>ca` | n | Code actions |
+| `<leader>cr` | n | Rename symbol |
+| `<leader>cf` | n | Format buffer |
 | `[d` | n | Previous diagnostic |
-| `]e` | n | Next error |
-| `[e` | n | Previous error |
-| `]w` | n | Next warning |
-| `[w` | n | Previous warning |
+| `]d` | n | Next diagnostic |
+| `<leader>cd` | n | Line diagnostics |
 
-### Search & Replace
+### Buffers
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>sg` | n | Grep |
-| `<leader>sw` | n, v | Search word |
-| `<leader>sr` | n | Replace in files |
-| `<leader>sR` | n | Search & replace |
-| `<leader>ss` | n | Search symbols |
-| `<leader>sh` | n | Help pages |
-| `<leader>sk` | n | Keymaps |
-| `<esc>` | n | Clear search highlight |
+| `<S-h>` | n | Previous buffer |
+| `<S-l>` | n | Next buffer |
+| `<leader>bb` | n | Switch to other buffer |
+| `<leader>bd` | n | Delete buffer |
+| `<leader>bD` | n | Delete buffer (force) |
+| `[b` | n | Previous buffer |
+| `]b` | n | Next buffer |
 
-### Git
+### Windows
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>gg` | n | Lazygit |
-| `<leader>gb` | n | Git blame line |
-| `<leader>gB` | n | Git browse |
-| `]h` | n | Next git hunk |
-| `[h` | n | Previous git hunk |
+| `<C-h>` | n | Go to left window |
+| `<C-j>` | n | Go to lower window |
+| `<C-k>` | n | Go to upper window |
+| `<C-l>` | n | Go to right window |
+| `<leader>ww` | n | Other window |
+| `<leader>wd` | n | Delete window |
+| `<leader>w-` | n | Split window below |
+| `<leader>w\|` | n | Split window right |
 
 ### Terminal
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<leader>ft` | n | Terminal (root dir) |
-| `<leader>fT` | n | Terminal (cwd) |
-| `<C-/>` | n, t | Terminal (root dir) |
-| `<esc><esc>` | t | Enter normal mode (terminal) |
+| `<C-/>` | n | Toggle terminal |
+| `<C-_>` | n | Toggle terminal (alternative) |
+| `<Esc><Esc>` | t | Enter normal mode in terminal |
 
-### File Explorer (Neo-tree)
-
-| Key | Mode | Description |
-|-----|------|-------------|
-| `<leader>e` | n | File explorer |
-| `<leader>E` | n | File explorer (cwd) |
-| `<leader>fe` | n | File explorer (root dir) |
-| `<leader>fE` | n | File explorer (cwd) |
-
-### Code & Completion
+### Git
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<Tab>` | i, s | Confirm completion / Select next |
-| `<CR>` | i, s | Abort completion, insert newline |
-| `<C-Space>` | i | Trigger completion |
-| `<C-n>` | i | Next suggestion |
-| `<C-p>` | i | Previous suggestion |
+| `<leader>gg` | n | Lazygit (if installed) |
+| `<leader>gb` | n | Git blame line |
+| `<leader>gB` | n | Git browse |
+| `]h` | n | Next hunk |
+| `[h` | n | Previous hunk |
+| `<leader>gs` | n | Stage hunk |
+| `<leader>gr` | n | Reset hunk |
+| `<leader>gp` | n | Preview hunk |
 
-<Note>
-  The Tab and Enter key behaviors are customized via the `tab-complete.lua` plugin configuration.
-</Note>
+### Code Navigation
 
-## Plugin-Specific Keybindings
+| Key | Mode | Description |
+|-----|------|-------------|
+| `]]` | n | Next reference |
+| `[[` | n | Previous reference |
+| `]m` | n | Next method |
+| `[m` | n | Previous method |
+| `<leader>ss` | n | Go to symbol |
+| `<leader>sS` | n | Go to symbol (workspace) |
 
-Some plugins add their own keybindings:
+## Plugin-Specific Keymaps
 
-### LeetCode.nvim
+### Completion (nvim-cmp)
 
-Access LeetCode commands via command mode or through which-key menu.
+Custom completion behavior is configured in `tab-complete.lua`:
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `<Tab>` | i, s | Select first item or confirm selection |
+| `<CR>` | i, s, c | Dismiss completion menu (normal Enter behavior) |
+| `<C-n>` | i | Next completion item |
+| `<C-p>` | i | Previous completion item |
+| `<C-d>` | i | Scroll docs down |
+| `<C-u>` | i | Scroll docs up |
+| `<C-e>` | i | Abort completion |
+
+### LeetCode
+
+The LeetCode plugin provides its own set of commands and keybindings. Refer to the [plugin documentation](https://github.com/kawre/leetcode.nvim) for details.
+
+Common commands:
+- `:Leet` - Main menu
+- `:Leet list` - List problems
+- `:Leet run` - Run solution
+- `:Leet submit` - Submit solution
+
+### Obsidian
+
+Obsidian.nvim provides commands for note management. Some common commands:
+- `:ObsidianNew` - Create new note
+- `:ObsidianToday` - Open today's daily note
+- `:ObsidianSearch` - Search notes
+- `:ObsidianQuickSwitch` - Quick switch between notes
+- `:ObsidianLink` - Create link to note
+- `:ObsidianBacklinks` - Show backlinks
 
 ### Vim Be Good
 
-Start the practice game with:
-```
-:VimBeGood
-```
+| Command | Description |
+|---------|-------------|
+| `:VimBeGood` | Start Vim practice game |
 
-### Obsidian.nvim
+## Customizing Keymaps
 
-Obsidian commands are available via the `:Obsidian` command prefix when editing markdown files.
-
-## Which-Key Integration
-
-Press `<leader>` and wait briefly to see a popup menu showing all available keybindings. This is powered by which-key.nvim and makes discovering keybindings easy.
-
-## Adding Custom Keymaps
-
-To add custom keymaps, edit `lua/config/keymaps.lua`:
+To add your own keymaps, edit `lua/config/keymaps.lua`. LazyVim uses `vim.keymap.set()` for defining keybindings:
 
 ```lua
-local map = vim.keymap.set
-
--- Example: Map <leader>h to toggle search highlight
-map("n", "<leader>h", ":set hlsearch!<CR>", { desc = "Toggle search highlight" })
+-- Example custom keymap
+vim.keymap.set("n", "<leader>xx", function()
+  -- Your custom function
+end, { desc = "Description" })
 ```
 
-<Note>
-  Always add a `desc` (description) field to your keymaps so they show up properly in which-key.
-</Note>
+**Best practices:**
+- Use descriptive `desc` fields - they appear in which-key
+- Avoid overriding LazyVim defaults unless necessary
+- Group related keymaps under the same leader prefix
+- Use `<leader>` for custom commands to avoid conflicts
 
-## LazyVim Keybinding Resources
+## Which-Key
 
-For the complete list of LazyVim default keybindings:
+LazyVim includes [which-key.nvim](https://github.com/folke/which-key.nvim), which displays available keybindings in a popup. Press `<leader>` and wait briefly to see all available shortcuts.
 
-- View in Neovim: Press `<leader>sk` to search keymaps with Telescope
-- Online documentation: [LazyVim Keymaps](https://lazyvim.org/keymaps)
-- Source code: [lazyvim/config/keymaps.lua](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua)
+You can also search keymaps:
+- `:Telescope keymaps` - Browse all keymaps with Telescope
+- `:WhichKey` - Show all which-key mappings
+
+## Complete Reference
+
+For the complete list of LazyVim default keybindings, see the [LazyVim keymaps documentation](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua).

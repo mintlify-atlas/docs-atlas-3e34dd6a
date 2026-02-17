@@ -1,52 +1,101 @@
 ---
-title: "Alacritty Overview"
-description: "Fast, GPU-accelerated terminal emulator"
+title: Alacritty Configuration
+description: GPU-accelerated terminal emulator configuration
 ---
 
 ## What is Alacritty?
 
-Alacritty is a modern, GPU-accelerated terminal emulator written in Rust. It's designed to be the fastest terminal emulator available, leveraging the GPU for rendering to provide a smooth and responsive experience.
+Alacritty is a cross-platform, GPU-accelerated terminal emulator written in Rust. It focuses on simplicity and performance, leveraging the GPU for rendering to provide a smooth and responsive terminal experience.
 
-## Why Alacritty?
+## Configuration File
 
-### Performance
-Alacritty uses OpenGL for rendering, making it significantly faster than traditional CPU-based terminal emulators. This results in smooth scrolling, quick text rendering, and minimal input latency.
+Alacritty uses TOML for configuration. The main configuration file is located at `~/.config/alacritty/alacritty.toml`.
 
-### Simplicity
-Unlike some terminal emulators, Alacritty doesn't include built-in tabs, splits, or session management. Instead, it focuses on being a fast, reliable terminal that works well with terminal multiplexers like tmux or window managers.
+```toml alacritty.toml
+general.import = [
+    "~/.config/alacritty/themes/themes/coolnight.toml"
+]
+[ env ]
+TERM = "xterm-256color"
 
-### Configuration
-Alacritty is configured through a single TOML file, making it easy to version control and share your configuration. The configuration format is straightforward and well-documented.
+[window]
+padding.x = 10
+padding.y = 10
 
-### Cross-Platform
-Alacritty works consistently across macOS, Linux, and Windows, providing the same high-performance experience on all platforms.
+decorations = "Buttonless"
+opacity = 0.8
+blur = true
+startup_mode = "Maximized"
+[font]
+normal.family = "0xProto Nerd Font Mono"
 
-## Configuration Approach
+#regular
+size = 16
+```
 
-This dotfiles configuration customizes Alacritty with:
+## Key Configuration Settings
 
-- **Environment variables** for proper terminal compatibility
-- **Window settings** including padding, opacity, and blur effects
-- **Font configuration** using 0xProto Nerd Font Mono
-- **Theme system** with the coolnight color scheme
+### Font Configuration
 
-<Note>
-Alacritty uses TOML format for configuration (not YAML) as of version 0.13+. This provides better type safety and more robust configuration parsing.
-</Note>
+The configuration uses **0xProto Nerd Font Mono** at size 16:
 
-## Learn More
+```toml
+[font]
+normal.family = "0xProto Nerd Font Mono"
+size = 16
+```
 
-<CardGroup cols={2}>
-  <Card title="Configuration" icon="gear" href="/alacritty/configuration">
-    Explore all configuration options and settings
-  </Card>
-  <Card title="Themes" icon="palette" href="/alacritty/themes">
-    Learn about color schemes and customization
-  </Card>
-</CardGroup>
+Nerd Fonts include additional glyphs and icons useful for modern terminal applications and shell prompts.
 
-## Official Resources
+### Window Settings
 
-- [Alacritty GitHub Repository](https://github.com/alacritty/alacritty)
-- [Official Documentation](https://alacritty.org/)
-- [Configuration Reference](https://github.com/alacritty/alacritty/blob/master/alacritty.toml)
+The window configuration provides a clean, modern appearance:
+
+```toml
+[window]
+padding.x = 10
+padding.y = 10
+decorations = "Buttonless"
+opacity = 0.8
+blur = true
+startup_mode = "Maximized"
+```
+
+- **Padding**: 10px on both X and Y axes for comfortable spacing
+- **Decorations**: Set to "Buttonless" for a minimal window frame
+- **Opacity**: 0.8 for slight transparency
+- **Blur**: Enabled for a modern frosted glass effect
+- **Startup Mode**: Maximized by default
+
+### Theme Import
+
+Themes are imported using the `general.import` directive:
+
+```toml
+general.import = [
+    "~/.config/alacritty/themes/themes/coolnight.toml"
+]
+```
+
+This allows for easy theme switching without modifying the main configuration. See the [Themes](/alacritty/themes) section for available options.
+
+### Environment Variables
+
+The `TERM` environment variable is set to `xterm-256color` for proper color support:
+
+```toml
+[ env ]
+TERM = "xterm-256color"
+```
+
+This ensures compatibility with applications that depend on 256-color terminal support.
+
+## Performance
+
+Alacritty's GPU acceleration provides:
+- Fast rendering of large amounts of text
+- Smooth scrolling
+- Low latency input handling
+- Efficient memory usage
+
+The combination of Rust's performance characteristics and GPU rendering makes Alacritty one of the fastest terminal emulators available.

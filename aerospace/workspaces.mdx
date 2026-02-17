@@ -1,228 +1,202 @@
 ---
-title: "Workspaces"
-description: "Workspace management and configuration"
+title: 'Workspaces'
+description: 'Understanding and managing AeroSpace workspaces'
 ---
 
-## Understanding Workspaces
+## What are Workspaces?
 
-Workspaces in AeroSpace are virtual desktops that let you organize windows by project, context, or task. Unlike macOS Spaces, AeroSpace workspaces are keyboard-driven and support both numbered and lettered naming schemes.
+Workspaces in AeroSpace are virtual desktops that help you organize windows into separate logical groups. Each workspace maintains its own window layout and can be displayed on any monitor.
 
-## Workspace System
-
-This configuration provides 31 total workspaces:
-
+AeroSpace supports 35 workspaces by default:
 - **Numbered workspaces**: 1-9 (9 workspaces)
-- **Lettered workspaces**: A-Z excluding H, J, K, L (22 workspaces)
+- **Lettered workspaces**: A-Z (26 workspaces)
 
-<Note>
-Letters H, J, K, L are reserved for focus navigation keybindings and are not available as workspace shortcuts.
-</Note>
+## Switching Between Workspaces
 
-### Numbered Workspaces (1-9)
+Quickly navigate to any workspace using the `alt` key combined with a number or letter.
+
+### Numbered Workspaces
 
 ```toml
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
-# ... through alt-9
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
 ```
 
-Numbered workspaces are ideal for:
-- Frequently accessed applications
-- Context switching between main projects
-- Following conventional workspace numbering
+| Keybinding | Workspace |
+|------------|----------|
+| `alt-1` | Workspace 1 |
+| `alt-2` | Workspace 2 |
+| `alt-3` | Workspace 3 |
+| `alt-4` | Workspace 4 |
+| `alt-5` | Workspace 5 |
+| `alt-6` | Workspace 6 |
+| `alt-7` | Workspace 7 |
+| `alt-8` | Workspace 8 |
+| `alt-9` | Workspace 9 |
 
-### Lettered Workspaces (A-Z)
+### Lettered Workspaces
 
 ```toml
 alt-a = 'workspace A'
 alt-b = 'workspace B'
 alt-c = 'workspace C'
-# ... through alt-z (excluding h, j, k, l)
-```
-
-Lettered workspaces provide:
-- Mnemonic naming (e.g., M for Mail, B for Browser)
-- Additional workspace capacity beyond 1-9
-- Semantic organization by application or project name
-
-## Workspace Navigation
-
-### Switch to Workspace
-
-Navigate to any workspace using `Alt+[key]`:
-
-| Keybinding | Action |
-|------------|--------|
-| `Alt+1` through `Alt+9` | Switch to numbered workspace |
-| `Alt+A` through `Alt+Z` | Switch to lettered workspace |
-
-<Tip>
-Develop muscle memory by assigning consistent applications to the same workspaces. For example, always use workspace 1 for your terminal, workspace 2 for your editor.
-</Tip>
-
-### Move Window to Workspace
-
-Move the currently focused window to any workspace using `Alt+Shift+[key]`:
-
-| Keybinding | Action |
-|------------|--------|
-| `Alt+Shift+1` through `Alt+Shift+9` | Move window to numbered workspace |
-| `Alt+Shift+A` through `Alt+Shift+Z` | Move window to lettered workspace |
-
-```toml
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-a = 'move-node-to-workspace A'
-# etc.
+alt-d = 'workspace D'
+alt-e = 'workspace E'
+alt-f = 'workspace F'
+alt-g = 'workspace G'
+alt-i = 'workspace I'
+alt-m = 'workspace M'
+alt-n = 'workspace N'
+alt-o = 'workspace O'
+alt-p = 'workspace P'
+alt-q = 'workspace Q'
+alt-r = 'workspace R'
+alt-s = 'workspace S'
+alt-t = 'workspace T'
+alt-u = 'workspace U'
+alt-v = 'workspace V'
+alt-w = 'workspace W'
+alt-x = 'workspace X'
+alt-y = 'workspace Y'
+alt-z = 'workspace Z'
 ```
 
 <Note>
-Moving a window to another workspace does not automatically switch your focus to that workspace. Use workspace navigation to follow the window if needed.
+Lettered workspaces skip some letters that conflict with window management commands (like `h`, `j`, `k`, `l` used for navigation).
 </Note>
+
+## Moving Windows to Workspaces
+
+Move the currently focused window to any workspace using `alt-shift` plus the workspace identifier.
+
+### Moving to Numbered Workspaces
+
+```toml
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+```
+
+**Example workflow:**
+1. Focus a window you want to move (using `alt-h/j/k/l`)
+2. Press `alt-shift-3` to move it to workspace 3
+3. The window is now on workspace 3, but you remain on your current workspace
+
+### Moving to Lettered Workspaces
+
+```toml
+alt-shift-a = 'move-node-to-workspace A'
+alt-shift-b = 'move-node-to-workspace B'
+alt-shift-c = 'move-node-to-workspace C'
+# ... (continues for all available letters)
+alt-shift-z = 'move-node-to-workspace Z'
+```
+
+<Tip>
+Use the `move-node-to-workspace` command to relocate windows without switching workspaces yourself. This is useful for organizing windows while staying focused on your current task.
+</Tip>
 
 ## Workspace Back-and-Forth
 
-Quickly toggle between your current workspace and the previously active one:
+Quickly toggle between your current workspace and the previously active workspace:
 
 ```toml
 alt-tab = 'workspace-back-and-forth'
 ```
 
-**Keybinding**: `Alt+Tab`
+| Keybinding | Command | Description |
+|------------|---------|-------------|
+| `alt-tab` | `workspace-back-and-forth` | Switch between current and previous workspace |
 
-### Example Workflow
+**Example workflow:**
+1. You're on workspace 1
+2. Switch to workspace 5 with `alt-5`
+3. Press `alt-tab` to return to workspace 1
+4. Press `alt-tab` again to go back to workspace 5
 
-1. You're working in workspace 1 (terminal)
-2. Switch to workspace 2 (editor) with `Alt+2`
-3. Press `Alt+Tab` to return to workspace 1
-4. Press `Alt+Tab` again to return to workspace 2
+This is particularly useful for quickly referencing information between two workspaces.
 
-This is extremely useful for:
-- Copying code from one application to another
-- Referencing documentation while coding
-- Checking terminal output while editing
+## Moving Workspaces Between Monitors
 
-<Tip>
-Combine workspace-back-and-forth with window movement: move a window to another workspace, press `Alt+Tab` to follow it, arrange the window, then press `Alt+Tab` to return.
-</Tip>
-
-## Move Workspace to Monitor
-
-Move the entire current workspace to the next monitor:
+If you have multiple monitors, you can move an entire workspace to a different monitor:
 
 ```toml
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 ```
 
-**Keybinding**: `Alt+Shift+Tab`
+| Keybinding | Command | Description |
+|------------|---------|-------------|
+| `alt-shift-tab` | `move-workspace-to-monitor --wrap-around next` | Move current workspace to next monitor |
 
-The `--wrap-around` flag means:
-- If you're on the last monitor, it wraps to the first monitor
-- Perfect for quickly reorganizing workspaces across multiple displays
+**Example workflow:**
+1. You're on workspace 2 displayed on your left monitor
+2. Press `alt-shift-tab` to move workspace 2 to your right monitor
+3. The workspace and all its windows move together
+4. The `--wrap-around` flag means it cycles back to the first monitor after the last one
 
-### Multi-Monitor Workflow Example
-
-With two monitors:
-
-1. You have workspace 1 on Monitor A and workspace 2 on Monitor B
-2. Press `Alt+Shift+Tab` while in workspace 1
-3. Workspace 1 moves to Monitor B
-4. Workspace 2 automatically moves to Monitor A to fill the space
+<Note>
+Moving a workspace to another monitor preserves the entire window layout and organization.
+</Note>
 
 ## Workspace Organization Strategies
 
-### Strategy 1: By Application Type
+Here are some common ways to organize your workspaces:
 
-| Workspace | Purpose | Applications |
-|-----------|---------|-------------|
-| 1 | Terminal | iTerm2, Terminal |
-| 2 | Editor | VS Code, Neovim |
-| 3 | Browser | Safari, Chrome |
-| 4 | Communication | Slack, Discord |
-| 5 | Email | Mail, Thunderbird |
+### By Project
+- **Workspace 1**: Project A (editor, terminal, browser)
+- **Workspace 2**: Project B (editor, terminal, database client)
+- **Workspace 3**: Project C (editor, terminal, API testing)
 
-### Strategy 2: By Project
+### By Activity Type
+- **Workspace C**: Code (editor, terminal)
+- **Workspace B**: Browser (web research, documentation)
+- **Workspace M**: Music and communication (Spotify, Slack)
+- **Workspace E**: Email and calendar
 
-| Workspace | Purpose |
-|-----------|---------|
-| A | Project Alpha - all related windows |
-| B | Project Beta - all related windows |
-| C | Project Charlie - all related windows |
+### By Focus Area
+- **Workspaces 1-3**: Development work
+- **Workspaces 4-6**: Design and creative work
+- **Workspaces 7-9**: Communication and meetings
+- **Workspaces A-Z**: Project-specific workspaces
 
-### Strategy 3: Hybrid Approach
-
-| Workspace | Purpose |
-|-----------|---------|
-| 1-9 | Persistent applications (terminal, editor, browser, etc.) |
-| A-Z | Temporary project-specific workspaces |
+## Workspace Tips
 
 <Tip>
-Start with a simple scheme and evolve it based on your workflow. Don't feel obligated to use all 35 workspaces immediately.
+**Use numbered workspaces for frequent tasks**: The number row is easier to reach than letter keys, so assign your most frequently used workspaces to numbers 1-9.
 </Tip>
 
-## Workspace Best Practices
+<Tip>
+**Leverage workspace-back-and-forth**: Use `alt-tab` to create a "reference workspace" pattern where you keep documentation or specifications on one workspace and your work on another.
+</Tip>
 
-### Keep Related Windows Together
+<Tip>
+**Combine with window movement**: You can move windows between workspaces without switching to them. For example, open a new terminal on workspace 1, then immediately send it to workspace 3 with `alt-shift-3`.
+</Tip>
 
-Group all windows for a specific task or project in the same workspace. This reduces context switching and keeps your mental model clean.
+## Multi-Monitor Workflow
 
-### Use Mnemonic Names
+When using multiple monitors:
 
-Choose lettered workspaces that match your application names:
-- **M** for Mail
-- **S** for Slack
-- **B** for Browser
-- **T** for Terminal (if not using workspace 1)
-
-### Establish Conventions
-
-Develop personal conventions for numbered workspaces:
-- Workspace 1: Always your primary development environment
-- Workspace 9: Scratch workspace for temporary tasks
-- Workspace 5: Always communication tools
-
-### Empty Workspaces Are Okay
-
-You don't need to populate every workspace. Think of them as available parking spots - use them when needed.
-
-### Combine with Layout Commands
-
-Each workspace maintains its own layout state. You can have:
-- Workspace 1 in tiles layout with horizontal orientation
-- Workspace 2 in accordion layout with vertical orientation
-- Workspace 3 in floating layout
-
-## Configuration Example
-
-Here's a snippet showing how workspaces are configured:
+1. **Display different workspaces on each monitor**: Show workspace 1 on your left monitor and workspace 2 on your right monitor
+2. **Move workspaces as needed**: Use `alt-shift-tab` to relocate an entire workspace to a different monitor
+3. **Mouse follows focus**: The cursor automatically moves to the focused window, even across monitors (configured with `on-focused-monitor-changed` in overview.mdx:46)
 
 ```toml
-# Switch to workspace
-alt-1 = 'workspace 1'
-alt-a = 'workspace A'
-
-# Move window to workspace
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-a = 'move-node-to-workspace A'
-
-# Workspace navigation
-alt-tab = 'workspace-back-and-forth'
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = "move-mouse window-lazy-center"
 ```
 
-## Advanced: Workspace-to-Monitor Assignment
-
-While not configured in this setup, AeroSpace supports forcing specific workspaces to specific monitors using `workspace-to-monitor-force-assignment`. This is useful if you always want certain workspaces on specific displays.
-
-See the [official AeroSpace guide](https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors) for more information.
-
-## Related Topics
-
-<CardGroup cols={2}>
-  <Card title="Keybindings" icon="keyboard" href="/aerospace/keybindings">
-    Complete reference of all keyboard shortcuts
-  </Card>
-  <Card title="Overview" icon="house" href="/aerospace/overview">
-    Learn about AeroSpace fundamentals and configuration
-  </Card>
-</CardGroup>
+This ensures your mouse is always near the window you're working on, regardless of which monitor it's on.

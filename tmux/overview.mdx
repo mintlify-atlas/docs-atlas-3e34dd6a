@@ -1,51 +1,146 @@
 ---
-title: "Tmux Overview"
-description: "Terminal multiplexer configuration"
+title: 'Tmux Configuration Overview'
+description: 'Overview of the Tmux terminal multiplexer configuration'
 ---
 
-## What is Tmux?
+## Purpose
 
-Tmux is a terminal multiplexer that allows you to manage multiple terminal sessions from a single window. It enables you to:
-
-- Split your terminal into multiple panes
-- Create and manage multiple windows
-- Detach and reattach sessions (persistent terminal sessions)
-- Share terminal sessions with others
-
-## Configuration Approach
-
-This tmux configuration focuses on:
-
-- **Vim-like keybindings** for intuitive navigation and copy mode
-- **Custom prefix key** (C-Space instead of default C-b) for ergonomics
-- **Modern terminal support** with true color (RGB) and italics
-- **Mouse support** for convenient window/pane management
-- **Sensible defaults** like window renumbering and 1-based indexing
+This Tmux configuration enhances the default terminal multiplexer experience with modern features, improved visuals, and Vim-style keybindings. It's optimized for developers who want a powerful, keyboard-driven workflow.
 
 ## Key Features
 
-### Vi Mode
-Copy mode uses Vim keybindings for navigation and text selection, making it natural for Vim users.
+### Terminal Settings
 
-### Custom Prefix
-The prefix key is remapped from `C-b` to `C-Space` for easier access and reduced finger strain.
+The configuration enables full color support and proper rendering:
+
+<CodeGroup>
+```bash tmux.conf
+set-option -sa terminal-overrides ",xterm*:Tc:RGB:sitm=\E[3m:ritm=\E[23m"
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ',xterm-256color:Tc'
+set -as terminal-overrides ',xterm*:sitm=\E[3m'
+```
+</CodeGroup>
+
+- **256-color support**: `tmux-256color` terminal type
+- **True color (24-bit)**: Enabled via `Tc` override
+- **Italic support**: Proper escape sequences for italic text rendering
+
+### Vi Mode
+
+Vim keybindings are enabled for copy mode navigation:
+
+```bash
+setw -g mode-keys vi
+```
+
+This allows you to use familiar Vim motions when navigating and copying text in Tmux.
 
 ### Mouse Support
-Mouse support is enabled, allowing you to:
-- Click to select panes
-- Drag to resize panes
-- Scroll through history
 
-### True Color Support
-Properly configured for 256-color and true color (RGB) support in modern terminals.
+Mouse interactions are enabled for pane selection, resizing, and scrolling:
 
-## Learn More
+```bash
+set -g mouse on
+```
 
-<CardGroup cols={2}>
-  <Card title="Keybindings" icon="keyboard" href="./keybindings">
-    Learn about custom keyboard shortcuts and copy mode bindings
-  </Card>
-  <Card title="Plugins" icon="puzzle-piece" href="./plugins">
-    Explore installed plugins and how to manage them
-  </Card>
-</CardGroup>
+<Tip>
+While mouse support is convenient, learning the keyboard shortcuts will make you significantly faster.
+</Tip>
+
+### Window Management
+
+Windows are automatically renumbered and indexing starts at 1:
+
+```bash
+set -g renumber-windows on
+set -g base-index 1
+```
+
+- **Base index 1**: Windows start at 1 instead of 0 (easier to reach on keyboard)
+- **Auto-renumber**: When you close a window, remaining windows are renumbered to fill gaps
+
+### Prefix Key
+
+The default prefix key has been changed from `C-b` to `C-Space`:
+
+```bash
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+```
+
+<Note>
+`C-Space` (Ctrl+Space) is easier to press than `C-b` and doesn't conflict with common shell shortcuts.
+</Note>
+
+### Performance Optimizations
+
+```bash
+set-option -sg escape-time 10
+set-option -g focus-events on
+```
+
+- **Reduced escape time**: Faster key sequence recognition (important for Vim users)
+- **Focus events**: Allows programs to respond when the terminal gains/loses focus
+
+## Plugins
+
+The configuration uses TPM (Tmux Plugin Manager) with the following plugins:
+
+```bash
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+### TPM (Tmux Plugin Manager)
+
+Manages Tmux plugins. Install plugins with `Prefix + I` and update with `Prefix + U`.
+
+### Catppuccin Theme
+
+A soothing pastel theme that provides:
+- Beautiful color scheme
+- Status bar customization
+- Consistent visual experience
+
+<Tip>
+After adding this configuration, install TPM by cloning it to `~/.tmux/plugins/tpm`, then press `Prefix + I` inside Tmux to install plugins.
+</Tip>
+
+## Complete Configuration
+
+Here's the full configuration file:
+
+```bash tmux.conf
+# Enable Vim keybindings in copy mode
+set-option -sa terminal-overrides ",xterm*:Tc:RGB:sitm=\E[3m:ritm=\E[23m"
+set -g default-terminal "tmux-256color"
+setw -g mode-keys vi
+set -ga terminal-overrides ',xterm-256color:Tc'
+set -g renumber-windows on
+set -g base-index 1
+
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+
+set -as terminal-overrides ',xterm*:sitm=\E[3m'
+set-option -sg escape-time 10
+set-option -g focus-events on
+set -g mouse on
+# Enter copy mode with Prefix+[
+bind-key [ copy-mode
+
+# Vim-like navigation in copy mode
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+bind-key -T copy-mode-vi 'V' send -X rectangle-toggle
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+
+run '~/.tmux/plugins/tpm/tpm'
+```

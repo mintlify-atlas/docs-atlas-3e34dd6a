@@ -1,0 +1,51 @@
+---
+title: "Tmux Overview"
+description: "Terminal multiplexer configuration"
+---
+
+## What is Tmux?
+
+Tmux is a terminal multiplexer that allows you to manage multiple terminal sessions from a single window. It enables you to:
+
+- Split your terminal into multiple panes
+- Create and manage multiple windows
+- Detach and reattach sessions (persistent terminal sessions)
+- Share terminal sessions with others
+
+## Configuration Approach
+
+This tmux configuration focuses on:
+
+- **Vim-like keybindings** for intuitive navigation and copy mode
+- **Custom prefix key** (C-Space instead of default C-b) for ergonomics
+- **Modern terminal support** with true color (RGB) and italics
+- **Mouse support** for convenient window/pane management
+- **Sensible defaults** like window renumbering and 1-based indexing
+
+## Key Features
+
+### Vi Mode
+Copy mode uses Vim keybindings for navigation and text selection, making it natural for Vim users.
+
+### Custom Prefix
+The prefix key is remapped from `C-b` to `C-Space` for easier access and reduced finger strain.
+
+### Mouse Support
+Mouse support is enabled, allowing you to:
+- Click to select panes
+- Drag to resize panes
+- Scroll through history
+
+### True Color Support
+Properly configured for 256-color and true color (RGB) support in modern terminals.
+
+## Learn More
+
+<CardGroup cols={2}>
+  <Card title="Keybindings" icon="keyboard" href="./keybindings">
+    Learn about custom keyboard shortcuts and copy mode bindings
+  </Card>
+  <Card title="Plugins" icon="puzzle-piece" href="./plugins">
+    Explore installed plugins and how to manage them
+  </Card>
+</CardGroup>

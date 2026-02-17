@@ -1,0 +1,109 @@
+---
+title: "Neovim Overview"
+description: "LazyVim-based Neovim configuration"
+---
+
+## Foundation
+
+This Neovim configuration is built on top of [LazyVim](https://lazyvim.org), a powerful Neovim distribution that provides sensible defaults, plugin management via lazy.nvim, and extensive customization options.
+
+## Configuration Structure
+
+The configuration follows a modular structure that makes it easy to understand and maintain:
+
+```
+nvim/
+├── init.lua                    # Entry point
+├── lua/
+│   ├── config/                 # Core configuration
+│   │   ├── lazy.lua           # Plugin manager setup
+│   │   ├── options.lua        # Neovim options
+│   │   ├── keymaps.lua        # Custom keybindings
+│   │   └── autocmds.lua       # Autocommands
+│   └── plugins/               # Plugin specifications
+│       ├── colorscheme.lua    # Color themes
+│       ├── obsidian.lua       # Obsidian integration
+│       ├── leetcode.lua       # LeetCode plugin
+│       ├── tab-complete.lua   # Tab completion config
+│       ├── snacks-config.lua  # Snacks.nvim config
+│       ├── vimbegood.lua      # Vim practice game
+│       └── mason-workaround.lua # Mason version locks
+```
+
+## How It Works
+
+### 1. Entry Point
+
+The `init.lua` file is the entry point that bootstraps the entire configuration:
+
+```lua
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
+```
+
+### 2. Plugin Manager Setup
+
+The `lua/config/lazy.lua` file sets up lazy.nvim and configures the plugin loading system:
+
+- Automatically clones lazy.nvim if not present
+- Loads LazyVim as the base distribution
+- Imports all plugin specifications from the `lua/plugins/` directory
+- Configures performance optimizations
+- Enables automatic plugin update checking
+
+### 3. Configuration Files
+
+The `lua/config/` directory contains core Neovim settings:
+
+- **options.lua**: Neovim options and global settings
+- **keymaps.lua**: Custom keyboard shortcuts
+- **autocmds.lua**: Automatic commands and event handlers
+
+### 4. Plugin Specifications
+
+Each file in `lua/plugins/` defines one or more plugins with their configurations. LazyVim automatically loads all files in this directory.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Multiple Colorschemes" icon="palette" href="/nvim/colorschemes">
+    Seven beautiful themes including Kanagawa, Gruvbox, Rose Pine, and more
+  </Card>
+  <Card title="Custom Plugins" icon="plug" href="/nvim/plugins">
+    Obsidian integration, LeetCode support, and enhanced completion
+  </Card>
+  <Card title="Sensible Options" icon="gear" href="/nvim/options">
+    Optimized settings for productivity and comfort
+  </Card>
+  <Card title="LazyVim Defaults" icon="keyboard" href="/nvim/keymaps">
+    Comprehensive keybindings with LazyVim's powerful defaults
+  </Card>
+</CardGroup>
+
+## LazyVim Benefits
+
+Building on LazyVim provides several advantages:
+
+- **Pre-configured**: Sensible defaults for LSP, treesitter, completion, and more
+- **Lazy Loading**: Fast startup times with intelligent plugin loading
+- **Extensible**: Easy to add or override any configuration
+- **Well-documented**: Comprehensive documentation at [lazyvim.org](https://lazyvim.org)
+- **Active Development**: Regular updates and improvements
+- **Plugin Ecosystem**: Access to LazyVim extras for common use cases
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Explore Plugins" icon="puzzle-piece" href="/nvim/plugins">
+    See all installed plugins and their configurations
+  </Card>
+  <Card title="View Colorschemes" icon="paintbrush" href="/nvim/colorschemes">
+    Browse available themes and how to switch between them
+  </Card>
+  <Card title="Check Options" icon="sliders" href="/nvim/options">
+    Review custom Neovim settings and options
+  </Card>
+  <Card title="Learn Keymaps" icon="keyboard" href="/nvim/keymaps">
+    Discover keyboard shortcuts and bindings
+  </Card>
+</CardGroup>

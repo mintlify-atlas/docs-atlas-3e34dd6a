@@ -1,0 +1,257 @@
+---
+title: "Themes"
+description: "Alacritty color schemes"
+---
+
+## Theme System
+
+Alacritty supports color scheme customization through theme files. This configuration uses the [alacritty-theme](https://github.com/alacritty/alacritty-theme) repository, which provides a curated collection of over 200 color schemes.
+
+## Current Theme: Coolnight
+
+This configuration uses the **coolnight** theme, a dark color scheme with vibrant accents inspired by the Aura theme.
+
+```toml alacritty.toml
+general.import = [
+    "~/.config/alacritty/themes/themes/coolnight.toml"
+]
+```
+
+### Coolnight Color Palette
+
+Here's the complete coolnight theme configuration:
+
+```toml coolnight.toml
+# By Josean Martinez
+# Inspired by aura.toml
+
+# Default colors
+[colors.primary]
+background = '#011423'
+foreground = '#CBE0F0'
+
+# Colors the cursor will use if `custom_cursor_colors` is true
+[colors.cursor]
+text = "#011423"
+cursor = "#47FF9C"
+
+[colors.normal]
+black = "#214969"
+red = "#E52E2E"
+green = "#44FFB1"
+yellow = "#FFE073"
+blue = "#0FC5ED"
+magenta = "#a277ff"
+cyan = "#24EAF7"
+white = "#24EAF7"
+
+[colors.bright]
+black = "#214969"
+red = "#E52E2E"
+green = "#44FFB1"
+yellow = "#FFE073"
+blue = "#A277FF"
+magenta = "#a277ff"
+cyan = "#24EAF7"
+white = "#24EAF7"
+```
+
+#### Color Breakdown
+
+- **Background**: Deep blue-black (`#011423`) for reduced eye strain
+- **Foreground**: Light blue-white (`#CBE0F0`) for excellent readability
+- **Cursor**: Bright green (`#47FF9C`) for high visibility
+- **Accent colors**: Vibrant blues, purples, and greens for syntax highlighting
+
+## Installing Theme Repository
+
+To access the full collection of themes:
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    mkdir -p ~/.config/alacritty/themes
+    git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+    ```
+  </Step>
+  <Step title="Verify installation">
+    Check that themes are available:
+    ```bash
+    ls ~/.config/alacritty/themes/themes/
+    ```
+  </Step>
+  <Step title="Import a theme">
+    Add the import directive to your `alacritty.toml`:
+    ```toml
+    general.import = [
+        "~/.config/alacritty/themes/themes/{theme-name}.toml"
+    ]
+    ```
+  </Step>
+</Steps>
+
+## Changing Themes
+
+To switch to a different theme:
+
+<Steps>
+  <Step title="Browse available themes">
+    View all available themes in the repository:
+    ```bash
+    ls ~/.config/alacritty/themes/themes/
+    ```
+    
+    Or browse the [theme gallery](https://github.com/alacritty/alacritty-theme#color-schemes) with screenshots.
+  </Step>
+  <Step title="Update configuration">
+    Edit `~/.config/alacritty/alacritty.toml` and change the import path:
+    ```toml
+    general.import = [
+        "~/.config/alacritty/themes/themes/dracula.toml"
+    ]
+    ```
+  </Step>
+  <Step title="Verify changes">
+    Alacritty automatically reloads the configuration. The new theme should apply immediately.
+  </Step>
+</Steps>
+
+<Note>
+You can import multiple theme files or configuration files using the `general.import` array. Later imports override earlier ones.
+</Note>
+
+## Popular Theme Examples
+
+Here are some popular themes from the repository:
+
+### Dark Themes
+
+<CodeGroup>
+```toml Tokyo Night
+general.import = [
+    "~/.config/alacritty/themes/themes/tokyo_night.toml"
+]
+```
+
+```toml Dracula
+general.import = [
+    "~/.config/alacritty/themes/themes/dracula.toml"
+]
+```
+
+```toml Nord
+general.import = [
+    "~/.config/alacritty/themes/themes/nord.toml"
+]
+```
+
+```toml Catppuccin Mocha
+general.import = [
+    "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
+]
+```
+</CodeGroup>
+
+### Light Themes
+
+<CodeGroup>
+```toml Solarized Light
+general.import = [
+    "~/.config/alacritty/themes/themes/solarized_light.toml"
+]
+```
+
+```toml GitHub Light
+general.import = [
+    "~/.config/alacritty/themes/themes/github_light.toml"
+]
+```
+
+```toml Papercolor Light
+general.import = [
+    "~/.config/alacritty/themes/themes/papercolor_light.toml"
+]
+```
+</CodeGroup>
+
+## Creating Custom Themes
+
+To create your own theme:
+
+<Steps>
+  <Step title="Create theme file">
+    Create a new TOML file in `~/.config/alacritty/themes/` (or any location):
+    ```bash
+    touch ~/.config/alacritty/mytheme.toml
+    ```
+  </Step>
+  <Step title="Define colors">
+    Add color definitions using the structure:
+    ```toml
+    [colors.primary]
+    background = '#000000'
+    foreground = '#ffffff'
+    
+    [colors.cursor]
+    text = '#000000'
+    cursor = '#ffffff'
+    
+    [colors.normal]
+    black = '#000000'
+    red = '#ff0000'
+    green = '#00ff00'
+    yellow = '#ffff00'
+    blue = '#0000ff'
+    magenta = '#ff00ff'
+    cyan = '#00ffff'
+    white = '#ffffff'
+    
+    [colors.bright]
+    black = '#666666'
+    red = '#ff6666'
+    green = '#66ff66'
+    yellow = '#ffff66'
+    blue = '#6666ff'
+    magenta = '#ff66ff'
+    cyan = '#66ffff'
+    white = '#ffffff'
+    ```
+  </Step>
+  <Step title="Import custom theme">
+    Reference your theme in `alacritty.toml`:
+    ```toml
+    general.import = [
+        "~/.config/alacritty/mytheme.toml"
+    ]
+    ```
+  </Step>
+</Steps>
+
+<Note>
+All colors should be specified in hexadecimal format (`#RRGGBB`). The `colors.primary`, `colors.cursor`, `colors.normal`, and `colors.bright` sections are required for a complete theme.
+</Note>
+
+## Theme Repository Structure
+
+The alacritty-theme repository is organized as:
+
+```
+~/.config/alacritty/themes/
+├── themes/
+│   ├── coolnight.toml
+│   ├── dracula.toml
+│   ├── nord.toml
+│   └── ... (200+ themes)
+├── images/
+│   └── ... (theme screenshots)
+└── README.md
+```
+
+All theme files are located in the `themes/` subdirectory, which is why the import path includes `themes/themes/`.
+
+## Additional Resources
+
+- [Alacritty Theme Repository](https://github.com/alacritty/alacritty-theme)
+- [Theme Gallery with Screenshots](https://github.com/alacritty/alacritty-theme#color-schemes)
+- [Color Scheme Generator](https://terminal.sexy/)
+- [Contributing Your Theme](https://github.com/alacritty/alacritty-theme#contributing)

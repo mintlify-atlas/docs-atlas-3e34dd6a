@@ -1,12 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "Desktop Configs",
+  "name": "Desktop Development Configs",
   "theme": "aspen",
   "colors": {
     "primary": "#7aa2f7",
-    "light": "#b4f9f8",
-    "dark": "#1a1b26"
+    "light": "#89b4fa",
+    "dark": "#3b4261"
   },
+  "favicon": "/favicon.svg",
   "navbar": {
     "primary": {
       "type": "github",
@@ -19,58 +20,47 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Overview",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "installation"
-            ]
-          }
+        "group": "Getting Started",
+        "pages": [
+          "introduction",
+          "installation",
+          "requirements"
         ]
       },
       {
-        "tab": "Configurations",
-        "groups": [
-          {
-            "group": "Neovim",
-            "pages": [
-              "neovim/overview",
-              "neovim/plugins",
-              "neovim/keymaps",
-              "neovim/options"
-            ]
-          },
-          {
-            "group": "Terminal",
-            "pages": [
-              "terminal/alacritty",
-              "terminal/tmux"
-            ]
-          },
-          {
-            "group": "Window Manager",
-            "pages": [
-              "aerospace/overview",
-              "aerospace/keybindings"
-            ]
-          }
+        "group": "Neovim Configuration",
+        "pages": [
+          "nvim/overview",
+          "nvim/plugins",
+          "nvim/keymaps",
+          "nvim/options",
+          "nvim/colorschemes"
         ]
       },
       {
-        "tab": "Customization",
-        "groups": [
-          {
-            "group": "Guides",
-            "pages": [
-              "guides/theming",
-              "guides/adding-plugins",
-              "guides/key-bindings"
-            ]
-          }
+        "group": "Terminal Setup",
+        "pages": [
+          "alacritty/overview",
+          "alacritty/configuration",
+          "alacritty/themes"
+        ]
+      },
+      {
+        "group": "Tmux Configuration",
+        "pages": [
+          "tmux/overview",
+          "tmux/keybindings",
+          "tmux/plugins"
+        ]
+      },
+      {
+        "group": "AeroSpace Configuration",
+        "pages": [
+          "aerospace/overview",
+          "aerospace/keybindings",
+          "aerospace/workspaces"
         ]
       }
     ]

@@ -1,394 +1,262 @@
 ---
-title: 'Keybindings'
-description: 'Complete reference for all Aerospace window manager keyboard shortcuts'
-icon: 'keyboard'
+title: "Keybindings"
+description: "AeroSpace keyboard shortcuts"
 ---
 
-## Keybinding Overview
+## Binding Modes
 
-All Aerospace keybindings use the `Alt` (Option) key as the primary modifier, with `Shift` for secondary actions. This configuration follows Vim-style navigation principles with `h`, `j`, `k`, `l` for directional movement.
+AeroSpace uses a modal system with two primary modes:
 
-<Note>
-  On macOS, the `Alt` key is also known as the `Option` (⌥) key.
-</Note>
+- **Main Mode**: The default mode for everyday window management
+- **Service Mode**: Advanced operations like layout changes and window joining
 
-## Layout Management
-
-Control how windows are arranged on your screen.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + /` | `layout tiles horizontal vertical` | Toggle between horizontal and vertical tiles layout |
-| `Alt + ,` | `layout accordion horizontal vertical` | Toggle between horizontal and vertical accordion layout |
-
-<Accordion title="Understanding Layouts">
-  **Tiles Layout**: Windows are arranged in a clean grid without gaps, maximizing screen space.
-  
-  **Accordion Layout**: Windows are arranged with padding (30px by default) between them for better visual separation.
-  
-  Each layout can be either horizontal or vertical, and pressing the keybinding cycles through orientations.
-</Accordion>
-
-## Window Navigation
-
-Move focus between windows using Vim-style directional keys.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + h` | `focus left` | Focus the window to the left |
-| `Alt + j` | `focus down` | Focus the window below |
-| `Alt + k` | `focus up` | Focus the window above |
-| `Alt + l` | `focus right` | Focus the window to the right |
-
-<Note>
-  These keybindings mirror Vim's navigation keys: `h` (left), `j` (down), `k` (up), `l` (right).
-</Note>
-
-## Window Movement
-
-Move windows to different positions in the layout.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + Shift + h` | `move left` | Move current window to the left |
-| `Alt + Shift + j` | `move down` | Move current window down |
-| `Alt + Shift + k` | `move up` | Move current window up |
-| `Alt + Shift + l` | `move right` | Move current window to the right |
-
-## Window Resizing
-
-Adjust window sizes dynamically.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + Shift + -` | `resize smart -50` | Decrease window size by 50px |
-| `Alt + Shift + =` | `resize smart +50` | Increase window size by 50px |
-
-<Accordion title="Smart Resizing">
-  The `resize smart` command automatically determines the best direction to resize based on the current layout orientation:
-  - In horizontal layouts, it adjusts width
-  - In vertical layouts, it adjusts height
-</Accordion>
-
-## Workspace Switching
-
-### Numbered Workspaces (1-9)
-
-Quickly switch between numbered workspaces.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + 1` | `workspace 1` | Switch to workspace 1 |
-| `Alt + 2` | `workspace 2` | Switch to workspace 2 |
-| `Alt + 3` | `workspace 3` | Switch to workspace 3 |
-| `Alt + 4` | `workspace 4` | Switch to workspace 4 |
-| `Alt + 5` | `workspace 5` | Switch to workspace 5 |
-| `Alt + 6` | `workspace 6` | Switch to workspace 6 |
-| `Alt + 7` | `workspace 7` | Switch to workspace 7 |
-| `Alt + 8` | `workspace 8` | Switch to workspace 8 |
-| `Alt + 9` | `workspace 9` | Switch to workspace 9 |
-
-### Letter Workspaces (A-Z)
-
-26 additional workspaces for organizing applications.
+You can switch to service mode with `Alt+Shift+;` and return to main mode with `Esc` or after executing most service mode commands.
 
 <Tabs>
-  <Tab title="A-M">
-    | Keybinding | Workspace |
-    |------------|----------|
-    | `Alt + a` | Workspace A |
-    | `Alt + b` | Workspace B |
-    | `Alt + c` | Workspace C |
-    | `Alt + d` | Workspace D |
-    | `Alt + e` | Workspace E |
-    | `Alt + f` | Workspace F |
-    | `Alt + g` | Workspace G |
-    | `Alt + i` | Workspace I |
-    | `Alt + m` | Workspace M |
+  <Tab title="Main Mode">
+    ## Focus Navigation
+
+    Navigate between windows using Vim-style keybindings:
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+H` | `focus left` | Move focus to the left window |
+    | `Alt+J` | `focus down` | Move focus to the window below |
+    | `Alt+K` | `focus up` | Move focus to the window above |
+    | `Alt+L` | `focus right` | Move focus to the right window |
+
+    ```toml
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+    ```
+
+    ## Window Movement
+
+    Move windows in the tiling layout:
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+H` | `move left` | Move window to the left |
+    | `Alt+Shift+J` | `move down` | Move window down |
+    | `Alt+Shift+K` | `move up` | Move window up |
+    | `Alt+Shift+L` | `move right` | Move window to the right |
+
+    ```toml
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+    ```
+
+    ## Window Resizing
+
+    Resize windows intelligently based on layout:
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+-` | `resize smart -50` | Shrink window by 50 pixels |
+    | `Alt+Shift+=` | `resize smart +50` | Grow window by 50 pixels |
+
+    ```toml
+    alt-shift-minus = 'resize smart -50'
+    alt-shift-equal = 'resize smart +50'
+    ```
+
+    ## Layout Switching
+
+    Toggle between different layout modes:
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+/` | `layout tiles horizontal vertical` | Toggle tiles layout orientation |
+    | `Alt+,` | `layout accordion horizontal vertical` | Toggle accordion layout orientation |
+
+    ```toml
+    alt-slash = 'layout tiles horizontal vertical'
+    alt-comma = 'layout accordion horizontal vertical'
+    ```
+
+    ## Workspace Navigation
+
+    ### Numbered Workspaces
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+1` to `Alt+9` | `workspace 1-9` | Switch to workspace 1-9 |
+
+    ```toml
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    # ... through alt-9
+    ```
+
+    ### Lettered Workspaces
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+A` | `workspace A` | Switch to workspace A |
+    | `Alt+B` | `workspace B` | Switch to workspace B |
+    | `Alt+C` | `workspace C` | Switch to workspace C |
+    | `Alt+D` | `workspace D` | Switch to workspace D |
+    | `Alt+E` | `workspace E` | Switch to workspace E |
+    | `Alt+F` | `workspace F` | Switch to workspace F |
+    | `Alt+G` | `workspace G` | Switch to workspace G |
+    | `Alt+I` | `workspace I` | Switch to workspace I |
+    | `Alt+M` | `workspace M` | Switch to workspace M |
+    | `Alt+N` | `workspace N` | Switch to workspace N |
+    | `Alt+O` | `workspace O` | Switch to workspace O |
+    | `Alt+P` | `workspace P` | Switch to workspace P |
+    | `Alt+Q` | `workspace Q` | Switch to workspace Q |
+    | `Alt+R` | `workspace R` | Switch to workspace R |
+    | `Alt+S` | `workspace S` | Switch to workspace S |
+    | `Alt+T` | `workspace T` | Switch to workspace T |
+    | `Alt+U` | `workspace U` | Switch to workspace U |
+    | `Alt+V` | `workspace V` | Switch to workspace V |
+    | `Alt+W` | `workspace W` | Switch to workspace W |
+    | `Alt+X` | `workspace X` | Switch to workspace X |
+    | `Alt+Y` | `workspace Y` | Switch to workspace Y |
+    | `Alt+Z` | `workspace Z` | Switch to workspace Z |
+
+    <Note>
+    Letters H, K, L are not bound as workspace shortcuts because they conflict with focus navigation keybindings.
+    </Note>
+
+    ## Move Window to Workspace
+
+    ### Move to Numbered Workspaces
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+1` to `Alt+Shift+9` | `move-node-to-workspace 1-9` | Move current window to workspace 1-9 |
+
+    ```toml
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    # ... through alt-shift-9
+    ```
+
+    ### Move to Lettered Workspaces
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+A` | `move-node-to-workspace A` | Move window to workspace A |
+    | `Alt+Shift+B` through `Alt+Shift+Z` | `move-node-to-workspace B-Z` | Move window to respective workspace |
+
+    <Tip>
+    After moving a window to a workspace, you'll stay in the current workspace. Use the workspace navigation shortcuts to follow the window if needed.
+    </Tip>
+
+    ## Special Workspace Commands
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Tab` | `workspace-back-and-forth` | Toggle between current and previous workspace |
+    | `Alt+Shift+Tab` | `move-workspace-to-monitor --wrap-around next` | Move current workspace to next monitor |
+
+    ```toml
+    alt-tab = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+    ```
+
+    ## Enter Service Mode
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+;` | `mode service` | Enter service mode for advanced operations |
+
+    ```toml
+    alt-shift-semicolon = 'mode service'
+    ```
   </Tab>
-  
-  <Tab title="N-Z">
-    | Keybinding | Workspace |
-    |------------|----------|
-    | `Alt + n` | Workspace N |
-    | `Alt + o` | Workspace O |
-    | `Alt + p` | Workspace P |
-    | `Alt + q` | Workspace Q |
-    | `Alt + r` | Workspace R |
-    | `Alt + s` | Workspace S |
-    | `Alt + t` | Workspace T |
-    | `Alt + u` | Workspace U |
-    | `Alt + v` | Workspace V |
-    | `Alt + w` | Workspace W |
-    | `Alt + x` | Workspace X |
-    | `Alt + y` | Workspace Y |
-    | `Alt + z` | Workspace Z |
+
+  <Tab title="Service Mode">
+    ## Entering Service Mode
+
+    Press `Alt+Shift+;` from main mode to enter service mode.
+
+    ## Service Mode Commands
+
+    Service mode provides advanced window management operations. Most commands automatically return you to main mode after execution.
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Esc` | `reload-config`, `mode main` | Reload configuration and return to main mode |
+    | `R` | `flatten-workspace-tree`, `mode main` | Reset layout by flattening workspace tree |
+    | `F` | `layout floating tiling`, `mode main` | Toggle between floating and tiling layout |
+    | `Backspace` | `close-all-windows-but-current`, `mode main` | Close all windows except the focused one |
+
+    ```toml
+    [mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main']
+    f = ['layout floating tiling', 'mode main']
+    backspace = ['close-all-windows-but-current', 'mode main']
+    ```
+
+    ## Window Joining
+
+    Join the current window with another window in a specific direction, creating a tabbed container:
+
+    | Keybinding | Command | Description |
+    |------------|---------|-------------|
+    | `Alt+Shift+H` | `join-with left`, `mode main` | Join with window on the left |
+    | `Alt+Shift+J` | `join-with down`, `mode main` | Join with window below |
+    | `Alt+Shift+K` | `join-with up`, `mode main` | Join with window above |
+    | `Alt+Shift+L` | `join-with right`, `mode main` | Join with window on the right |
+
+    ```toml
+    alt-shift-h = ['join-with left', 'mode main']
+    alt-shift-j = ['join-with down', 'mode main']
+    alt-shift-k = ['join-with up', 'mode main']
+    alt-shift-l = ['join-with right', 'mode main']
+    ```
+
+    <Note>
+    In service mode, the same Alt+Shift+H/J/K/L keybindings perform different actions (joining windows) compared to main mode (moving windows).
+    </Note>
+
+    ## Common Service Mode Workflows
+
+    ### Reset Layout
+    1. Press `Alt+Shift+;` to enter service mode
+    2. Press `R` to flatten the workspace tree and reset layout
+    3. Automatically returns to main mode
+
+    ### Toggle Floating Window
+    1. Press `Alt+Shift+;` to enter service mode
+    2. Press `F` to toggle floating mode for current window
+    3. Automatically returns to main mode
+
+    ### Reload Configuration
+    1. Press `Alt+Shift+;` to enter service mode
+    2. Press `Esc` to reload config and return to main mode
+
+    <Tip>
+    Service mode is perfect for operations you don't perform frequently but need quick access to when required.
+    </Tip>
   </Tab>
 </Tabs>
 
-<Note>
-  Letter keys `h`, `j`, `k`, and `l` are reserved for window navigation, so workspaces H, J, K, and L are not available.
-</Note>
+## Keyboard Layout
 
-### Workspace Navigation
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + Tab` | `workspace-back-and-forth` | Toggle between current and previous workspace |
-| `Alt + Shift + Tab` | `move-workspace-to-monitor --wrap-around next` | Move entire workspace to next monitor |
-
-## Moving Windows to Workspaces
-
-### Move to Numbered Workspaces
-
-Move the current window to a numbered workspace.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + Shift + 1` | `move-node-to-workspace 1` | Move window to workspace 1 |
-| `Alt + Shift + 2` | `move-node-to-workspace 2` | Move window to workspace 2 |
-| `Alt + Shift + 3` | `move-node-to-workspace 3` | Move window to workspace 3 |
-| `Alt + Shift + 4` | `move-node-to-workspace 4` | Move window to workspace 4 |
-| `Alt + Shift + 5` | `move-node-to-workspace 5` | Move window to workspace 5 |
-| `Alt + Shift + 6` | `move-node-to-workspace 6` | Move window to workspace 6 |
-| `Alt + Shift + 7` | `move-node-to-workspace 7` | Move window to workspace 7 |
-| `Alt + Shift + 8` | `move-node-to-workspace 8` | Move window to workspace 8 |
-| `Alt + Shift + 9` | `move-node-to-workspace 9` | Move window to workspace 9 |
-
-### Move to Letter Workspaces
-
-Move the current window to a letter workspace.
-
-<Tabs>
-  <Tab title="A-M">
-    | Keybinding | Command | Destination |
-    |------------|---------|-------------|
-    | `Alt + Shift + a` | `move-node-to-workspace A` | Workspace A |
-    | `Alt + Shift + b` | `move-node-to-workspace B` | Workspace B |
-    | `Alt + Shift + c` | `move-node-to-workspace C` | Workspace C |
-    | `Alt + Shift + d` | `move-node-to-workspace D` | Workspace D |
-    | `Alt + Shift + e` | `move-node-to-workspace E` | Workspace E |
-    | `Alt + Shift + f` | `move-node-to-workspace F` | Workspace F |
-    | `Alt + Shift + g` | `move-node-to-workspace G` | Workspace G |
-    | `Alt + Shift + i` | `move-node-to-workspace I` | Workspace I |
-    | `Alt + Shift + m` | `move-node-to-workspace M` | Workspace M |
-  </Tab>
-  
-  <Tab title="N-Z">
-    | Keybinding | Command | Destination |
-    |------------|---------|-------------|
-    | `Alt + Shift + n` | `move-node-to-workspace N` | Workspace N |
-    | `Alt + Shift + o` | `move-node-to-workspace O` | Workspace O |
-    | `Alt + Shift + p` | `move-node-to-workspace P` | Workspace P |
-    | `Alt + Shift + q` | `move-node-to-workspace Q` | Workspace Q |
-    | `Alt + Shift + r` | `move-node-to-workspace R` | Workspace R |
-    | `Alt + Shift + s` | `move-node-to-workspace S` | Workspace S |
-    | `Alt + Shift + t` | `move-node-to-workspace T` | Workspace T |
-    | `Alt + Shift + u` | `move-node-to-workspace U` | Workspace U |
-    | `Alt + Shift + v` | `move-node-to-workspace V` | Workspace V |
-    | `Alt + Shift + w` | `move-node-to-workspace W` | Workspace W |
-    | `Alt + Shift + x` | `move-node-to-workspace X` | Workspace X |
-    | `Alt + Shift + y` | `move-node-to-workspace Y` | Workspace Y |
-    | `Alt + Shift + z` | `move-node-to-workspace Z` | Workspace Z |
-  </Tab>
-</Tabs>
-
-## Service Mode
-
-Enter service mode with `Alt + Shift + ;` for advanced window management operations.
-
-<Warning>
-  Service mode contains powerful commands. Always ensure you understand what a command does before using it.
-</Warning>
-
-### Service Mode Keybindings
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Esc` | `reload-config`, `mode main` | Reload Aerospace configuration and return to main mode |
-| `r` | `flatten-workspace-tree`, `mode main` | Reset layout by flattening workspace tree |
-| `f` | `layout floating tiling`, `mode main` | Toggle between floating and tiling layout |
-| `Backspace` | `close-all-windows-but-current`, `mode main` | Close all windows except the current one |
-
-### Service Mode - Window Joining
-
-Join windows together in the same container.
-
-| Keybinding | Command | Description |
-|------------|---------|-------------|
-| `Alt + Shift + h` | `join-with left`, `mode main` | Join current window with window to the left |
-| `Alt + Shift + j` | `join-with down`, `mode main` | Join current window with window below |
-| `Alt + Shift + k` | `join-with up`, `mode main` | Join current window with window above |
-| `Alt + Shift + l` | `join-with right`, `mode main` | Join current window with window to the right |
-
-<Accordion title="Understanding Window Joining">
-  Window joining combines two windows into a shared container, allowing them to be managed as a unit. This is useful for:
-  - Grouping related windows
-  - Creating custom split layouts
-  - Managing window relationships
-  
-  After joining, both windows will move together when you rearrange the layout.
-</Accordion>
-
-## Workflow Examples
-
-### Example 1: Organizing a Development Workspace
-
-```bash
-# Switch to workspace 1 for coding
-Alt + 1
-
-# Open your editor and terminal
-# Focus between them
-Alt + h    # Focus left (editor)
-Alt + l    # Focus right (terminal)
-
-# Resize terminal to be smaller
-Alt + Shift + -    # Make it narrower
-```
-
-### Example 2: Moving Windows Between Workspaces
-
-```bash
-# You're on workspace 1 with a browser window
-# Move it to workspace 2
-Alt + Shift + 2
-
-# Follow it to workspace 2
-Alt + 2
-
-# Go back to workspace 1
-Alt + Tab
-```
-
-### Example 3: Cleaning Up a Messy Workspace
-
-```bash
-# Enter service mode
-Alt + Shift + ;
-
-# Reset the layout
-r
-
-# This flattens the workspace tree and returns to main mode
-```
-
-### Example 4: Working with Multiple Monitors
-
-```bash
-# You have workspace 1 on monitor A
-# Move the entire workspace to monitor B
-Alt + Shift + Tab
-
-# The workspace and all its windows move to the next monitor
-```
-
-## Customizing Keybindings
-
-### Modifying Existing Bindings
-
-Edit `~/.aerospace.toml` to change keybindings:
+The configuration uses QWERTY keyboard layout by default:
 
 ```toml
-[mode.main.binding]
-# Change focus keybindings to arrow keys
-alt-left = 'focus left'
-alt-down = 'focus down'
-alt-up = 'focus up'
-alt-right = 'focus right'
+key-mapping.preset = 'qwerty'
 ```
 
-### Adding New Bindings
-
-```toml
-[mode.main.binding]
-# Add a terminal launcher
-alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
-
-# Add a browser launcher
-alt-shift-b = 'exec-and-forget open -a "Google Chrome"
-```
-
-### Removing Unused Workspaces
-
-```toml
-[mode.main.binding]
-# Only keep numbered workspaces and a few letters
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-b = 'workspace B'  # Browser
-alt-m = 'workspace M'  # Mail
-alt-s = 'workspace S'  # Slack
-
-# Remove all other workspace bindings
-```
+If you use Dvorak, change this to `'dvorak'` in your configuration.
 
 ## Available Modifiers
 
-All keybindings support these modifiers:
-
-- `cmd` - Command (⌘) key
-- `alt` - Option (⌥) key
+AeroSpace supports the following modifier keys:
+- `cmd` - Command key
+- `alt` - Option/Alt key (primary modifier used in this config)
 - `ctrl` - Control key
 - `shift` - Shift key
 
-Modifiers can be combined:
+## Learn More
 
-```toml
-# Example combinations
-cmd-alt-shift-f = 'some-command'
-ctrl-shift-h = 'some-command'
-```
-
-## Special Keys Reference
-
-### Letters and Numbers
-- Letters: `a`, `b`, `c`, ..., `z`
-- Numbers: `0`, `1`, `2`, ..., `9`
-- Keypad: `keypad0`, `keypad1`, ..., `keypad9`
-
-### Function Keys
-- `f1`, `f2`, `f3`, ..., `f20`
-
-### Special Characters
-- `minus`, `equal`, `period`, `comma`, `slash`, `backslash`
-- `quote`, `semicolon`, `backtick`
-- `leftSquareBracket`, `rightSquareBracket`
-- `space`, `enter`, `esc`, `backspace`, `tab`
-
-### Keypad Special
-- `keypadClear`, `keypadDecimalMark`, `keypadDivide`
-- `keypadEnter`, `keypadEqual`, `keypadMinus`
-- `keypadMultiply`, `keypadPlus`
-
-### Arrows
-- `left`, `down`, `up`, `right`
-
-## Tips for Learning Keybindings
-
-<Accordion title="Memory Aids">
-  **Vim navigation**: `h` (left), `j` (down), `k` (up), `l` (right)
-  
-  **Pattern**: Basic action = `Alt + key`, Advanced action = `Alt + Shift + key`
-  
-  **Numbers for workspaces**: `Alt + number` to switch, `Alt + Shift + number` to move window
-  
-  **Service mode**: Think of `;` (semicolon) as a "command mode" trigger, similar to Vim
-</Accordion>
-
-## Related Documentation
-
-<CardGroup cols={2}>
-  <Card title="Aerospace Overview" icon="window" href="/aerospace/overview">
-    Learn about Aerospace configuration and features
-  </Card>
-  <Card title="Key Bindings Guide" icon="book" href="/guides/key-bindings">
-    General guide to customizing keybindings
-  </Card>
-</CardGroup>
-
-## External Resources
-
-- [Official Aerospace Commands Documentation](https://nikitabobko.github.io/AeroSpace/commands)
-- [Aerospace Binding Modes Guide](https://nikitabobko.github.io/AeroSpace/guide#binding-modes)
+For a complete list of available commands and keybinding options, visit the [official AeroSpace commands documentation](https://nikitabobko.github.io/AeroSpace/commands).

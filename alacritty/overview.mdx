@@ -1,0 +1,52 @@
+---
+title: "Alacritty Overview"
+description: "Fast, GPU-accelerated terminal emulator"
+---
+
+## What is Alacritty?
+
+Alacritty is a modern, GPU-accelerated terminal emulator written in Rust. It's designed to be the fastest terminal emulator available, leveraging the GPU for rendering to provide a smooth and responsive experience.
+
+## Why Alacritty?
+
+### Performance
+Alacritty uses OpenGL for rendering, making it significantly faster than traditional CPU-based terminal emulators. This results in smooth scrolling, quick text rendering, and minimal input latency.
+
+### Simplicity
+Unlike some terminal emulators, Alacritty doesn't include built-in tabs, splits, or session management. Instead, it focuses on being a fast, reliable terminal that works well with terminal multiplexers like tmux or window managers.
+
+### Configuration
+Alacritty is configured through a single TOML file, making it easy to version control and share your configuration. The configuration format is straightforward and well-documented.
+
+### Cross-Platform
+Alacritty works consistently across macOS, Linux, and Windows, providing the same high-performance experience on all platforms.
+
+## Configuration Approach
+
+This dotfiles configuration customizes Alacritty with:
+
+- **Environment variables** for proper terminal compatibility
+- **Window settings** including padding, opacity, and blur effects
+- **Font configuration** using 0xProto Nerd Font Mono
+- **Theme system** with the coolnight color scheme
+
+<Note>
+Alacritty uses TOML format for configuration (not YAML) as of version 0.13+. This provides better type safety and more robust configuration parsing.
+</Note>
+
+## Learn More
+
+<CardGroup cols={2}>
+  <Card title="Configuration" icon="gear" href="/alacritty/configuration">
+    Explore all configuration options and settings
+  </Card>
+  <Card title="Themes" icon="palette" href="/alacritty/themes">
+    Learn about color schemes and customization
+  </Card>
+</CardGroup>
+
+## Official Resources
+
+- [Alacritty GitHub Repository](https://github.com/alacritty/alacritty)
+- [Official Documentation](https://alacritty.org/)
+- [Configuration Reference](https://github.com/alacritty/alacritty/blob/master/alacritty.toml)

@@ -1,0 +1,115 @@
+---
+title: "Plugins"
+description: "Tmux plugin manager and installed plugins"
+---
+
+## Tmux Plugin Manager (TPM)
+
+This configuration uses [TPM (Tmux Plugin Manager)](https://github.com/tmux-plugins/tpm) to manage tmux plugins. TPM provides a simple way to install, update, and remove plugins.
+
+```bash tmux.conf
+# Initialize TPM
+set -g @plugin 'tmux-plugins/tpm'
+
+# Run TPM
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+## Installed Plugins
+
+### Catppuccin Theme
+
+The [Catppuccin theme for Tmux](https://github.com/dreamsofcode-io/catppuccin-tmux) provides a beautiful, pastel color scheme for the tmux status bar.
+
+```bash tmux.conf
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+```
+
+This theme offers:
+- Clean, modern aesthetic
+- Excellent contrast and readability
+- Consistent colors across the Catppuccin ecosystem
+- Multiple palette variants (mocha, macchiato, frappe, latte)
+
+## Plugin Management
+
+### Installing Plugins
+
+<Steps>
+  <Step title="Add plugin to configuration">
+    Edit your `tmux.conf` and add the plugin:
+    ```bash
+    set -g @plugin 'username/plugin-name'
+    ```
+  </Step>
+  
+  <Step title="Reload tmux configuration">
+    Press `Prefix+:` (that's `C-Space` then `:`) and type:
+    ```
+    source-file ~/.tmux.conf
+    ```
+    Or restart tmux entirely.
+  </Step>
+  
+  <Step title="Install the plugin">
+    Press `Prefix+I` (capital I) to fetch and install the new plugin.
+    
+    TPM will clone the plugin repository and load it automatically.
+  </Step>
+</Steps>
+
+### Updating Plugins
+
+<Steps>
+  <Step title="Update all plugins">
+    Press `Prefix+U` (capital U) to update all installed plugins.
+  </Step>
+  
+  <Step title="Review updates">
+    TPM will show you which plugins were updated and any changes made.
+  </Step>
+</Steps>
+
+### Removing Plugins
+
+<Steps>
+  <Step title="Remove from configuration">
+    Delete or comment out the plugin line in `tmux.conf`:
+    ```bash
+    # set -g @plugin 'username/plugin-name'
+    ```
+  </Step>
+  
+  <Step title="Reload configuration">
+    Press `Prefix+:` and run:
+    ```
+    source-file ~/.tmux.conf
+    ```
+  </Step>
+  
+  <Step title="Uninstall the plugin">
+    Press `Prefix+Alt+u` (lowercase u) to remove plugins that are no longer in the configuration.
+  </Step>
+</Steps>
+
+## TPM Keybindings
+
+| Keybinding | Action |
+|------------|--------|
+| `Prefix+I` | Install new plugins |
+| `Prefix+U` | Update all plugins |
+| `Prefix+Alt+u` | Remove/uninstall plugins not in config |
+
+<Note>
+  Remember that `Prefix` is `C-Space` in this configuration, not the default `C-b`.
+</Note>
+
+## Manual TPM Installation
+
+If TPM is not yet installed, you can install it manually:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Then reload your tmux configuration or restart tmux.

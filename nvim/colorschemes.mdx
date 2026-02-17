@@ -1,0 +1,283 @@
+---
+title: "Colorschemes"
+description: "Available color themes"
+---
+
+## Overview
+
+This configuration includes seven beautiful colorschemes with OneDark set as the default. All themes are installed and ready to use.
+
+## Current Active Theme
+
+**OneDark** is set as the default colorscheme with a custom visual highlight configuration.
+
+## Configuration
+
+All colorschemes are configured in `lua/plugins/colorscheme.lua`:
+
+```lua
+return {
+  { "rebelot/kanagawa.nvim" },
+  { "NLKNguyen/papercolor-theme" },
+  { "ellisonleao/gruvbox.nvim" },
+  { "rose-pine/neovim" },
+  { "tiagovla/tokyodark.nvim" },
+  { "sainnhe/everforest" },
+  {
+    "navarasu/onedark.nvim",
+    opts = {
+      highlights = {
+        Visual = { bg = "#ffff00" },
+      },
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "onedark",
+    },
+  },
+}
+```
+
+## Available Colorschemes
+
+<Tabs>
+  <Tab title="OneDark (Default)">
+    
+**Plugin**: [navarasu/onedark.nvim](https://github.com/navarasu/onedark.nvim)
+
+**Description**: A clean, dark theme inspired by Atom's One Dark with excellent syntax highlighting.
+
+### Custom Configuration
+
+```lua
+{
+  "navarasu/onedark.nvim",
+  opts = {
+    highlights = {
+      Visual = { bg = "#ffff00" },
+    },
+  },
+}
+```
+
+The Visual highlight is customized to use a bright yellow background (`#ffff00`) for maximum visibility when selecting text.
+
+### Features
+- Modern, clean aesthetic
+- Excellent contrast
+- Wide language support
+- Custom yellow visual selection
+
+</Tab>
+  
+  <Tab title="Kanagawa">
+    
+**Plugin**: [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
+
+**Description**: A dark theme inspired by the famous painting "The Great Wave off Kanagawa".
+
+### Features
+- Beautiful wave-inspired color palette
+- Excellent for long coding sessions
+- Multiple variants (wave, dragon, lotus)
+- Rich blues and purples
+
+### Activate
+```vim
+:colorscheme kanagawa
+```
+
+</Tab>
+  
+  <Tab title="PaperColor">
+    
+**Plugin**: [NLKNguyen/papercolor-theme](https://github.com/NLKNguyen/papercolor-theme)
+
+**Description**: A light/dark theme inspired by Google's Material Design.
+
+### Features
+- Available in light and dark variants
+- Crisp, paper-like aesthetic
+- Excellent readability
+- Optimized for 256-color terminals
+
+### Activate
+```vim
+:colorscheme PaperColor
+```
+
+Toggle between light and dark:
+```vim
+:set background=light
+:set background=dark
+```
+
+</Tab>
+  
+  <Tab title="Gruvbox">
+    
+**Plugin**: [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
+
+**Description**: A retro groove color scheme with warm, earthy tones.
+
+### Features
+- Warm, comfortable colors
+- Excellent contrast
+- Light and dark variants
+- Highly popular and widely supported
+
+### Activate
+```vim
+:colorscheme gruvbox
+```
+
+</Tab>
+  
+  <Tab title="Rose Pine">
+    
+**Plugin**: [rose-pine/neovim](https://github.com/rose-pine/neovim)
+
+**Description**: A natural pine, faux fur, and a bit of soho vibes for the classy minimalist.
+
+### Features
+- Three variants: main, moon, dawn
+- Low-contrast, easy on the eyes
+- Cohesive color palette
+- Minimal but elegant
+
+### Activate
+```vim
+:colorscheme rose-pine
+:colorscheme rose-pine-moon
+:colorscheme rose-pine-dawn
+```
+
+</Tab>
+  
+  <Tab title="TokyoDark">
+    
+**Plugin**: [tiagovla/tokyodark.nvim](https://github.com/tiagovla/tokyodark.nvim)
+
+**Description**: A clean, dark theme inspired by Tokyo at night.
+
+### Features
+- Dark purple and blue tones
+- Modern aesthetic
+- Excellent syntax highlighting
+- Comfortable for extended use
+
+### Activate
+```vim
+:colorscheme tokyodark
+```
+
+</Tab>
+  
+  <Tab title="Everforest">
+    
+**Plugin**: [sainnhe/everforest](https://github.com/sainnhe/everforest)
+
+**Description**: A comfortable green forest theme with excellent contrast.
+
+### Features
+- Three contrast levels (soft, medium, hard)
+- Light and dark variants
+- Green forest palette
+- Easy on the eyes
+- Material variants available
+
+### Activate
+```vim
+:colorscheme everforest
+```
+
+Set background and contrast:
+```vim
+:set background=dark
+:let g:everforest_background = 'soft'  " soft, medium, or hard
+```
+
+</Tab>
+</Tabs>
+
+## Switching Colorschemes
+
+### Temporarily (Current Session)
+
+Use the `:colorscheme` command:
+
+```vim
+:colorscheme kanagawa
+:colorscheme gruvbox
+:colorscheme rose-pine
+```
+
+Or use LazyVim's colorscheme picker:
+
+```
+<leader>uC
+```
+
+### Permanently (Save to Config)
+
+Edit `lua/plugins/colorscheme.lua` and change the colorscheme setting:
+
+```lua
+{
+  "LazyVim/LazyVim",
+  opts = {
+    colorscheme = "kanagawa",  -- Change to your preferred theme
+  },
+}
+```
+
+Restart Neovim or run `:LazyReload` to apply changes.
+
+## Visual Selection Highlight
+
+The configuration includes a custom visual selection highlight that applies globally:
+
+**In `lua/config/autocmds.lua`:**
+```lua
+vim.api.nvim_set_hl(0, "Visual", { bg = "#ffff00", fg = "#000000" })
+```
+
+**In `lua/plugins/colorscheme.lua` (OneDark specific):**
+```lua
+opts = {
+  highlights = {
+    Visual = { bg = "#ffff00" },
+  },
+}
+```
+
+This creates a bright yellow visual selection that overrides the theme's default visual highlight for maximum visibility.
+
+<Note>
+  The yellow visual selection is set in two places: globally in autocmds.lua and specifically for OneDark. You may want to adjust or remove this if you prefer theme-native visual highlights.
+</Note>
+
+## Adding More Colorschemes
+
+To add a new colorscheme:
+
+1. Add the plugin to `lua/plugins/colorscheme.lua`:
+
+```lua
+return {
+  -- ... existing colorschemes ...
+  { "username/new-colorscheme.nvim" },
+}
+```
+
+2. Restart Neovim or run `:Lazy sync`
+
+3. Activate with `:colorscheme new-colorscheme`
+
+## Popular Colorscheme Resources
+
+- [Awesome Neovim Colorschemes](https://github.com/rockerBOO/awesome-neovim#colorscheme)
+- [vimcolorschemes.com](https://vimcolorschemes.com/)
+- LazyVim's extras: `:LazyExtras` → Filter for "colorscheme"

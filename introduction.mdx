@@ -1,160 +1,111 @@
 ---
-title: "Desktop Configs"
-description: "A modern, powerful development environment configuration for macOS featuring Neovim, Tmux, Alacritty, and AeroSpace"
+title: "Introduction"
+description: "Modern development environment configuration for macOS"
 ---
 
-## Welcome to Desktop Configs
+## Welcome to Your Modern Development Environment
 
-A carefully curated collection of configuration files for creating a productive, beautiful, and efficient development environment. Built on LazyVim, this setup combines powerful terminal tools with a modern tiling window manager to maximize your workflow.
+This dotfiles repository provides a cohesive, keyboard-driven development environment for macOS. Built around the philosophy of efficiency and consistency, these configurations bring vi-mode navigation and unified aesthetics across your entire workflow.
 
-<Note>
-  This configuration is designed for macOS but can be adapted for Linux systems with minor modifications.
-</Note>
-
-## What's Included
-
-Explore each component of this configuration:
+## Core Components
 
 <CardGroup cols={2}>
-  <Card
-    title="Neovim Setup"
-    icon="code"
-    href="/neovim/overview"
-  >
-    LazyVim-based configuration with custom plugins, keymaps, and options optimized for modern development.
+  <Card title="Neovim" icon="code" href="#neovim">
+    LazyVim-based editor with extensive plugin support, LSP integration, and custom keybindings for modern development.
   </Card>
-  
-  <Card
-    title="Alacritty Terminal"
-    icon="terminal"
-    href="/terminal/alacritty"
-  >
-    GPU-accelerated terminal emulator with custom themes, opacity, and font configuration.
+  <Card title="Alacritty" icon="terminal" href="#alacritty">
+    GPU-accelerated terminal emulator with custom theming, 0xProto Nerd Font, and transparency effects.
   </Card>
-  
-  <Card
-    title="Tmux Configuration"
-    icon="window-restore"
-    href="/terminal/tmux"
-  >
-    Session management with Vim keybindings, custom prefix, and Catppuccin theme.
+  <Card title="Tmux" icon="window-maximize" href="#tmux">
+    Terminal multiplexer with vi-mode keybindings, Catppuccin theme, and Ctrl+Space prefix for seamless navigation.
   </Card>
-  
-  <Card
-    title="AeroSpace WM"
-    icon="table-layout"
-    href="/aerospace/overview"
-  >
-    Tiling window manager for macOS with intuitive keybindings and workspace management.
+  <Card title="AeroSpace" icon="grid" href="#aerospace">
+    Tiling window manager for macOS with i3-like keybindings, providing efficient workspace management.
   </Card>
 </CardGroup>
 
-## Key Features
+## What Makes This Special
 
-<Columns cols={2}>
-  <div>
-    ### Editor
-    
-    - **LazyVim** as the base configuration
-    - Multiple colorscheme options (OneDark, Kanagawa, Rose Pine, Gruvbox)
-    - Language support for Python, Go, TypeScript, C/C++, and more
-    - GitHub Copilot integration
-    - Custom plugins for Obsidian, LeetCode, and more
-  </div>
-  
-  <div>
-    ### Terminal & Window Management
-    
-    - **Alacritty** with 100+ theme options
-    - Custom blur and opacity effects
-    - **Tmux** with Vim-style navigation
-    - **AeroSpace** tiling window manager
-    - Seamless workspace switching
-  </div>
-</Columns>
+### Unified Vi-Mode Navigation
+Consistent keyboard-driven navigation across all tools. Whether you're in Neovim, Tmux copy mode, or managing windows with AeroSpace, the same muscle memory applies.
 
-## Quick Start
+### Beautiful Aesthetics
+- **Catppuccin Theme**: Used in Tmux for a cohesive color palette
+- **OneDark Colorscheme**: Primary Neovim theme with custom visual highlights
+- **CoolNight Theme**: Alacritty terminal theme
+- **0xProto Nerd Font Mono**: Professional monospace font with icon support
 
-Get up and running with your new development environment:
+### Modern Development Setup
+- **LazyVim**: Pre-configured Neovim distribution with sensible defaults
+- **LSP Support**: Full language server protocol integration
+- **Plugin Ecosystem**: Obsidian integration, LeetCode support, and more
+- **GPU Acceleration**: Alacritty provides blazing-fast terminal rendering
+- **True Color Support**: 256-color and RGB support across all terminals
 
-<Steps>
-  <Step title="Install Prerequisites">
-    Install Homebrew and required packages for your system.
-  </Step>
-  
-  <Step title="Clone Configuration">
-    Clone the config repository and symlink files to their proper locations.
-  </Step>
-  
-  <Step title="Launch Tools">
-    Open Neovim, Alacritty, and AeroSpace to complete the setup.
-  </Step>
-  
-  <Step title="Customize">
-    Adjust themes, keybindings, and plugins to match your preferences.
-  </Step>
-</Steps>
-
-<Card
-  title="Installation Guide"
-  icon="rocket"
-  href="/installation"
-  horizontal
->
-  Follow the detailed installation instructions to set up your environment.
-</Card>
-
-## Customization Guides
-
-Make this configuration truly yours:
-
-<CardGroup cols={3}>
-  <Card
-    title="Theming"
-    icon="palette"
-    href="/guides/theming"
-  >
-    Change colors and themes across all tools.
-  </Card>
-  
-  <Card
-    title="Adding Plugins"
-    icon="puzzle-piece"
-    href="/guides/adding-plugins"
-  >
-    Extend Neovim with additional plugins.
-  </Card>
-  
-  <Card
-    title="Key Bindings"
-    icon="keyboard"
-    href="/guides/key-bindings"
-  >
-    Customize keyboard shortcuts to your workflow.
-  </Card>
-</CardGroup>
+### Productivity Features
+- **Tiling Window Management**: AeroSpace brings i3-like window management to macOS
+- **Tmux Sessions**: Persistent terminal sessions with easy workspace switching
+- **Mouse Support**: Optional mouse integration in Tmux when needed
+- **Custom Keybindings**: Optimized shortcuts that don't conflict with system defaults
 
 ## Philosophy
 
 This configuration prioritizes:
+1. **Keyboard Efficiency**: Minimal reliance on mouse interaction
+2. **Consistency**: Similar keybindings and behavior across tools
+3. **Performance**: GPU acceleration and optimized settings
+4. **Extensibility**: Easy to customize and extend with your preferences
+5. **Modern Features**: Latest tools and best practices
 
-- **Simplicity**: Clean, minimal configuration that's easy to understand
-- **Performance**: Fast startup times and responsive editing
-- **Aesthetics**: Beautiful themes and consistent visual design
-- **Productivity**: Optimized keybindings and workflow automation
-- **Extensibility**: Easy to customize and extend with your own preferences
+## Quick Links
 
-<Tip>
-  All configuration files use modern formats: TOML for Alacritty and AeroSpace, Lua for Neovim.
-</Tip>
+<CardGroup cols={2}>
+  <Card title="Installation Guide" icon="download" href="/installation">
+    Get started with step-by-step setup instructions
+  </Card>
+  <Card title="Requirements" icon="list-check" href="/requirements">
+    Check system requirements and dependencies
+  </Card>
+  <Card title="Neovim Configuration" icon="code" href="/configurations/neovim">
+    Explore LazyVim setup, plugins, and keybindings
+  </Card>
+  <Card title="Terminal Setup" icon="terminal" href="/configurations/alacritty">
+    Configure Alacritty with themes and fonts
+  </Card>
+</CardGroup>
 
-## Community & Support
+## Configuration Highlights
 
-<Card
-  title="View on GitHub"
-  icon="github"
-  href="https://github.com/yangleyland/configs"
-  horizontal
->
-  Star the repository, report issues, or contribute improvements.
-</Card>
+### Neovim (LazyVim)
+- Multiple colorscheme options (Kanagawa, Gruvbox, Rose Pine, Tokyo Dark, Everforest)
+- Custom visual selection highlighting
+- Obsidian note-taking integration
+- LeetCode plugin for coding practice
+- Mason for LSP/formatter/linter management
+
+### Alacritty
+- 80% opacity with blur effects
+- Buttonless window decorations
+- 10px padding for aesthetics
+- Maximized startup mode
+- 16pt font size for readability
+
+### Tmux
+- Ctrl+Space prefix (instead of Ctrl+b)
+- Vi-mode copy and paste
+- Mouse support enabled
+- Window renumbering
+- Base index starts at 1
+- 10ms escape time for responsiveness
+
+### AeroSpace
+- Alt-based keybindings (Alt+hjkl for navigation)
+- Multiple workspace support (1-9 and A-Z)
+- Auto orientation based on monitor dimensions
+- Mouse follows focus
+- Service mode for advanced operations
+- Accordion and tiles layout modes
+
+## Next Steps
+
+Ready to get started? Head over to the [Installation Guide](/installation) to set up your development environment.

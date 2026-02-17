@@ -1,0 +1,113 @@
+---
+title: "Keybindings"
+description: "Tmux keyboard shortcuts"
+---
+
+## Prefix Key
+
+<Note>
+  The default tmux prefix `C-b` (Ctrl+b) has been changed to `C-Space` (Ctrl+Space) for easier access and better ergonomics.
+</Note>
+
+All tmux commands are prefixed with `C-Space`. For example, to create a new window, press `C-Space` followed by `c`.
+
+```bash tmux.conf
+# Remap prefix from 'C-b' to 'C-Space'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+```
+
+## Copy Mode
+
+Enter copy mode with `Prefix+[` (that is, `C-Space` then `[`).
+
+### Vi-Mode Keybindings
+
+Copy mode uses Vim-style keybindings for navigation and text selection:
+
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `v` | begin-selection | Start visual selection (like Vim's visual mode) |
+| `y` | copy-selection | Yank (copy) the selected text |
+| `V` | rectangle-toggle | Toggle rectangular (block) selection |
+
+```bash tmux.conf
+# Enable Vim keybindings in copy mode
+setw -g mode-keys vi
+
+# Vim-like navigation in copy mode
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+bind-key -T copy-mode-vi 'V' send -X rectangle-toggle
+```
+
+## Navigation in Copy Mode
+
+Once in copy mode, you can use standard Vim navigation keys:
+
+| Key | Action |
+|-----|--------|
+| `h` | Move left |
+| `j` | Move down |
+| `k` | Move up |
+| `l` | Move right |
+| `w` | Move forward by word |
+| `b` | Move backward by word |
+| `0` | Move to start of line |
+| `$` | Move to end of line |
+| `g` | Move to top of buffer |
+| `G` | Move to bottom of buffer |
+| `/` | Search forward |
+| `?` | Search backward |
+
+## Default Tmux Keybindings
+
+<Note>
+  Remember: Replace `C-b` with `C-Space` for these default keybindings.
+</Note>
+
+### Session Management
+
+| Keybinding | Action |
+|------------|--------|
+| `Prefix+d` | Detach from current session |
+| `Prefix+$` | Rename current session |
+
+### Window Management
+
+| Keybinding | Action |
+|------------|--------|
+| `Prefix+c` | Create new window |
+| `Prefix+,` | Rename current window |
+| `Prefix+n` | Next window |
+| `Prefix+p` | Previous window |
+| `Prefix+0-9` | Switch to window by number |
+| `Prefix+&` | Kill current window |
+
+### Pane Management
+
+| Keybinding | Action |
+|------------|--------|
+| `Prefix+%` | Split pane vertically |
+| `Prefix+"` | Split pane horizontally |
+| `Prefix+o` | Switch to next pane |
+| `Prefix+;` | Toggle between current and previous pane |
+| `Prefix+x` | Kill current pane |
+| `Prefix+{` | Move current pane left |
+| `Prefix+}` | Move current pane right |
+| `Prefix+z` | Toggle pane zoom (fullscreen) |
+
+## Mouse Support
+
+Mouse support is enabled in this configuration:
+
+```bash tmux.conf
+set -g mouse on
+```
+
+This allows you to:
+- Click to select panes
+- Drag pane dividers to resize
+- Scroll through history with the mouse wheel
+- Select text with the mouse in copy mode

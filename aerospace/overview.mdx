@@ -1,0 +1,257 @@
+---
+title: 'Aerospace Overview'
+description: 'Learn about the Aerospace tiling window manager configuration for macOS'
+icon: 'window'
+---
+
+## What is Aerospace?
+
+Aerospace is a modern tiling window manager for macOS that automatically arranges your windows in a non-overlapping layout. This configuration provides a powerful, keyboard-driven workflow for managing application windows across multiple workspaces.
+
+<Note>
+  Aerospace requires macOS and must be installed separately. See the [installation guide](/installation) for setup instructions.
+</Note>
+
+## Core Philosophy
+
+The Aerospace configuration is designed around:
+
+- **Keyboard-first navigation**: All window management via keyboard shortcuts
+- **Multiple workspaces**: 9 numbered workspaces plus 26 letter-named workspaces
+- **Automatic tiling**: Windows automatically arrange without overlapping
+- **Vim-style navigation**: Using `h`, `j`, `k`, `l` for directional movement
+
+## Configuration Location
+
+The Aerospace configuration is stored at:
+
+```bash
+~/.aerospace.toml
+```
+
+Copy the provided configuration file to this location:
+
+```bash
+cp aerospace.toml ~/.aerospace.toml
+```
+
+## Startup Behavior
+
+### Auto-Start Configuration
+
+```toml
+# Start AeroSpace at login
+start-at-login = true
+
+# Commands to run after login
+after-login-command = []
+
+# Commands to run after AeroSpace startup
+after-startup-command = []
+```
+
+Aerospace is configured to start automatically when you log into macOS. You can customize startup behavior by adding commands to `after-login-command` or `after-startup-command`.
+
+## Layout System
+
+<Tabs>
+  <Tab title="Tiles Layout">
+    The default layout mode where windows are arranged in a tiled grid pattern.
+
+    ```toml
+    default-root-container-layout = 'tiles'
+    ```
+
+    - Windows automatically resize to fill available space
+    - No overlapping windows
+    - Clean, organized workspace
+  </Tab>
+  
+  <Tab title="Accordion Layout">
+    An alternative layout where windows stack with padding between them.
+
+    ```toml
+    accordion-padding = 30
+    ```
+
+    - Windows have 30px padding between them
+    - More visual separation than tiles
+    - Toggle with `Alt + ,` (comma)
+  </Tab>
+</Tabs>
+
+## Container Orientation
+
+```toml
+# Possible values: horizontal|vertical|auto
+default-root-container-orientation = 'auto'
+```
+
+<Accordion title="Understanding Auto Orientation">
+  With `auto` orientation:
+  - **Wide monitors** (wider than tall): Get horizontal orientation
+  - **Tall monitors** (taller than wide): Get vertical orientation
+  
+  This ensures optimal window arrangement based on your monitor's aspect ratio.
+</Accordion>
+
+## Normalization Features
+
+```toml
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+```
+
+<Note>
+  Normalization features help maintain clean, predictable layouts by automatically:
+  - Flattening unnecessary container nesting
+  - Optimizing nested container orientations
+</Note>
+
+## Window Gaps
+
+The configuration uses a **no-gap** setup for maximum screen space:
+
+```toml
+[gaps]
+inner.horizontal = 0
+inner.vertical =   0
+outer.left =       0
+outer.bottom =     0
+outer.top =        0
+outer.right =      0
+```
+
+<Accordion title="Customizing Gaps">
+  You can add spacing between windows by modifying the gaps:
+
+  ```toml
+  [gaps]
+  inner.horizontal = 10  # Space between windows horizontally
+  inner.vertical =   10  # Space between windows vertically
+  outer.left =       10  # Space from left monitor edge
+  outer.bottom =     10  # Space from bottom monitor edge
+  outer.top =        10  # Space from top monitor edge
+  outer.right =      10  # Space from right monitor edge
+  ```
+</Accordion>
+
+## Mouse Behavior
+
+```toml
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = "move-mouse window-lazy-center"
+```
+
+The mouse cursor automatically follows focus:
+- When you switch monitors, the cursor moves to the center of that monitor
+- When you focus a different window, the cursor moves to that window's center
+
+<Warning>
+  If you prefer manual mouse control, remove these lines from your configuration.
+</Warning>
+
+## Keyboard Layout
+
+```toml
+key-mapping.preset = 'qwerty'
+```
+
+The configuration uses QWERTY keyboard layout. If you use Dvorak, change this to:
+
+```toml
+key-mapping.preset = 'dvorak'
+```
+
+## Workspaces
+
+<Tabs>
+  <Tab title="Numbered Workspaces">
+    Quick access to 9 numbered workspaces:
+    
+    - Workspace 1-9: `Alt + 1` through `Alt + 9`
+    - Perfect for organizing by project or task type
+    
+    ```toml
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    # ... through alt-9
+    ```
+  </Tab>
+  
+  <Tab title="Letter Workspaces">
+    26 additional letter-named workspaces:
+    
+    - Workspace A-Z: `Alt + a` through `Alt + z`
+    - Ideal for app-specific workspaces (e.g., "B" for Browser, "M" for Mail)
+    
+    ```toml
+    alt-a = 'workspace A'
+    alt-b = 'workspace B'
+    # ... through alt-z
+    ```
+    
+    <Note>
+      You can customize or remove letter workspaces you don't need.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Binding Modes
+
+Aerospace uses two binding modes:
+
+### Main Mode
+
+The default mode for everyday window management:
+- Focus navigation
+- Moving windows
+- Switching workspaces
+- Layout changes
+
+### Service Mode
+
+Accessed via `Alt + Shift + ;` for advanced operations:
+- Reload configuration
+- Reset layouts
+- Toggle floating windows
+- Join windows
+- Close all windows except current
+
+```toml
+[mode.service.binding]
+esc = ['reload-config', 'mode main']              # Reload config
+r = ['flatten-workspace-tree', 'mode main']       # Reset layout
+f = ['layout floating tiling', 'mode main']       # Toggle floating
+backspace = ['close-all-windows-but-current', 'mode main']
+```
+
+<Warning>
+  Service mode commands are powerful. Use them carefully, especially `backspace` which closes all windows except the current one.
+</Warning>
+
+## Quick Start Guide
+
+1. **Install Aerospace** on your macOS system
+2. **Copy the configuration** to `~/.aerospace.toml`
+3. **Start Aerospace** (or restart if already running)
+4. **Learn the basics**:
+   - `Alt + h/j/k/l` - Navigate windows (Vim-style)
+   - `Alt + 1-9` - Switch to numbered workspaces
+   - `Alt + /` - Toggle between horizontal/vertical tiles
+   - `Alt + Tab` - Switch to previous workspace
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Keybindings" icon="keyboard" href="/aerospace/keybindings">
+    Complete reference of all keyboard shortcuts
+  </Card>
+  <Card title="Key Bindings Guide" icon="book" href="/guides/key-bindings">
+    Learn how to customize keybindings
+  </Card>
+</CardGroup>
+
+## Configuration Reference
+
+For advanced configuration options, refer to the [official Aerospace documentation](https://nikitabobko.github.io/AeroSpace/guide).

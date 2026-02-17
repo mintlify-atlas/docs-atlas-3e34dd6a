@@ -1,0 +1,616 @@
+---
+title: Key Bindings
+description: Customize keybindings across Neovim, Tmux, and AeroSpace
+icon: keyboard
+---
+
+This guide shows you how to customize keyboard shortcuts across all tools in your development environment.
+
+## Overview
+
+Key bindings are configured separately for each tool:
+
+- **Neovim**: `nvim/lua/config/keymaps.lua`
+- **Tmux**: `tmux/tmux.conf`
+- **AeroSpace**: `aerospace/aerospace.toml`
+
+<Note>
+LazyVim provides extensive default keybindings. This guide focuses on adding custom bindings or modifying existing ones.
+</Note>
+
+## Neovim Keybindings
+
+### Default Keymaps File
+
+Custom keymaps go in `nvim/lua/config/keymaps.lua`:
+
+```lua
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+```
+
+<Tip>
+LazyVim comes with many built-in keybindings. View them with `:Telescope keymaps` or visit the [LazyVim keymaps documentation](https://www.lazyvim.org/keymaps).
+</Tip>
+
+### Adding Custom Keymaps
+
+<Steps>
+  <Step title="Open keymaps.lua">
+    Edit `~/.config/nvim/lua/config/keymaps.lua`
+  </Step>
+  
+  <Step title="Add keybindings">
+    Use `vim.keymap.set()` to define mappings:
+    
+    ```lua keymaps.lua
+    -- Save with Ctrl+S
+    vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+    
+    -- Better window navigation
+    vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
+    vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
+    vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+    vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+    
+    -- Move lines up and down
+    vim.keymap.set("n", "<A-j>", ":m .+1<cr>==", { desc = "Move line down" })
+    vim.keymap.set("n", "<A-k>", ":m .-2<cr>==", { desc = "Move line up" })
+    vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move selection down" })
+    vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move selection up" })
+    
+    -- Better paste in visual mode
+    vim.keymap.set("v", "p", '"_dP', { desc = "Paste without yanking" })
+    
+    -- Clear search highlighting
+    vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
+    ```
+  </Step>
+  
+  <Step title="Reload configuration">
+    Either restart Neovim or source the file:
+    ```vim
+    :source ~/.config/nvim/lua/config/keymaps.lua
+    ```
+  </Step>
+</Steps>
+
+### Keymap Function Signature
+
+```lua
+vim.keymap.set(mode, lhs, rhs, opts)
+```
+
+**Parameters:**
+- `mode`: String or table of modes (`"n"`, `"i"`, `"v"`, `"x"`, `"t"`, `"c"`)
+  - `n` = Normal mode
+  - `i` = Insert mode
+  - `v` = Visual and Select mode
+  - `x` = Visual mode only
+  - `t` = Terminal mode
+  - `c` = Command-line mode
+- `lhs`: Left-hand side (the key combination to press)
+- `rhs`: Right-hand side (the command to execute)
+- `opts`: Options table
+  - `desc`: Description (shown in which-key)
+  - `silent`: Don't show command in command line
+  - `noremap`: Don't allow recursive mapping
+  - `buffer`: Buffer-local mapping
+
+### Leader Key
+
+LazyVim sets the leader key to `<Space>` by default. Use it for custom commands:
+
+```lua
+-- File operations
+vim.keymap.set("n", "<leader>fw", "<cmd>write<cr>", { desc = "Write file" })
+vim.keymap.set("n", "<leader>fq", "<cmd>wq<cr>", { desc = "Write and quit" })
+
+-- Quick commands
+vim.keymap.set("n", "<leader>xx", "<cmd>source %<cr>", { desc = "Source current file" })
+vim.keymap.set("n", "<leader>xc", "<cmd>checkhealth<cr>", { desc = "Check health" })
+```
+
+### Plugin-Specific Keybindings
+
+Add keybindings directly in plugin specifications:
+
+```lua plugins/telescope.lua
+return {
+  "nvim-telescope/telescope.nvim",
+  keys = {
+    -- Override default
+    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+    
+    -- Add new bindings
+    { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+    { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+    
+    -- With Lua function
+    {
+      "<leader>fc",
+      function()
+        require("telescope.builtin").find_files({
+          cwd = vim.fn.stdpath("config"),
+        })
+      end,
+      desc = "Find Config Files",
+    },
+  },
+}
+```
+
+### Removing Keybindings
+
+To disable a default keybinding:
+
+```lua
+-- Remove a keybinding
+vim.keymap.del("n", "<leader>l")
+
+-- Or override with no-op
+vim.keymap.set("n", "<leader>l", "<nop>", { desc = "Disabled" })
+```
+
+### Common Keymap Patterns
+
+<CodeGroup>
+```lua Buffer navigation
+-- Next/previous buffer
+vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+
+-- Close buffer
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+```
+
+```lua Window management
+-- Split windows
+vim.keymap.set("n", "<leader>wv", "<cmd>vsplit<cr>", { desc = "Vertical split" })
+vim.keymap.set("n", "<leader>wh", "<cmd>split<cr>", { desc = "Horizontal split" })
+
+-- Resize windows
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase height" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease height" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease width" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase width" })
+```
+
+```lua LSP keymaps
+-- Add in keymaps.lua or in LSP config
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Go to references" })
+vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover documentation" })
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename" })
+```
+
+```lua Terminal
+-- Toggle terminal
+vim.keymap.set("n", "<C-/>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
+vim.keymap.set("t", "<C-/>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
+
+-- Exit terminal mode
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+```
+</CodeGroup>
+
+## Tmux Keybindings
+
+### Prefix Key
+
+The Tmux configuration uses `Ctrl+Space` as the prefix:
+
+```bash tmux/tmux.conf
+# Remap prefix from 'C-b' to 'C-Space'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+```
+
+<Note>
+All Tmux commands start with the prefix key unless specified otherwise.
+</Note>
+
+### Default Tmux Bindings
+
+Current custom bindings from `tmux/tmux.conf`:
+
+```bash
+# Enter copy mode
+bind-key [ copy-mode
+
+# Vim-like navigation in copy mode
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+bind-key -T copy-mode-vi 'V' send -X rectangle-toggle
+```
+
+### Adding Tmux Keybindings
+
+<Steps>
+  <Step title="Edit tmux.conf">
+    Open `~/.config/tmux/tmux.conf`
+  </Step>
+  
+  <Step title="Add bindings">
+    ```bash
+    # Split panes with | and -
+    bind | split-window -h -c "#{pane_current_path}"
+    bind - split-window -v -c "#{pane_current_path}"
+    unbind '"'
+    unbind %
+    
+    # Vim-like pane navigation
+    bind h select-pane -L
+    bind j select-pane -D
+    bind k select-pane -U
+    bind l select-pane -R
+    
+    # Resize panes with Vim keys
+    bind -r H resize-pane -L 5
+    bind -r J resize-pane -D 5
+    bind -r K resize-pane -U 5
+    bind -r L resize-pane -R 5
+    
+    # Quick window switching
+    bind -n M-1 select-window -t 1
+    bind -n M-2 select-window -t 2
+    bind -n M-3 select-window -t 3
+    bind -n M-4 select-window -t 4
+    bind -n M-5 select-window -t 5
+    
+    # Reload config
+    bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
+    
+    # Kill pane/window without confirmation
+    bind x kill-pane
+    bind X kill-window
+    ```
+  </Step>
+  
+  <Step title="Reload configuration">
+    Press `Ctrl+Space` then type `:source-file ~/.config/tmux/tmux.conf`
+    
+    Or add a reload binding (shown above) and use `Ctrl+Space` + `r`
+  </Step>
+</Steps>
+
+### Tmux Binding Syntax
+
+```bash
+bind [-n] [-r] [-T key-table] key command [arguments]
+```
+
+**Options:**
+- `-n`: No prefix required (bind directly to key)
+- `-r`: Key may repeat
+- `-T`: Specify key table (e.g., `copy-mode-vi`)
+
+**Examples:**
+```bash
+# With prefix (Ctrl+Space + c)
+bind c new-window
+
+# Without prefix (just Alt+1)
+bind -n M-1 select-window -t 1
+
+# Repeatable (can hold key)
+bind -r K resize-pane -U 5
+
+# In copy mode
+bind -T copy-mode-vi 'v' send -X begin-selection
+```
+
+### Useful Tmux Key Combinations
+
+<Accordion title="Pane management">
+  ```bash
+  # Create splits
+  bind | split-window -h
+  bind - split-window -v
+  
+  # Navigate panes
+  bind h select-pane -L
+  bind j select-pane -D
+  bind k select-pane -U
+  bind l select-pane -R
+  
+  # Swap panes
+  bind > swap-pane -D
+  bind < swap-pane -U
+  
+  # Zoom pane
+  bind z resize-pane -Z
+  ```
+</Accordion>
+
+<Accordion title="Window management">
+  ```bash
+  # Create/close windows
+  bind c new-window -c "#{pane_current_path}"
+  bind X kill-window
+  
+  # Navigate windows
+  bind n next-window
+  bind p previous-window
+  bind Tab last-window
+  
+  # Reorder windows
+  bind -r "<" swap-window -t -1
+  bind -r ">" swap-window -t +1
+  ```
+</Accordion>
+
+<Accordion title="Session management">
+  ```bash
+  # Session operations
+  bind S command-prompt -p "New Session:" "new-session -A -s '%%'"
+  bind K confirm-before -p "Kill session #S? (y/n)" kill-session
+  
+  # Switch sessions with fzf
+  bind s display-popup -E "tmux list-sessions | sed -E 's/:.*$//' | fzf --reverse | xargs tmux switch-client -t"
+  ```
+</Accordion>
+
+<Accordion title="Copy mode enhancements">
+  ```bash
+  # Enter copy mode
+  bind Escape copy-mode
+  bind [ copy-mode
+  
+  # Copy mode vim bindings
+  bind -T copy-mode-vi v send-keys -X begin-selection
+  bind -T copy-mode-vi C-v send-keys -X rectangle-toggle
+  bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+  bind -T copy-mode-vi Escape send-keys -X cancel
+  bind -T copy-mode-vi H send-keys -X start-of-line
+  bind -T copy-mode-vi L send-keys -X end-of-line
+  ```
+</Accordion>
+
+## AeroSpace Keybindings
+
+### Configuration Structure
+
+AeroSpace uses TOML format in `aerospace/aerospace.toml`:
+
+```toml
+[mode.main.binding]
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+```
+
+### Available Modifiers
+
+- `cmd` - Command/Super key
+- `alt` - Alt/Option key
+- `ctrl` - Control key
+- `shift` - Shift key
+
+Combine with `-`: `alt-shift-h`, `cmd-ctrl-left`
+
+### Common AeroSpace Bindings
+
+From the current configuration:
+
+<CodeGroup>
+```toml Focus windows
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+```
+
+```toml Move windows
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+```
+
+```toml Workspace switching
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+# ... up to alt-9
+
+alt-tab = 'workspace-back-and-forth'
+```
+
+```toml Move to workspace
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+# ... up to alt-shift-9
+```
+
+```toml Layouts and resizing
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+```
+</CodeGroup>
+
+### Service Mode Bindings
+
+AeroSpace supports binding modes. Switch to service mode with `alt-shift-semicolon`:
+
+```toml
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main']  # Reset layout
+f = ['layout floating tiling', 'mode main']  # Toggle floating
+backspace = ['close-all-windows-but-current', 'mode main']
+
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
+```
+
+### Customizing AeroSpace Bindings
+
+<Steps>
+  <Step title="Edit aerospace.toml">
+    Open `~/.config/aerospace/aerospace.toml`
+  </Step>
+  
+  <Step title="Modify bindings">
+    ```toml
+    [mode.main.binding]
+    
+    # Use cmd instead of alt for focus
+    cmd-h = 'focus left'
+    cmd-j = 'focus down'
+    cmd-k = 'focus up'
+    cmd-l = 'focus right'
+    
+    # Quick app launching
+    cmd-return = 'exec-and-forget open -a Alacritty'
+    cmd-b = 'exec-and-forget open -a "Brave Browser"'
+    cmd-shift-return = 'exec-and-forget open -a Finder'
+    
+    # Fullscreen toggle
+    cmd-f = 'fullscreen'
+    
+    # Close focused window
+    cmd-shift-q = 'close'
+    ```
+  </Step>
+  
+  <Step title="Reload configuration">
+    Enter service mode (`alt-shift-semicolon`) then press `Esc`, or restart AeroSpace.
+  </Step>
+</Steps>
+
+### Available AeroSpace Commands
+
+- `focus [direction]` - Focus window in direction
+- `move [direction]` - Move window in direction
+- `workspace [name]` - Switch to workspace
+- `move-node-to-workspace [name]` - Move window to workspace
+- `layout [type]` - Change layout (tiles/accordion)
+- `resize [smart|width|height] [+/-]amount` - Resize window
+- `fullscreen` - Toggle fullscreen
+- `close` - Close focused window
+- `exec-and-forget [command]` - Execute shell command
+- `reload-config` - Reload configuration
+- `mode [name]` - Switch binding mode
+
+See [AeroSpace commands documentation](https://nikitabobko.github.io/AeroSpace/commands) for complete list.
+
+## Avoiding Keybinding Conflicts
+
+<Warning>
+Be careful when customizing keybindings across multiple tools to avoid conflicts.
+</Warning>
+
+### Conflict Resolution Strategy
+
+<Steps>
+  <Step title="System-level bindings (highest priority)">
+    **AeroSpace** - Window management
+    - Use `Alt` for AeroSpace primary bindings
+    - Use `Alt+Shift` for move operations
+  </Step>
+  
+  <Step title="Terminal multiplexer">
+    **Tmux** - Session/window/pane management
+    - Use prefix (`Ctrl+Space`) for most operations
+    - Reserve some `Alt` combinations for quick access
+    - Avoid conflicts with AeroSpace Alt bindings
+  </Step>
+  
+  <Step title="Application-level bindings (lowest priority)">
+    **Neovim** - Editor operations
+    - Use `Space` (leader) for custom commands
+    - Use `Ctrl` for window navigation within Neovim
+    - Defer to AeroSpace and Tmux for their domains
+  </Step>
+</Steps>
+
+### Recommended Modifier Allocation
+
+| Tool | Primary Modifier | Use Case |
+|------|------------------|----------|
+| AeroSpace | `Alt` | Window/workspace management |
+| Tmux | `Ctrl+Space` (prefix) | Pane/window/session management |
+| Neovim | `Space` (leader) | Editor commands |
+| Neovim | `Ctrl` | Quick navigation |
+| System | `Cmd` | macOS system shortcuts |
+
+## Discovering Existing Keybindings
+
+<Accordion title="Neovim">
+  ```vim
+  " Show all keymaps
+  :Telescope keymaps
+  
+  " Show keymaps for specific mode
+  :nmap    " Normal mode
+  :imap    " Insert mode
+  :vmap    " Visual mode
+  
+  " Check specific key
+  :verbose map <leader>f
+  ```
+</Accordion>
+
+<Accordion title="Tmux">
+  ```bash
+  # List all bindings (prefix + ?)
+  Ctrl+Space ?
+  
+  # Or in command mode
+  :list-keys
+  
+  # List bindings for specific table
+  :list-keys -T copy-mode-vi
+  ```
+</Accordion>
+
+<Accordion title="AeroSpace">
+  View bindings directly in the config file:
+  ```bash
+  cat ~/.config/aerospace/aerospace.toml | grep -A 100 "\[mode.main.binding\]"
+  ```
+</Accordion>
+
+## Quick Reference Card
+
+Create a personal cheat sheet:
+
+```markdown keybindings-cheat-sheet.md
+# My Custom Keybindings
+
+## Neovim
+- `<leader>fw` - Write file
+- `<C-h/j/k/l>` - Navigate windows
+- `<A-j/k>` - Move lines
+
+## Tmux (Prefix: Ctrl+Space)
+- `|` - Vertical split
+- `-` - Horizontal split
+- `h/j/k/l` - Navigate panes
+- `r` - Reload config
+
+## AeroSpace
+- `Alt+h/j/k/l` - Focus windows
+- `Alt+Shift+h/j/k/l` - Move windows
+- `Alt+1-9` - Switch workspaces
+- `Alt+Shift+;` - Service mode
+```
+
+## Related Pages
+
+- [Neovim Keymaps](/neovim/keymaps) - Neovim-specific keybinding reference
+- [Tmux Configuration](/terminal/tmux) - Tmux setup details
+- [AeroSpace Keybindings](/aerospace/keybindings) - AeroSpace shortcuts reference
+- [Guides: Adding Plugins](/guides/adding-plugins) - Add plugins with custom keybindings

@@ -1,0 +1,282 @@
+---
+title: Keymaps
+description: Custom keybindings and keyboard shortcuts
+icon: keyboard
+---
+
+## Keymap Configuration
+
+Custom keymaps are defined in `lua/config/keymaps.lua`. This configuration follows LazyVim's convention of loading keymaps automatically on the VeryLazy event.
+
+```lua title="nvim/lua/config/keymaps.lua"
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+```
+
+<Note>
+  Currently, this configuration file doesn't define any custom keymaps beyond LazyVim defaults. All keybindings come from LazyVim's base configuration.
+</Note>
+
+## LazyVim Default Keymaps
+
+LazyVim provides a comprehensive set of default keybindings. Below are the most commonly used ones organized by category.
+
+### General
+
+<AccordionGroup>
+  <Accordion title="Leader Key">
+    The leader key is set to **Space** by default.
+    
+    Most custom commands and plugin functions are accessed via `<leader>` combinations.
+  </Accordion>
+  
+  <Accordion title="Window Navigation">
+    | Keymap | Action |
+    |--------|--------|
+    | `<C-h>` | Move to left window |
+    | `<C-j>` | Move to bottom window |
+    | `<C-k>` | Move to top window |
+    | `<C-l>` | Move to right window |
+  </Accordion>
+  
+  <Accordion title="Window Resizing">
+    | Keymap | Action |
+    |--------|--------|
+    | `<C-Up>` | Increase window height |
+    | `<C-Down>` | Decrease window height |
+    | `<C-Left>` | Decrease window width |
+    | `<C-Right>` | Increase window width |
+  </Accordion>
+  
+  <Accordion title="Buffer Navigation">
+    | Keymap | Action |
+    |--------|--------|
+    | `<S-h>` | Previous buffer |
+    | `<S-l>` | Next buffer |
+    | `<leader>bd` | Delete buffer |
+    | `<leader>bo` | Delete other buffers |
+  </Accordion>
+</AccordionGroup>
+
+### File Operations
+
+| Keymap | Action |
+|--------|--------|
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep (search in files) |
+| `<leader>fb` | Find buffers |
+| `<leader>fr` | Recent files |
+| `<leader>fn` | New file |
+| `<leader>fw` | Grep word under cursor |
+
+### Code Navigation
+
+<Tabs>
+  <Tab title="LSP">
+    | Keymap | Action |
+    |--------|--------|
+    | `gd` | Go to definition |
+    | `gr` | Go to references |
+    | `gI` | Go to implementation |
+    | `gy` | Go to type definition |
+    | `gD` | Go to declaration |
+    | `K` | Hover documentation |
+    | `<leader>ca` | Code actions |
+    | `<leader>cr` | Rename symbol |
+  </Tab>
+  
+  <Tab title="Diagnostics">
+    | Keymap | Action |
+    |--------|--------|
+    | `]d` | Next diagnostic |
+    | `[d` | Previous diagnostic |
+    | `]e` | Next error |
+    | `[e` | Previous error |
+    | `]w` | Next warning |
+    | `[w` | Previous warning |
+    | `<leader>cd` | Line diagnostics |
+    | `<leader>xx` | Trouble diagnostics |
+  </Tab>
+  
+  <Tab title="Search">
+    | Keymap | Action |
+    |--------|--------|
+    | `<leader>sg` | Grep (live search) |
+    | `<leader>sw` | Grep word under cursor |
+    | `<leader>ss` | Document symbols |
+    | `<leader>sS` | Workspace symbols |
+    | `<leader>sh` | Search help |
+    | `<leader>sk` | Search keymaps |
+    | `<leader>sc` | Search commands |
+  </Tab>
+</Tabs>
+
+### Git Integration
+
+| Keymap | Action |
+|--------|--------|
+| `<leader>gg` | Lazygit (open) |
+| `<leader>gb` | Git blame line |
+| `<leader>gB` | Git browse |
+| `]h` | Next git hunk |
+| `[h` | Previous git hunk |
+| `<leader>ghp` | Preview hunk |
+| `<leader>ghr` | Reset hunk |
+| `<leader>ghs` | Stage hunk |
+
+### Terminal
+
+<CardGroup cols={2}>
+  <Card title="Float Terminal" icon="terminal">
+    `<C-/>` or `<C-_>`
+    
+    Toggle floating terminal
+  </Card>
+  <Card title="Terminal Mode" icon="arrow-right-from-bracket">
+    `<C-/>` or `<Esc><Esc>`
+    
+    Exit terminal mode
+  </Card>
+</CardGroup>
+
+### Editor Features
+
+<AccordionGroup>
+  <Accordion title="Line Manipulation">
+    | Keymap | Action | Mode |
+    |--------|--------|------|
+    | `<A-j>` | Move line down | Normal/Visual |
+    | `<A-k>` | Move line up | Normal/Visual |
+    | `<leader>l` | Lazy (plugin manager) | Normal |
+  </Accordion>
+  
+  <Accordion title="Formatting">
+    | Keymap | Action |
+    |--------|--------|
+    | `<leader>cf` | Format document |
+    | `<leader>cF` | Format document (with options) |
+  </Accordion>
+  
+  <Accordion title="Comments">
+    | Keymap | Action | Mode |
+    |--------|--------|------|
+    | `gcc` | Toggle line comment | Normal |
+    | `gc` | Toggle comment | Visual |
+    | `gbc` | Toggle block comment | Normal |
+    | `gb` | Toggle block comment | Visual |
+  </Accordion>
+  
+  <Accordion title="Misc">
+    | Keymap | Action |
+    |--------|--------|
+    | `<leader>ur` | Toggle relative line numbers |
+    | `<leader>uw` | Toggle word wrap |
+    | `<leader>us` | Toggle spelling |
+    | `<leader>ul` | Toggle line numbers |
+    | `<leader>uc` | Toggle conceallevel |
+  </Accordion>
+</AccordionGroup>
+
+## Plugin-Specific Keymaps
+
+Some plugins define their own keybindings:
+
+### Obsidian.nvim
+
+When editing markdown files in your Obsidian vault:
+
+| Keymap | Command | Action |
+|--------|---------|--------|
+| `gf` | (built-in) | Follow link under cursor |
+| - | `:ObsidianNew` | Create new note |
+| - | `:ObsidianToday` | Open today's daily note |
+| - | `:ObsidianSearch` | Search notes |
+| - | `:ObsidianQuickSwitch` | Quick note switcher |
+
+<Tip>
+  You can create custom keymaps for Obsidian commands in `lua/config/keymaps.lua`. For example:
+  ```lua
+  vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian note" })
+  vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianToday<cr>", { desc = "Today's note" })
+  ```
+</Tip>
+
+### LeetCode.nvim
+
+Access LeetCode functionality:
+
+| Command | Action |
+|---------|--------|
+| `:Leet` | Open LeetCode menu |
+| `:Leet list` | List problems |
+| `:Leet desc` | Show problem description |
+| `:Leet run` | Run test cases |
+| `:Leet submit` | Submit solution |
+
+### Completion (nvim-cmp)
+
+Custom completion keymaps from `lua/plugins/tab-complete.lua`:
+
+<CardGroup cols={2}>
+  <Card title="Tab" icon="arrow-right">
+    **Smart completion**
+    
+    - Selects first item if nothing selected
+    - Confirms if item is selected
+    - Normal Tab if no completion
+  </Card>
+  <Card title="Enter" icon="turn-down">
+    **New line**
+    
+    Always creates a new line (doesn't confirm completion)
+  </Card>
+</CardGroup>
+
+## Adding Custom Keymaps
+
+To add your own keybindings, edit `lua/config/keymaps.lua`:
+
+```lua title="nvim/lua/config/keymaps.lua"
+-- Example: Add a keymap to save file with Ctrl+S
+vim.keymap.set({ "i", "n", "v" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
+-- Example: Quick access to config
+vim.keymap.set("n", "<leader>fc", function()
+  require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
+end, { desc = "Find config files" })
+
+-- Example: Toggle diagnostics
+vim.keymap.set("n", "<leader>ud", function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = "Toggle diagnostics" })
+```
+
+<Note>
+  Always include a `desc` (description) field in your keymaps. This makes them searchable via `<leader>sk` (search keymaps).
+</Note>
+
+## Keymap Reference
+
+For a complete list of LazyVim's default keymaps, visit:
+
+- [LazyVim Keymaps Documentation](https://www.lazyvim.org/keymaps)
+- [LazyVim Source - keymaps.lua](https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua)
+
+You can also search keymaps interactively in Neovim:
+- Press `<leader>sk` to search all keymaps
+- Press `<leader>?` to see keymaps for current buffer
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Overview" icon="gear" href="/neovim/overview">
+    Understanding the configuration structure
+  </Card>
+  <Card title="Options" icon="sliders" href="/neovim/options">
+    Editor options and settings
+  </Card>
+  <Card title="Key Bindings Guide" icon="book" href="/guides/key-bindings">
+    Learn to customize keybindings
+  </Card>
+</CardGroup>

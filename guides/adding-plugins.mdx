@@ -1,0 +1,491 @@
+---
+title: Adding Plugins
+description: Add and configure new Neovim plugins using LazyVim
+icon: plug
+---
+
+This guide explains how to add new plugins to your Neovim configuration using LazyVim's plugin management system powered by lazy.nvim.
+
+## How Plugin Loading Works
+
+LazyVim uses a modular plugin system:
+
+<Steps>
+  <Step title="lazy.nvim bootstrap">
+    The `nvim/lua/config/lazy.lua` file initializes the lazy.nvim plugin manager.
+  </Step>
+  
+  <Step title="LazyVim core">
+    LazyVim provides a curated set of pre-configured plugins.
+  </Step>
+  
+  <Step title="Custom plugins">
+    Your custom plugins in `nvim/lua/plugins/` extend or override the defaults.
+  </Step>
+</Steps>
+
+### Plugin Loading Configuration
+
+From `nvim/lua/config/lazy.lua`:
+
+```lua
+require("lazy").setup({
+  spec = {
+    -- add LazyVim and import its plugins
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- import/override with your plugins
+    { import = "plugins" },
+  },
+  defaults = {
+    lazy = false,  -- Plugins load at startup by default
+    version = false,  -- Always use latest git commit
+  },
+  checker = {
+    enabled = true,  -- Check for plugin updates
+    notify = false,
+  },
+})
+```
+
+<Note>
+All Lua files in `~/.config/nvim/lua/plugins/` are automatically loaded. You can organize plugins in separate files or group them together.
+</Note>
+
+## Adding a Simple Plugin
+
+The simplest way to add a plugin is to create a new file in the plugins directory.
+
+<Steps>
+  <Step title="Create a plugin file">
+    Create a new file for your plugin:
+    
+    ```bash
+    touch ~/.config/nvim/lua/plugins/myfeature.lua
+    ```
+  </Step>
+  
+  <Step title="Add plugin specification">
+    ```lua myfeature.lua
+    return {
+      "github-username/plugin-name",
+    }
+    ```
+    
+    For example, to add a markdown preview plugin:
+    
+    ```lua markdown-preview.lua
+    return {
+      "iamcco/markdown-preview.nvim",
+      build = "cd app && npm install",
+      ft = "markdown",
+    }
+    ```
+  </Step>
+  
+  <Step title="Restart Neovim">
+    Close and reopen Neovim. Lazy.nvim will automatically install the plugin.
+  </Step>
+</Steps>
+
+<Tip>
+You can also manually trigger plugin installation with `:Lazy` command, then press `I` to install.
+</Tip>
+
+## Plugin Specification Options
+
+Plugins are configured using a Lua table with various options:
+
+### Basic Options
+
+```lua
+return {
+  "author/plugin-name",
+  
+  -- Load only for specific filetypes
+  ft = { "markdown", "text" },
+  
+  -- Run command after install/update
+  build = "make",
+  
+  -- Load on specific events
+  event = "VeryLazy",
+  
+  -- Load when command is used
+  cmd = "MyCommand",
+  
+  -- Load when key is pressed
+  keys = {
+    { "<leader>mp", "<cmd>MarkdownPreview<cr>", desc = "Markdown Preview" },
+  },
+  
+  -- Plugin dependencies
+  dependencies = {
+    "another/plugin",
+  },
+  
+  -- Disable the plugin
+  enabled = false,
+}
+```
+
+### Configuration Options
+
+```lua
+return {
+  "author/plugin-name",
+  
+  -- Simple options table
+  opts = {
+    setting1 = true,
+    setting2 = "value",
+  },
+  
+  -- Or use a function for complex config
+  config = function()
+    require("plugin-name").setup({
+      setting1 = true,
+      setting2 = "value",
+    })
+  end,
+}
+```
+
+<Warning>
+Use `opts` for simple configurations. The `opts` table is automatically passed to `setup()`. Use `config` only when you need custom logic before calling setup.
+</Warning>
+
+## Real Examples from the Configuration
+
+### Example 1: Colorscheme Plugin
+
+From `nvim/lua/plugins/colorscheme.lua`:
+
+```lua
+return {
+  { "rebelot/kanagawa.nvim" },
+  { "ellisonleao/gruvbox.nvim" },
+  {
+    "navarasu/onedark.nvim",
+    opts = {
+      highlights = {
+        Visual = { bg = "#ffff00" },
+      },
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "onedark",
+    },
+  },
+}
+```
+
+This example shows:
+- Multiple plugins in one file
+- Custom configuration with `opts`
+- Overriding LazyVim defaults
+
+### Example 2: Plugin with Dependencies
+
+A more complex example from the example file:
+
+```lua
+return {
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = { "hrsh7th/cmp-emoji" },
+    opts = function(_, opts)
+      table.insert(opts.sources, { name = "emoji" })
+    end,
+  },
+}
+```
+
+This shows:
+- Adding dependencies to an existing plugin
+- Using `opts` as a function to extend existing config
+- Modifying rather than replacing configuration
+
+### Example 3: Keybindings in Plugin
+
+```lua
+return {
+  {
+    "nvim-telescope/telescope.nvim",
+    keys = {
+      {
+        "<leader>fp",
+        function()
+          require("telescope.builtin").find_files({
+            cwd = require("lazy.core.config").options.root
+          })
+        end,
+        desc = "Find Plugin File",
+      },
+    },
+    opts = {
+      defaults = {
+        layout_strategy = "horizontal",
+        layout_config = { prompt_position = "top" },
+        sorting_strategy = "ascending",
+      },
+    },
+  },
+}
+```
+
+## Common Plugin Patterns
+
+<Accordion title="Add a file explorer">
+  ```lua neo-tree.lua
+  return {
+    "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "Neotree",
+    keys = {
+      { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" },
+    },
+    opts = {
+      filesystem = {
+        follow_current_file = true,
+      },
+    },
+  }
+  ```
+</Accordion>
+
+<Accordion title="Add a note-taking plugin">
+  ```lua obsidian.lua
+  return {
+    "epwalsh/obsidian.nvim",
+    event = {
+      "BufReadPre " .. vim.fn.expand("~") .. "/notes/**.md",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "personal",
+          path = "~/notes",
+        },
+      },
+    },
+  }
+  ```
+</Accordion>
+
+<Accordion title="Add language support">
+  ```lua typescript.lua
+  return {
+    {
+      "neovim/nvim-lspconfig",
+      opts = {
+        servers = {
+          tsserver = {
+            settings = {
+              typescript = {
+                inlayHints = {
+                  includeInlayParameterNameHints = "all",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }
+  ```
+</Accordion>
+
+<Accordion title="Add a formatting plugin">
+  ```lua conform.lua
+  return {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        python = { "black" },
+        javascript = { "prettier" },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+    },
+  }
+  ```
+</Accordion>
+
+## Overriding LazyVim Plugins
+
+To modify or disable LazyVim's built-in plugins:
+
+### Disable a Plugin
+
+```lua
+return {
+  { "folke/trouble.nvim", enabled = false },
+}
+```
+
+### Override Plugin Config
+
+```lua
+return {
+  {
+    "folke/trouble.nvim",
+    opts = {
+      use_diagnostic_signs = true,
+      auto_open = false,
+    },
+  },
+}
+```
+
+<Note>
+When you override a plugin, your `opts` are merged with the default opts. You don't need to respecify everything.
+</Note>
+
+### Extend Plugin Config
+
+```lua
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "rust",
+        "go",
+      })
+    end,
+  },
+}
+```
+
+## Managing Plugins
+
+### Lazy.nvim Commands
+
+Open the Lazy.nvim UI with `:Lazy`. Available commands:
+
+- `I` - Install missing plugins
+- `U` - Update plugins
+- `S` - Sync (clean + update + install)
+- `X` - Clean plugins not in config
+- `C` - Check for updates
+- `L` - Show log
+- `R` - Restore plugins to lockfile state
+- `P` - Profile plugin startup time
+
+### Check Plugin Status
+
+```vim
+:Lazy
+```
+
+This shows:
+- Installed plugins
+- Pending updates
+- Loading time
+- Plugin errors
+
+### Update Plugins
+
+```vim
+:Lazy update
+```
+
+<Warning>
+Plugin updates can occasionally introduce breaking changes. Review changelogs before updating production configurations.
+</Warning>
+
+## Troubleshooting
+
+<Accordion title="Plugin not loading">
+  1. Check the plugin specification syntax in your Lua file
+  2. Ensure the file is in `~/.config/nvim/lua/plugins/`
+  3. Run `:Lazy` and check for errors
+  4. Verify the plugin repo exists on GitHub
+  5. Check if lazy-loading conditions are too restrictive
+</Accordion>
+
+<Accordion title="Conflicting keybindings">
+  1. Search for duplicate keybindings: `:Telescope keymaps`
+  2. Use `vim.keymap.del()` to remove conflicting mappings
+  3. Choose different keys for your custom mappings
+</Accordion>
+
+<Accordion title="Plugin errors on startup">
+  1. Run `:checkhealth lazy` to diagnose issues
+  2. Check `:messages` for error details
+  3. Try removing the plugin cache: `rm -rf ~/.local/share/nvim`
+  4. Reinstall plugins: `:Lazy clean` then `:Lazy install`
+</Accordion>
+
+<Accordion title="Slow startup time">
+  1. Profile plugins: `:Lazy profile`
+  2. Add lazy-loading for heavy plugins:
+     ```lua
+     event = "VeryLazy",
+     cmd = "CommandName",
+     ft = "filetype",
+     ```
+  3. Consider disabling unused LazyVim extras
+</Accordion>
+
+## Best Practices
+
+<Steps>
+  <Step title="Organize by purpose">
+    Create separate plugin files for different features:
+    - `colorscheme.lua` - Themes
+    - `lsp.lua` - Language servers
+    - `ui.lua` - UI enhancements
+    - `editing.lua` - Editing tools
+  </Step>
+  
+  <Step title="Use lazy-loading">
+    Load plugins only when needed to improve startup time:
+    ```lua
+    ft = "markdown",  -- Only for markdown files
+    cmd = "CommandName",  -- Only when command is run
+    keys = "<leader>x",  -- Only when key is pressed
+    ```
+  </Step>
+  
+  <Step title="Document your choices">
+    Add comments explaining why you added a plugin:
+    ```lua
+    -- Add gitsigns for git integration in buffers
+    { "lewis6991/gitsigns.nvim" },
+    ```
+  </Step>
+  
+  <Step title="Keep it minimal">
+    Only add plugins you actually use. Too many plugins slow down Neovim and increase complexity.
+  </Step>
+</Steps>
+
+## Finding Plugins
+
+Great resources for discovering Neovim plugins:
+
+- [Awesome Neovim](https://github.com/rockerBOO/awesome-neovim) - Curated list
+- [LazyVim Extras](https://www.lazyvim.org/extras) - Pre-configured plugin bundles
+- [Neovimcraft](https://neovimcraft.com/) - Searchable plugin directory
+- [This Week in Neovim](https://this-week-in-neovim.org/) - New plugin announcements
+
+## Related Pages
+
+- [Neovim Plugins](/neovim/plugins) - Overview of included plugins
+- [Neovim Keymaps](/neovim/keymaps) - Custom keybinding configuration
+- [Guides: Key Bindings](/guides/key-bindings) - Configure keybindings for plugins

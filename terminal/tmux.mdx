@@ -1,0 +1,349 @@
+---
+title: 'Tmux Configuration'
+description: 'Terminal multiplexer configuration with Vim keybindings and modern plugins'
+icon: 'grid'
+---
+
+## Overview
+
+Tmux is a terminal multiplexer that allows you to manage multiple terminal sessions from a single window. This configuration provides Vim-style keybindings, modern plugins, and seamless integration with Neovim.
+
+<Note>
+The tmux configuration file is located at `~/.tmux.conf` or `~/.config/tmux/tmux.conf`
+</Note>
+
+## Terminal Settings
+
+### Color Support
+
+The configuration enables full 24-bit true color support for modern themes and Neovim:
+
+```bash tmux/tmux.conf
+set-option -sa terminal-overrides ",xterm*:Tc:RGB:sitm=\E[3m:ritm=\E[23m"
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ',xterm-256color:Tc'
+set -as terminal-overrides ',xterm*:sitm=\E[3m'
+```
+
+<Accordion title="Terminal Overrides Explained">
+- **Tc**: Enables true color (24-bit RGB) support
+- **RGB**: Explicit RGB color capability
+- **sitm/ritm**: Support for italic text rendering
+- **xterm-256color**: Base terminal type with 256 color support
+
+These settings ensure colors render correctly in Neovim, syntax highlighting, and theme plugins.
+</Accordion>
+
+### Performance Optimizations
+
+```bash tmux/tmux.conf
+set-option -sg escape-time 10
+set-option -g focus-events on
+```
+
+<Accordion title="Escape Time">
+**escape-time 10**: Reduces the delay after pressing ESC to 10ms (default is 500ms). This makes Vim/Neovim feel much more responsive when switching modes.
+</Accordion>
+
+<Accordion title="Focus Events">
+**focus-events on**: Allows Neovim to detect when you switch between tmux panes, enabling features like auto-reload when files change.
+</Accordion>
+
+## Window Management
+
+```bash tmux/tmux.conf
+set -g renumber-windows on
+set -g base-index 1
+```
+
+- **renumber-windows on**: Automatically renumbers windows when one is closed (no gaps in numbering)
+- **base-index 1**: Start window numbering at 1 instead of 0 (easier to reach on keyboard)
+
+## Prefix Key Configuration
+
+The default tmux prefix (`Ctrl+b`) has been remapped to `Ctrl+Space` for better ergonomics:
+
+```bash tmux/tmux.conf
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+```
+
+<Tip>
+**Why Ctrl+Space?** It's much easier to press than Ctrl+b, especially on modern keyboards. The space bar is large and accessible, reducing finger strain during extended terminal sessions.
+</Tip>
+
+### Using the Prefix
+
+All tmux commands now start with `Ctrl+Space`:
+
+- `Ctrl+Space` + `c`: Create new window
+- `Ctrl+Space` + `n`: Next window
+- `Ctrl+Space` + `p`: Previous window
+- `Ctrl+Space` + `[`: Enter copy mode
+- `Ctrl+Space` + `d`: Detach from session
+
+## Mouse Support
+
+```bash tmux/tmux.conf
+set -g mouse on
+```
+
+Enables mouse interaction:
+- Click to switch panes
+- Drag to resize panes
+- Scroll to navigate history
+- Click window names to switch windows
+
+<Note>
+Mouse support doesn't replace keyboard shortcuts - it complements them for quick actions.
+</Note>
+
+## Vim Keybindings
+
+### Copy Mode
+
+The configuration enables Vim-style navigation and selection in copy mode:
+
+```bash tmux/tmux.conf
+# Enable Vim keybindings in copy mode
+setw -g mode-keys vi
+
+# Enter copy mode with Prefix+[
+bind-key [ copy-mode
+
+# Vim-like navigation in copy mode
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+bind-key -T copy-mode-vi 'V' send -X rectangle-toggle
+```
+
+### Copy Mode Keybindings
+
+<CodeGroup>
+
+```bash Enter Copy Mode
+Ctrl+Space + [
+```
+
+```bash Navigate
+h, j, k, l  # Vim-style movement
+w, b        # Word forward/backward
+gg, G       # Top/bottom of buffer
+```
+
+```bash Selection
+v           # Begin selection (visual mode)
+y           # Copy selection (yank)
+V           # Rectangle toggle (block selection)
+```
+
+```bash Exit
+q or ESC    # Exit copy mode
+```
+
+</CodeGroup>
+
+<Tip>
+These keybindings mirror Vim's visual mode, making it natural for Vim/Neovim users to copy and navigate terminal history.
+</Tip>
+
+## Plugin System
+
+### Tmux Plugin Manager (TPM)
+
+The configuration uses [TPM](https://github.com/tmux-plugins/tpm) for plugin management:
+
+```bash tmux/tmux.conf
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+# set -g @plugin 'catppuccin/tmux'
+
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+### Installed Plugins
+
+<Accordion title="TPM - Tmux Plugin Manager">
+Core plugin manager that handles installation, updates, and loading of tmux plugins.
+
+**Installation**: Run `Prefix + I` to install plugins
+
+**Update**: Run `Prefix + U` to update all plugins
+</Accordion>
+
+<Accordion title="Catppuccin Theme">
+A beautiful, pastel-colored theme for tmux with excellent readability.
+
+Currently using: `dreamsofcode-io/catppuccin-tmux` (enhanced variant)
+
+Features:
+- Smooth color palette
+- Status bar customization
+- Window status indicators
+- Integration with other Catppuccin-themed tools
+</Accordion>
+
+### Plugin Installation
+
+If TPM is not installed, set it up first:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Then install plugins:
+1. Start tmux: `tmux`
+2. Press `Ctrl+Space` + `I` (capital i)
+3. Wait for plugins to install
+
+### Adding More Plugins
+
+To add plugins, edit your `tmux.conf`:
+
+```bash
+set -g @plugin 'plugin-name/plugin-repo'
+```
+
+Then reload tmux configuration and install:
+
+```bash
+tmux source ~/.tmux.conf
+# Press Ctrl+Space + I to install new plugins
+```
+
+<Note>
+Popular plugins include:
+- `tmux-plugins/tmux-sensible` - Sensible defaults
+- `tmux-plugins/tmux-resurrect` - Save/restore tmux sessions
+- `tmux-plugins/tmux-continuum` - Auto-save sessions
+- `christoomey/vim-tmux-navigator` - Seamless Vim/tmux navigation
+</Note>
+
+## Full Configuration Reference
+
+<CodeGroup>
+
+```bash tmux.conf
+# Enable Vim keybindings in copy mode
+set-option -sa terminal-overrides ",xterm*:Tc:RGB:sitm=\E[3m:ritm=\E[23m"
+set -g default-terminal "tmux-256color"
+setw -g mode-keys vi
+set -ga terminal-overrides ',xterm-256color:Tc'
+set -g renumber-windows on
+set -g base-index 1
+
+# remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set -g prefix C-Space
+bind C-Space send-prefix
+
+set -as terminal-overrides ',xterm*:sitm=\E[3m'
+set-option -sg escape-time 10
+set-option -g focus-events on
+set -g mouse on
+
+# Enter copy mode with Prefix+[
+bind-key [ copy-mode
+
+# Vim-like navigation in copy mode
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection
+bind-key -T copy-mode-vi 'V' send -X rectangle-toggle
+
+# Plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+</CodeGroup>
+
+## Common Workflows
+
+### Session Management
+
+```bash
+# Create new session
+tmux new -s myproject
+
+# List sessions
+tmux ls
+
+# Attach to session
+tmux attach -t myproject
+
+# Detach from session
+Ctrl+Space + d
+
+# Kill session
+tmux kill-session -t myproject
+```
+
+### Window Operations
+
+```bash
+Ctrl+Space + c    # Create new window
+Ctrl+Space + n    # Next window
+Ctrl+Space + p    # Previous window
+Ctrl+Space + ,    # Rename window
+Ctrl+Space + &    # Kill window
+Ctrl+Space + 0-9  # Switch to window number
+```
+
+### Pane Operations
+
+```bash
+Ctrl+Space + %    # Split vertically
+Ctrl+Space + "    # Split horizontally
+Ctrl+Space + o    # Switch panes
+Ctrl+Space + x    # Kill pane
+Ctrl+Space + z    # Toggle pane zoom
+Ctrl+Space + {    # Move pane left
+Ctrl+Space + }    # Move pane right
+```
+
+## Integration with Neovim
+
+This configuration is optimized for Neovim integration:
+
+- **True color support** ensures themes render correctly
+- **Fast escape time** eliminates mode-switching lag
+- **Focus events** enable auto-reload and file watchers
+- **Vim keybindings** provide consistent muscle memory
+
+<Tip>
+For seamless pane navigation between Neovim and tmux, consider installing the `vim-tmux-navigator` plugin for both Neovim and tmux.
+</Tip>
+
+## Reloading Configuration
+
+After making changes to your tmux configuration:
+
+```bash
+# Method 1: From within tmux
+Ctrl+Space + :  # Enter command mode
+source-file ~/.tmux.conf
+
+# Method 2: From shell
+tmux source ~/.tmux.conf
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Alacritty Terminal" icon="terminal" href="/terminal/alacritty">
+    Configure your terminal emulator with themes and transparency
+  </Card>
+  <Card title="Neovim Keymaps" icon="keyboard" href="/neovim/keymaps">
+    Learn custom keybindings for enhanced productivity
+  </Card>
+  <Card title="Key Bindings Guide" icon="command" href="/guides/key-bindings">
+    Master keyboard shortcuts across all tools
+  </Card>
+  <Card title="Theming Guide" icon="palette" href="/guides/theming">
+    Customize colors and themes for your entire setup
+  </Card>
+</CardGroup>

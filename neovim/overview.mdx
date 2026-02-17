@@ -1,0 +1,181 @@
+---
+title: Neovim Overview
+description: Introduction to the Neovim configuration using LazyVim
+icon: gear
+---
+
+## Architecture
+
+This Neovim configuration is built on top of **LazyVim**, a Neovim setup powered by lazy.nvim. LazyVim provides a solid foundation with sensible defaults, modern plugin integrations, and a modular structure that makes customization straightforward.
+
+### Configuration Structure
+
+The configuration follows LazyVim's standard directory structure:
+
+```
+nvim/
+├── init.lua                    # Entry point
+├── lua/
+│   ├── config/
+│   │   ├── lazy.lua           # Lazy.nvim bootstrap
+│   │   ├── keymaps.lua        # Custom keymaps
+│   │   └── options.lua        # Editor options
+│   └── plugins/
+│       ├── colorscheme.lua    # Theme configuration
+│       ├── obsidian.lua       # Obsidian integration
+│       ├── leetcode.lua       # LeetCode plugin
+│       ├── snacks-config.lua  # Snacks.nvim settings
+│       └── tab-complete.lua   # Completion behavior
+```
+
+## Bootstrap Process
+
+The configuration starts with a minimal `init.lua` that bootstraps the entire setup:
+
+```lua title="nvim/init.lua"
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
+```
+<Note>
+  The entire configuration is loaded through a single require statement, following LazyVim's convention of keeping the entry point clean and simple.
+</Note>
+
+## Lazy.nvim Setup
+
+The plugin manager configuration lives in `lua/config/lazy.lua` (nvim/lua/config/lazy.lua:1-54):
+
+<Accordion title="View full lazy.nvim configuration">
+```lua title="nvim/lua/config/lazy.lua"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  spec = {
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    { import = "plugins" },
+  },
+  defaults = {
+    lazy = false,
+    version = false,
+  },
+  install = { colorscheme = { "tokyonight", "habamax" } },
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
+```
+</Accordion>
+
+### Key Configuration Details
+
+<CardGroup cols={2}>
+  <Card title="Auto-bootstrap" icon="download">
+    Lazy.nvim is automatically cloned if not present (nvim/lua/config/lazy.lua:1-14)
+  </Card>
+  <Card title="Plugin Loading" icon="plug">
+    Custom plugins load eagerly by default (`lazy = false`)
+  </Card>
+  <Card title="Auto Updates" icon="arrows-rotate">
+    Plugin updates are checked automatically without notifications (nvim/lua/config/lazy.lua:34-37)
+  </Card>
+  <Card title="Performance" icon="gauge-high">
+    Disabled unnecessary built-in plugins for faster startup (nvim/lua/config/lazy.lua:38-52)
+  </Card>
+</CardGroup>
+
+## Plugin Specification
+
+The configuration imports two plugin sources (nvim/lua/config/lazy.lua:18-22):
+
+1. **LazyVim core plugins** - Provides LSP, treesitter, telescope, and more
+2. **Custom plugins** - Located in `lua/plugins/` directory
+
+<Tip>
+  Each `.lua` file in the `lua/plugins/` directory is automatically loaded by lazy.nvim. You can organize plugins by creating separate files for different purposes.
+</Tip>
+
+## Configuration Layers
+
+The setup follows a layered approach:
+
+### 1. LazyVim Base Layer
+Provides sensible defaults for:
+- LSP configuration
+- Syntax highlighting with Treesitter
+- File navigation with Telescope
+- Git integration
+- Terminal management
+- And much more
+
+### 2. Custom Configuration Layer
+Your customizations in:
+- `lua/config/options.lua` - Override editor options
+- `lua/config/keymaps.lua` - Add custom keybindings
+
+### 3. Plugin Layer
+Custom plugins and overrides in `lua/plugins/`:
+- Theme customizations
+- Workflow-specific plugins (Obsidian, LeetCode)
+- Behavior modifications (completion, picker settings)
+
+## Performance Optimizations
+
+The configuration includes several performance enhancements (nvim/lua/config/lazy.lua:38-52):
+
+```lua
+performance = {
+  rtp = {
+    disabled_plugins = {
+      "gzip",
+      "tarPlugin",
+      "tohtml",
+      "tutor",
+      "zipPlugin",
+    },
+  },
+}
+```
+
+These built-in Vim plugins are disabled as they're rarely needed in modern Neovim workflows.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Plugins" icon="puzzle-piece" href="/neovim/plugins">
+    Explore the installed plugins and their configurations
+  </Card>
+  <Card title="Keymaps" icon="keyboard" href="/neovim/keymaps">
+    Learn about custom keybindings and shortcuts
+  </Card>
+  <Card title="Options" icon="sliders" href="/neovim/options">
+    Review editor options and settings
+  </Card>
+  <Card title="Adding Plugins" icon="plus" href="/guides/adding-plugins">
+    Learn how to add your own plugins
+  </Card>
+</CardGroup>

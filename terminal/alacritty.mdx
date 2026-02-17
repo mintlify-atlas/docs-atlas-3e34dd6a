@@ -1,0 +1,234 @@
+---
+title: 'Alacritty Configuration'
+description: 'GPU-accelerated terminal emulator with modern features and extensive theming options'
+icon: 'terminal'
+---
+
+## Overview
+
+Alacritty is a modern, GPU-accelerated terminal emulator focused on simplicity and performance. This configuration provides a clean, customizable setup with window transparency, blur effects, and access to 150+ community themes.
+
+<Note>
+Alacritty uses TOML format for configuration. The main config file is located at `~/.config/alacritty/alacritty.toml`
+</Note>
+
+## Window Configuration
+
+The window settings create a clean, modern appearance with transparency and blur effects:
+
+```toml alacritty/alacritty.toml
+[window]
+padding.x = 10
+padding.y = 10
+
+decorations = "Buttonless"
+opacity = 0.8
+blur = true
+startup_mode = "Maximized"
+```
+
+### Window Options Explained
+
+<Accordion title="Padding">
+- **padding.x**: 10 pixels horizontal padding
+- **padding.y**: 10 pixels vertical padding
+
+Provides comfortable spacing between the window edge and terminal content.
+</Accordion>
+
+<Accordion title="Decorations">
+Set to `"Buttonless"` to hide the window buttons while maintaining the title bar. Creates a minimal, distraction-free interface.
+</Accordion>
+
+<Accordion title="Opacity & Blur">
+- **opacity**: Set to `0.8` (80% opaque) for a translucent effect
+- **blur**: Enables background blur for a modern glass effect
+
+This combination creates a sleek, semi-transparent terminal that lets you see content behind it while maintaining readability.
+</Accordion>
+
+<Accordion title="Startup Mode">
+Set to `"Maximized"` to launch Alacritty in fullscreen mode automatically.
+</Accordion>
+
+## Font Configuration
+
+The configuration uses the 0xProto Nerd Font, which includes programming ligatures and icon support:
+
+```toml alacritty/alacritty.toml
+[font]
+normal.family = "0xProto Nerd Font Mono"
+size = 16
+```
+
+<Tip>
+**Nerd Fonts** include thousands of icons and glyphs that enhance terminal applications, file managers, and status lines. Make sure to install [0xProto Nerd Font](https://www.nerdfonts.com/) for full compatibility.
+</Tip>
+
+### Font Size
+
+The default font size is set to **16pt**, providing excellent readability on modern high-DPI displays.
+
+## Environment Variables
+
+Alacritty sets specific environment variables for optimal terminal behavior:
+
+```toml alacritty/alacritty.toml
+[env]
+TERM = "xterm-256color"
+```
+
+This ensures:
+- Full 256-color support
+- Proper terminal capabilities detection
+- Compatibility with tmux and other terminal multiplexers
+
+## Theme System
+
+### Current Theme
+
+The configuration imports themes using the `general.import` directive:
+
+```toml alacritty/alacritty.toml
+general.import = [
+    "~/.config/alacritty/themes/themes/coolnight.toml"
+]
+```
+
+Currently using: **coolnight** - a dark theme with cool blue tones.
+
+### Available Themes
+
+<Note>
+This configuration includes **151 curated themes** in the `~/.config/alacritty/themes/themes/` directory.
+</Note>
+
+Popular themes included:
+
+<CodeGroup>
+
+```toml Tokyo Night
+general.import = [
+    "~/.config/alacritty/themes/themes/tokyo_night.toml"
+]
+```
+
+```toml Catppuccin
+general.import = [
+    "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
+]
+```
+
+```toml Gruvbox Dark
+general.import = [
+    "~/.config/alacritty/themes/themes/gruvbox_dark.toml"
+]
+```
+
+```toml Nord
+general.import = [
+    "~/.config/alacritty/themes/themes/nord.toml"
+]
+```
+
+```toml Dracula
+general.import = [
+    "~/.config/alacritty/themes/themes/dracula.toml"
+]
+```
+
+```toml One Dark
+general.import = [
+    "~/.config/alacritty/themes/themes/one_dark.toml"
+]
+```
+
+</CodeGroup>
+
+### Theme Categories
+
+The theme collection includes:
+
+- **Dark themes**: tokyo_night, nord, dracula, gruvbox_dark, monokai, catppuccin_mocha
+- **Light themes**: solarized_light, github_light, gruvbox_light, one_light
+- **Material variants**: material_theme, material_theme_mod
+- **Specialty themes**: cyberpunk, synthwave_84, midnight_haze, moonlight
+- **High contrast**: high_contrast, low_contrast
+- **Color variations**: catppuccin_mocha, catppuccin_macchiato, catppuccin_frappe, catppuccin_latte
+
+<Tip>
+For more theme options and previews, check the [Alacritty Theme Guide](/guides/theming).
+</Tip>
+
+## Switching Themes
+
+To change your theme, simply update the import path in your `alacritty.toml`:
+
+1. Open the configuration file:
+   ```bash
+   nvim ~/.config/alacritty/alacritty.toml
+   ```
+
+2. Change the theme import:
+   ```toml
+   general.import = [
+       "~/.config/alacritty/themes/themes/YOUR_THEME.toml"
+   ]
+   ```
+
+3. Save the file - changes apply immediately!
+
+<Note>
+Alacritty automatically reloads configuration changes. No restart required.
+</Note>
+
+## Performance Features
+
+### GPU Acceleration
+
+Alacritty leverages GPU rendering for superior performance:
+- Smooth scrolling even with large buffers
+- Efficient rendering of complex Unicode characters
+- Minimal CPU usage during idle time
+
+### Memory Efficiency
+
+Designed to use minimal system resources while maintaining responsiveness.
+
+## Full Configuration Reference
+
+<CodeGroup>
+
+```toml alacritty.toml
+general.import = [
+    "~/.config/alacritty/themes/themes/coolnight.toml"
+]
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+padding.x = 10
+padding.y = 10
+decorations = "Buttonless"
+opacity = 0.8
+blur = true
+startup_mode = "Maximized"
+
+[font]
+normal.family = "0xProto Nerd Font Mono"
+size = 16
+```
+
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Tmux Configuration" icon="grid" href="/terminal/tmux">
+    Enhance your terminal workflow with tmux multiplexing
+  </Card>
+  <Card title="Theming Guide" icon="palette" href="/guides/theming">
+    Learn how to customize and create your own themes
+  </Card>
+</CardGroup>

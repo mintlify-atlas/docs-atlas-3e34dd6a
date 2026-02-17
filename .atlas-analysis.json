@@ -1,0 +1,84 @@
+{
+  "projectType": "general",
+  "projectName": "Desktop Configs",
+  "projectDescription": "Personal configuration files for Neovim, Tmux, Alacritty, and Aerospace",
+  "theme": "aspen",
+  "primaryColor": "#7aa2f7",
+  "lightColor": "#b4f9f8",
+  "darkColor": "#1a1b26",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "installation"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Configurations",
+        "groups": [
+          {
+            "group": "Neovim",
+            "pages": [
+              "neovim/overview",
+              "neovim/plugins",
+              "neovim/keymaps",
+              "neovim/options"
+            ]
+          },
+          {
+            "group": "Terminal",
+            "pages": [
+              "terminal/alacritty",
+              "terminal/tmux"
+            ]
+          },
+          {
+            "group": "Window Manager",
+            "pages": [
+              "aerospace/overview",
+              "aerospace/keybindings"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Customization",
+        "groups": [
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/theming",
+              "guides/adding-plugins",
+              "guides/key-bindings"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "LazyVim-based Neovim setup",
+    "Tmux with Catppuccin theme",
+    "Alacritty with 150+ themes",
+    "Aerospace window manager config",
+    "Vim keybindings everywhere",
+    "Obsidian and LeetCode integration"
+  ],
+  "publicApiSurface": [
+    "nvim/init.lua",
+    "nvim/lua/config/lazy.lua",
+    "nvim/lua/config/options.lua",
+    "nvim/lua/config/keymaps.lua",
+    "nvim/lua/plugins/*.lua",
+    "tmux/tmux.conf",
+    "alacritty/alacritty.toml",
+    "aerospace/aerospace.toml"
+  ]
+}

@@ -5,7 +5,9 @@ description: Custom Vim options and LazyVim configuration
 
 ## Custom Options
 
-This configuration makes minimal changes to LazyVim's default options, following the principle of relying on sensible defaults. Custom options are defined in `lua/config/options.lua`:
+This configuration makes minimal changes to LazyVim's default options, following the principle of relying on sensible defaults. Custom options and settings are defined in the `lua/config/` directory.
+
+### options.lua
 
 ```lua title="lua/config/options.lua"
 -- Options are automatically loaded before lazy.nvim startup
@@ -14,6 +16,17 @@ This configuration makes minimal changes to LazyVim's default options, following
 -- vim.g.snacks_animate = false
 vim.g.root_spec = { "cwd" }
 ```
+
+### autocmds.lua
+
+```lua title="lua/config/autocmds.lua"
+-- Autocmds are automatically loaded on the VeryLazy event
+-- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+
+vim.api.nvim_set_hl(0, "Visual", { bg = "#ffff00", fg = "#000000" })
+```
+
+This autocmd sets a custom highlight for Visual mode selection with a bright yellow background (`#ffff00`) and black foreground (`#000000`) for high visibility.
 
 ### Root Directory Detection
 

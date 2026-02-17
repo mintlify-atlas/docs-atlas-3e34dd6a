@@ -25,11 +25,13 @@ The configuration is organized into the following structure:
 ```
 nvim/
 ├── init.lua                    # Entry point
+├── lazyvim.json               # LazyVim extras configuration
 ├── lua/
 │   ├── config/
 │   │   ├── lazy.lua           # lazy.nvim bootstrap and setup
 │   │   ├── options.lua        # Custom vim options
-│   │   └── keymaps.lua        # Custom keybindings
+│   │   ├── keymaps.lua        # Custom keybindings
+│   │   └── autocmds.lua       # Custom autocommands
 │   └── plugins/               # Plugin specifications
 │       ├── colorscheme.lua
 │       ├── leetcode.lua
@@ -68,7 +70,14 @@ require("lazy").setup({
 
 ### Multiple Colorschemes
 
-The configuration includes 7+ colorschemes with OneDark as the default, featuring custom visual selection highlighting.
+The configuration includes 7 colorschemes with OneDark as the default, featuring custom visual selection highlighting (yellow background via autocmd).
+
+### Language Support
+
+LazyVim extras provide enhanced support for multiple languages and frameworks:
+- **AI Tools**: GitHub Copilot Chat integration
+- **Coding**: Enhanced nvim-cmp completion
+- **Languages**: C/C++ (clangd), Go, JSON, Python, Tailwind CSS, TypeScript
 
 ### Productivity Tools
 
@@ -84,7 +93,7 @@ The configuration includes 7+ colorschemes with OneDark as the default, featurin
 
 ### File Picker
 
-Snacks.nvim picker configured to show hidden files and respect .gitignore.
+Snacks.nvim picker configured to show hidden files and gitignored files.
 
 ### Stable Tooling
 

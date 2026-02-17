@@ -7,6 +7,26 @@ description: Complete list of custom plugins and their configurations
 
 This configuration extends LazyVim with carefully selected plugins for enhanced productivity, aesthetics, and workflow integration. All plugins are managed through lazy.nvim and are defined in the `lua/plugins/` directory.
 
+## LazyVim Extras
+
+LazyVim extras provide pre-configured plugin bundles for specific languages and features. This configuration includes the following extras (defined in `lazyvim.json`):
+
+**AI Tools:**
+- `lazyvim.plugins.extras.ai.copilot-chat` - GitHub Copilot Chat integration
+
+**Coding:**
+- `lazyvim.plugins.extras.coding.nvim-cmp` - Enhanced completion with nvim-cmp
+
+**Language Support:**
+- `lazyvim.plugins.extras.lang.clangd` - C/C++ LSP support via clangd
+- `lazyvim.plugins.extras.lang.go` - Go development tools
+- `lazyvim.plugins.extras.lang.json` - JSON support and formatting
+- `lazyvim.plugins.extras.lang.python` - Python development tools
+- `lazyvim.plugins.extras.lang.tailwind` - Tailwind CSS integration
+- `lazyvim.plugins.extras.lang.typescript` - TypeScript/JavaScript development
+
+These extras install and configure LSP servers, formatters, linters, and additional plugins specific to each language or feature.
+
 ## Colorschemes
 
 Multiple colorscheme options are available, with OneDark set as the default.

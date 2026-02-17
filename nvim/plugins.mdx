@@ -36,7 +36,7 @@ return {
     workspaces = {
       {
         name = "personal",
-        path = "/Users/leylandyang/Library/Mobile Documents/iCloud~md~obsidian/Documents/Sharedvault",
+        path = "~/path/to/your/obsidian/vault",
       },
     },
     completion = {
@@ -159,7 +159,7 @@ return {
             fallback()
           end
         end, { "i", "s" }),
-        ["<CR>" = cmp.mapping(function(fallback)
+        ["<CR>"] = cmp.mapping(function(fallback)
           cmp.abort()
           fallback()
         end, { "i", "s", "c" }),
